@@ -13,12 +13,21 @@ $(document).ready(function () {
             reader.onload = (function (aImg) {
                 return function (e) {
                     aImg.attr('src', e.target.result);
-                    aImg.attr('width', 200);
+                    $("#size").text($("#image").width() + 'x' + $("#image").height());
+                    aImg.attr('width', 350);
                     aImg.attr('height', 200);
                 };
             })(img);
             reader.readAsDataURL(this.files[0]);
-            $("li#fileName").text( this.files[0].name);
+
+            $("#newName").val(this.files[0].name);
+            $("#weight").text(this.files[0].size + ' байт');
+            $("#date").text(this.files[0].lastModifiedDate);
+            // $("#size").text($("#image").width() + 'x' + $("#image").height());
+            var a = $("#nmDefault");
+            a.val(this.files[0].name);
+            a.attr('readonly', true);
+
         }
     });
 });
