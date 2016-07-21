@@ -1,12 +1,37 @@
 doctype html
 html
   head
-    title= title
-    link(rel='stylesheet', href='/stylesheets/style.css')
-    link(rel='stylesheet', href='/stylesheets/bootstrap.min.css')
+    meta(http-equiv='content-type', content='application/xhtml+xml; charset=UTF-8')
+    meta(http-equiv='X-UA-Compatible', content='chrome=1')
+    link(rel='stylesheet', href='stylesheets/bootstrap.min.css')
+    link(rel='stylesheet', href='stylesheets/bootstrap-theme.min.css')
+    link(rel='stylesheet', href='/stylesheets/jquery.fancybox.css', type='text/css', media='screen')
+    block styles
+    title My App
   body
-    block content
+    nav.navbar.navbar-inverse.navbar-fixed-top
+      .container
+        .navbar-header
+          button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#navbar', aria-expanded='false', aria-controls='navbar')
+            span.sr-only Toggle navigation
+            span.icon-bar A
+            span.icon-bar B
+            span.icon-bar C
+          a.navbar-brand(href='/index') Мое приложение
+        #navbar.navbar-collapse.collapse
+
+          form.navbar-form.navbar-right(action='/login', method='post')
+            .form-group
+              input.form-control(type='text', name = 'username', placeholder='Логин', required, autofocus)
+            .form-group
+              input.form-control(type='password', name = 'password', placeholder='Пароль', required)
+            button.btn.btn-success(type='submit') Войти
+            a.btn.btn-primary.btn-small(href='/signup', role='button') Регистрация
+
+  block content
 
 script(src='../javascripts/jquery-1.11.2.min.js')
+script(src='../javascripts/jquery.fancybox.pack.js')
 script(src='../javascripts/modal.js')
 script(src='../javascripts/bootstrap.min.js')
+block scripts
