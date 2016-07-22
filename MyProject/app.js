@@ -32,14 +32,19 @@ app.use(cookieParser());
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(expressSession({secret: 'beymax'}));
+app.use(expressSession({
+    secret: 'beymax',
+    cookie: {maxAge: 600000}
+}));
 app.use(passport.initialize());
 app.use(passport.session());
 
 var initPassport = require('./passport/init');
 initPassport(passport);
 
-app.get('/home',function (req, res) {
+var isAuthenticated = require('./passport/isAuthenticated');
+
+app.get('/home', isAuthenticated, function (req, res) {
     res.render('home',  { user: req.user });
 });
 

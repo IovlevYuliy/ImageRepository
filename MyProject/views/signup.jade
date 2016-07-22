@@ -1,19 +1,69 @@
-extends layout
-
-block content
-    div.container
-        div.row
-            div.col-sm-6.col-md-4.col-md-offset-4
-                h1.text-center.login-title Registration Details
-                    div.signup-wall
-                        form(class='form-signin', action='/signup', method='POST')
-                            input(type='text', name='username', class='form-control', placeholder='Username',required, autofocus)
-                            input(type='password', name='password', class='form-control nomargin', placeholder='Password', required)
-                            input(type='email', name='email', class='form-control', placeholder='Email',required)
-                            input(type='text', name='firstName', class='form-control', placeholder='First Name',required)
-                            input(type='text', name='lastName', class='form-control', placeholder='Last Name',required)
-                            button(class='btn btn-lg btn-primary btn-block', type='submit') Register
-                            span.clearfix
-                    #message
-                        if message
-                            h1.text-center.error-message #{message}
+html
+    body
+        h2 Регистрация
+        form.form-horizontal
+            .form-group
+                label.control-label.col-xs-3(for='lastName') Фамилия:
+                .col-xs-9
+                    input#lastName.form-control(type='text', placeholder='Введите фамилию')
+            .form-group
+                label.control-label.col-xs-3(for='firstName') Имя:
+                .col-xs-9
+                    input#firstName.form-control(type='text', placeholder='Введите имя')
+            .form-group
+                label.control-label.col-xs-3(for='fatherName') Отчество:
+                .col-xs-9
+                    input#fatherName.form-control(type='text', placeholder='Введите отчество')
+            .form-group
+                label.control-label.col-xs-3 Дата рождения:
+                .col-xs-3
+                    select.form-control
+                        option Дата
+                .col-xs-3
+                    select.form-control
+                        option Месяц
+                .col-xs-3
+                    select.form-control
+                        option Год
+            .form-group
+                label.control-label.col-xs-3(for='inputEmail') Email:
+                .col-xs-9
+                    input#inputEmail.form-control(type='email', placeholder='Email')
+            .form-group
+                label.control-label.col-xs-3(for='inputPassword') Пароль:
+                .col-xs-9
+                    input#inputPassword.form-control(type='password', placeholder='Введите пароль')
+            .form-group
+                label.control-label.col-xs-3(for='confirmPassword') Подтвердите пароль:
+                .col-xs-9
+                    input#confirmPassword.form-control(type='password', placeholder='Введите пароль ещё раз')
+            .form-group
+                label.control-label.col-xs-3(for='phoneNumber') Телефон:
+                .col-xs-9
+                    input#phoneNumber.form-control(type='tel', placeholder='Введите номер телефона')
+            .form-group
+                label.control-label.col-xs-3(for='postalAddress') Адрес:
+                .col-xs-9
+                    textarea#postalAddress.form-control(rows='3', placeholder='Введите адрес')
+            .form-group
+                label.control-label.col-xs-3 Пол:
+                .col-xs-2
+                    label.radio-inline
+                        input(type='radio', name='genderRadios', value='male')
+                        |  Мужской
+                .col-xs-2
+                    label.radio-inline
+                        input(type='radio', name='genderRadios', value='female')
+                        |  Женский
+            .form-group
+                .col-xs-offset-3.col-xs-9
+                    label.checkbox-inline
+                        input(type='checkbox', value='agree')
+                        |   Я согласен с
+                        a(href='#') условиями
+                        | .
+            br
+            .form-group
+                .col-xs-offset-3.col-xs-9
+                    input.btn.btn-primary(type='submit', value='Регистрация')
+                    input.btn.btn-default(type='reset', value='Очистить форму')

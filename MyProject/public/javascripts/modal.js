@@ -19,7 +19,7 @@ $(document).ready(function () {
                 };
             })(img);
             reader.readAsDataURL(this.files[0]);
-
+            var str = input.val();
             $("#newName").val(this.files[0].name);
             $("#weight").text(this.files[0].size + ' байт');
             $("#date").text(this.files[0].lastModifiedDate);
@@ -30,5 +30,6 @@ $(document).ready(function () {
 
         }
     });
+    
 });
 
