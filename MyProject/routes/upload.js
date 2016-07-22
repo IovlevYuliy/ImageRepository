@@ -19,7 +19,7 @@ module.exports = function (app) {
                             if (!obj) {
                                 var obj = new Img({'name': files.upload.name, 'link': "D:/MyProject/public/images/"});
                                 obj.save();
-                                cur = Img.find({'name': files.upload.name});
+                               // cur = Img.find({'name': files.upload.name});
                             }
                         }));
                 });
@@ -33,11 +33,38 @@ module.exports = function (app) {
     });
 
 
+    app.post('/upload', function (request, response)
+    {
+        var form = new formidable.IncomingForm();
+        form.encoding = 'utf-8';
+        form.parse(request, function(error, fields, files) {
+            fs.readFile(files.upload.path, function (err, data) {
+                newPath = "D:/MyProject/public/images/" + files.upload.name;
+                fs.writeFile(newPath, data, function (err) {
+                    if (!Img.findOne({name: files.upload.name}, function(err, obj){
+                            if (!obj) {
+                                var obj = new Img({'name': files.upload.name, 'link': "D:/MyProject/public/images/"});
+                                obj.save();
+                                // cur = Img.find({'name': files.upload.name});
+                            }
+                        }));
+                });
+            });
+            Img.find({}, function (err, docs) {
+                response.render('upload', {fls: docs});
+            });
+            // response.render('upload', {path: files.upload.name});
+
+        });
+    });
+    
     app.get('/upload', function (req, res) {
         Img.find({}, function (err, docs) {
             res.render('upload', {fls: docs});
         });
     });
+    
+    
     function nextImg(response)
     {
         cnt++;
@@ -47,6 +74,30 @@ module.exports = function (app) {
             response.render('upload', {path: docs[cnt].name});
             });
     }
+
+    app.post('/addImg',function (request, response) {
+        var form = new formidable.IncomingForm();
+        form.encoding = 'utf-8';
+        form.parse(request, function(error, fields, files) {
+            fs.readFile(files.upload.path, function (err, data) {
+                newPath = "D:/HardWork/ImageRepository/MyProject/public/images/" + files.upload.name;
+                fs.writeFile(newPath, data, function (err) {
+                    if (!Img.findOne({name: files.upload.name}, function (err, obj) {
+                            if (!obj) {
+                                var obj = new Img({'name': files.upload.name, 'link': "D:/HardWork/ImageRepository/MyProject/public/images/",
+                                'addinfo': request.body.imginfo, 'description': request.body.imgdesc, 'access': ""});
+                                if(request.body.optradio == '1')
+                                    obj.access = 'private';
+                                else
+                                    obj.access = 'public';
+                                obj.save();
+                                // cur = Img.find({'name': files.upload.name});
+                            }
+                        }));
+                });
+            });
+        });
+    });
     // function show() {
     //     fs.readFile(newPath, "binary", function(error, file) {
     //         if(error) {
