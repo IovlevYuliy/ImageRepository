@@ -174,7 +174,10 @@
 }
 .tokenfield.input-lg,
 .input-group-lg .tokenfield {
+<<<<<<< .merge_file_a10184
   height: auto;
+=======
+>>>>>>> .merge_file_a07536
   min-height: 45px;
   padding-bottom: 4px;
 }

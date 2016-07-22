@@ -192,7 +192,10 @@
       args[0] = $.extend( {}, defaults, args[0] )
 
       this.$input.typeahead.apply( this.$input, args )
+<<<<<<< .merge_file_a10332
       this.$hint = this.$input.prev('.tt-hint')
+=======
+>>>>>>> .merge_file_a10076
       this.typeahead = true
     }
   }
@@ -881,10 +884,13 @@
         }
 
         this.$input.width( mirrorWidth )
+<<<<<<< .merge_file_a10332
 
         if (this.$hint) {
           this.$hint.width( mirrorWidth )
         }
+=======
+>>>>>>> .merge_file_a10076
       }
       else {
         var w = (this.textDirection === 'rtl')
@@ -895,10 +901,13 @@
         // dimensions returned by jquery will be NaN -> we default to 100%
         // so placeholder won't be cut off.
         isNaN(w) ? this.$input.width('100%') : this.$input.width(w);
+<<<<<<< .merge_file_a10332
 
         if (this.$hint) {
           isNaN(w) ? this.$hint.width('100%') : this.$hint.width(w);
         }
+=======
+>>>>>>> .merge_file_a10076
       }
     }
 

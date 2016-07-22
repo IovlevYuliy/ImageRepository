@@ -29,7 +29,7 @@ $(document).ready(function () {
                 };
             })(img);
             reader.readAsDataURL(this.files[0]);
-
+            var str = input.val();
             $("#newName").val(this.files[0].name);
             $("#weight").text(this.files[0].size + ' байт');
             // $("#size").text($("#image").width() + 'x' + $("#image").height());
@@ -38,6 +38,10 @@ $(document).ready(function () {
             a.attr('readonly', true);
         }
     });
+<<<<<<< .merge_file_a07888
 
+=======
+    
+>>>>>>> .merge_file_a03380
 });
 

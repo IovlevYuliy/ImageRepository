@@ -1,5 +1,8 @@
 extends layout
 
+block styles
+    link( href="/stylesheets/bootstrap-tokenfield.css" type="text/css" rel="stylesheet")
+
 block content
     div.container
         div.row
@@ -12,8 +15,8 @@ block content
                                 li Email    ---> #{user.email}
                                 li First Name ---> #{user.firstName}
                                 li Last Name ---> #{user.lastName}
-                        a(href='/signout', class='text-center new-account') Sign Out*/
 
+                        a(href='/signout', class='text-center new-account') Sign Out*/
     a#addimage.link(href='#') Добавить изображение
 
     #addmodal.modal.fade(role='dialog')
@@ -26,6 +29,7 @@ block content
                     .form-group
                         form(action='/addImg', method='post')
                             .col-lg-6
+<<<<<<< .merge_file_a11892
                                 img#image(src='')
                                 label Размер:
                                 li#size
@@ -55,4 +59,28 @@ block content
                                 button.btn.btn-default(type='button', data-dismiss='modal') Закрыть
 
 
+=======
+                                label Файл:
+                                input#nmDefault.form-control(type='text')
+                                label Название:
+                                input#newName.form-control(type='text')
+                                label Теги(Группы):
+                                input#tags.token-input(type='text', autocomplete='off', placeholder='Введите теги', tabindex='0', style='width: 370px;')
+                                label Описание
+                                textarea#descript.form-control.input-lg(rows='4')
 
+
+                .modal-footer
+                        button#addok.btn.btn-default(type='button' formaction='/addimage') Добавить
+                        button.btn.btn-default(type='button', data-dismiss='modal') Закрыть
+>>>>>>> .merge_file_a08676
+
+block scripts
+    script(src='../javascripts/bootstrap-tokenfield.js')
+    script(type='text/javascript').
+        $(document).ready(function () {
+            $('#tags').tokenfield({
+                limit: 10,
+                delay: 100
+            });
+        });
