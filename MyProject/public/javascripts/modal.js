@@ -38,10 +38,5 @@ $(document).ready(function () {
             a.attr('readonly', true);
         }
     });
-<<<<<<< .merge_file_a07888
-
-=======
-    
->>>>>>> .merge_file_a03380
 });
 
