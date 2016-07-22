@@ -24,29 +24,35 @@ block content
                     h4.modal-title Добавить изображение
                 .modal-body
                     .form-group
-                        .col-lg-6
-                            img#image(src='')
-                            label Размер:
-                            li#size
-                            li#weight
-                            label Дата загрузки:
-                            li#date
-                            input#openimage.btn-small(type='file', name='Открыть')
-                            label Дополнительно
-                            input#addinfo.form-control.input-lg(type='text')
-                        .row
+                        form(action='/addImg', method='post')
                             .col-lg-6
-                                label Файл:
-                                input#nmDefault.form-control(type='text')
-                                label Название:
-                                input#newName.form-control(type='text')
-                                label Теги(Группы):
-                                input#newName1.form-control(type='text')
-                                label Описание
-                                textarea#descript.form-control.input-lg(rows='4')
+                                img#image(src='')
+                                label Размер:
+                                li#size
+                                li#weight
+                                input#openimage.btn-small(type='file', name='upload')
+                                label Дополнительно
+                                input#addinfo.form-control.input-lg(type='text' name='imginfo')
+                            .row
+                                .col-lg-6
+                                    label Файл:
+                                    input#nmDefault.form-control(type='text')
+                                    label Название:
+                                    input#newName.form-control(type='text' name='imgname')
+                                    label Теги(Группы):
+                                    input#tokenfield.form-control(type='text' value = "gg")
+                                    label Описание
+                                    textarea#descript.form-control.input-lg(rows='4' name='imgdesc')
+
+                                    label.radio-inline
+                                        input#radio1(type='radio', value ='1', checked, name='optradio')
+                                        | Private
+                                    label.radio-inline
+                                        input#radio2(type='radio', value ='1', name='optradio')
+                                        | Public
+                            .modal-footer
+                                button#addok.btn.btn-default(type='submit') Добавить
+                                button.btn.btn-default(type='button', data-dismiss='modal') Закрыть
 
 
-                .modal-footer
-                        button#addok.btn.btn-default(type='button') Добавить
-                        button.btn.btn-default(type='button', data-dismiss='modal') Закрыть
 

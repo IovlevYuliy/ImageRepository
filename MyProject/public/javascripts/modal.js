@@ -1,5 +1,12 @@
-
 $(document).ready(function () {
+    $("body").on('change', '#radio1', function()
+    {
+           $("#radio1").val('1');
+    });
+    $("body").on('change', '#radio2', function()
+    {
+           $("#radio2").val('2');
+    });
 
     $("body").on('click', '#addimage', function () {
         $('#addmodal').modal('show');
@@ -12,6 +19,9 @@ $(document).ready(function () {
             var reader = new FileReader();
             reader.onload = (function (aImg) {
                 return function (e) {
+                    $(aImg).removeAttr("width")
+                        .removeAttr("height")
+                        .css({ width: "", height: "" });
                     aImg.attr('src', e.target.result);
                     $("#size").text($("#image").width() + 'x' + $("#image").height());
                     aImg.attr('width', 350);
@@ -22,13 +32,12 @@ $(document).ready(function () {
 
             $("#newName").val(this.files[0].name);
             $("#weight").text(this.files[0].size + ' байт');
-            $("#date").text(this.files[0].lastModifiedDate);
             // $("#size").text($("#image").width() + 'x' + $("#image").height());
             var a = $("#nmDefault");
             a.val(this.files[0].name);
             a.attr('readonly', true);
-
         }
     });
+
 });
 
