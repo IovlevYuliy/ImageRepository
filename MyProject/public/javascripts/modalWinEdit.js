@@ -9,10 +9,23 @@ $(document).ready(function () {
     });
 
     $("body").on('click', '#openimage', function () {
-        //var qq = $("#myimg");
-        //$("#image").attr('src', qq[0].attributes[1].value);
-        var pp = $(this).data('myname');
+        var pp = '/images/' + $(this).data('img').name;
         $("#image").attr('src', pp);
+        var obj = $(this).data('img');
+        $("#addinfo").val(obj.addinfo);
+        $("#weight").text(obj.weight);
+        $("#newName").val(obj.name);
+        $("#size").text(obj.size + 'байт');
+        $("#nmDefault").val(obj.name);
+        $("#descript").text(obj.description);
+        obj.tags.forEach(function(item, i, arr) {
+            $("#tags").tokenfield('setTokens', item);
+        });
+
+        if (obj.access == 'private')
+            $("#radio1").attr("checked", true);
+        else
+            $("#radio2").attr("checked", true);
         $('#modalopen').modal('show');
     });
     $("body").on('click', '#saveServer', function () {

@@ -8,8 +8,6 @@ $(document).ready(function () {
            $("#radio2").val('2');
     });
 
-
-
     $("body").on('click', '#addimage', function () {
         document.myform.reset();
         document.myform.image.src = '';
@@ -40,12 +38,13 @@ $(document).ready(function () {
                     aImg.attr('src', e.target.result);
                     $("#size").text($("#image").width() + 'x' + $("#image").height());
                     $("#sz").val($("#image").width() + 'x' + $("#image").height());
-                    // aImg.attr('width', 350);
-                    // aImg.attr('height', 200);
+                    aImg.attr('width', '100%');
+                    aImg.attr('height', '100%');
                 };
             })(img);
             reader.readAsDataURL(this.files[0]);
             var str = input.val();
+            
             $("#newName").val(this.files[0].name);
             $("#weight").text(this.files[0].size + ' байт');
             $("#wt").val(this.files[0].size);

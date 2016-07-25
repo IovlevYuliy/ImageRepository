@@ -7,7 +7,6 @@ var formidable = require('formidable'),
     Img = require('../models/Images'),
     user = require("../models/user");
 module.exports = function (app) {
-
     app.post('/upload', function (request, response)
     {
         var form = new formidable.IncomingForm();
