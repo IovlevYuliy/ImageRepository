@@ -8,10 +8,25 @@ $(document).ready(function () {
            $("#radio2").val('2');
     });
 
+
+
     $("body").on('click', '#addimage', function () {
+        document.myform.reset();
+        document.myform.image.src = '';
+        $("#size").text("");
+        $("#weight").text("");
         $('#addmodal').modal('show');
     });
+    $("body").on('click', '#addok', function () {
+        $('#addmodal').modal('hide');
+    });
 
+    $("body").on('click', '#myimg', function () {
+       
+   //     $('#myimg').fancybox().add(input(type='button'));
+});
+
+    
     var img = $('#image');
     var input = $('#openimage');
     input.bind({
@@ -24,15 +39,16 @@ $(document).ready(function () {
                         .css({ width: "", height: "" });
                     aImg.attr('src', e.target.result);
                     $("#size").text($("#image").width() + 'x' + $("#image").height());
-                    aImg.attr('width', 350);
-                    aImg.attr('height', 200);
+                    $("#sz").val($("#image").width() + 'x' + $("#image").height());
+                    // aImg.attr('width', 350);
+                    // aImg.attr('height', 200);
                 };
             })(img);
             reader.readAsDataURL(this.files[0]);
             var str = input.val();
             $("#newName").val(this.files[0].name);
             $("#weight").text(this.files[0].size + ' байт');
-            // $("#size").text($("#image").width() + 'x' + $("#image").height());
+            $("#wt").val(this.files[0].size);
             var a = $("#nmDefault");
             a.val(this.files[0].name);
             a.attr('readonly', true);
