@@ -30,7 +30,7 @@ block content
         each item in fls
             if count < fls.length
                 .col-md-3.col-sm-4.col-xs-6.thumb
-                    label#openimage(data-myname='/images/' + item.name) Редактировать изображение
+                    label#openimage(data-img=item) Редактировать изображение
                         a.fancyimage(rel='group', href='/images/' + item.name)
                             img#myimg.img-responsive(src='/images/' + item.name)
                     .caption
@@ -82,7 +82,6 @@ block scripts
             $("a.fancyimage").fancybox();
         });
     script(src='../javascripts/bootstrap-tokenfield.js')
-    script(src='../javascripts/modalWinEdit.js')
     script(type='text/javascript').
         $(document).ready(function () {
             $('#tags').tokenfield({
@@ -90,3 +89,4 @@ block scripts
                 delay: 100
             });
         });
+    script(src='../javascripts/modalWinEdit.js')
