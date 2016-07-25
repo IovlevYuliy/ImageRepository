@@ -8,8 +8,6 @@ $(document).ready(function () {
            $("#radio2").val('2');
     });
 
-
-
     $("body").on('click', '#addimage', function () {
         document.myform.reset();
         document.myform.image.src = '';

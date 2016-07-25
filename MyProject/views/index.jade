@@ -1,5 +1,8 @@
-extends layout
-
+#user
+     if user
+        include  layoutAuthorized
+     else
+        include  layout
 block content
     .jumbotron
         .container
@@ -8,8 +11,9 @@ block content
                 #message
                     if message
                         h1.text-center.error-message #{message}
-                | This is a template for a simple marketing or informational website. It includes a large callout
-                | called a jumbotron and three supporting pieces of content. Use it as a starting point to create
-                | something more unique.
+            | This is a template for a simple marketing or informational website. It includes a large callout
+            | called a jumbotron and three supporting pieces of content. Use it as a starting point to create
+            | something more unique.
             p
                 a.btn.btn-primary.btn-lg(href='#', role='button') Learn more »
+block scripts

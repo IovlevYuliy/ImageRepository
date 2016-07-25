@@ -12,10 +12,13 @@ var flash = require('connect-flash');
 var mongoose = require('mongoose');
 mongoose.connect(dbconfig.url);
 var User = require('./models/user');
-
 var app = express();
 app.use(flash());
 
+app.use(expressSession({
+    secret: 'beymax',
+    cookie: {maxAge: 600000}
+}));
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -31,10 +34,7 @@ app.use(cookieParser());
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(expressSession({
-    secret: 'beymax',
-    cookie: {maxAge: 600000}
-}));
+
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -49,6 +49,11 @@ app.get('/home', isAuthenticated, function (req, res) {
 
 app.get('/edit', function (req, res) {
     res.render('modalWinEdit');
+});
+
+app.get('/logout', function(req, res) {
+    req.logout();
+    res.redirect('/');
 });
 
 var index = require('./routes/index');
