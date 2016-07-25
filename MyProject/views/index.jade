@@ -1,39 +1,15 @@
-doctype html
-html
-    head
-        meta(http-equiv='content-type', content='application/xhtml+xml; charset=UTF-8')
-        meta(http-equiv='X-UA-Compatible', content='chrome=1')
-        link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css')
-        link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css')
-        title My App
-    body
-        nav.navbar.navbar-inverse.navbar-fixed-top
-            .container
-                .navbar-header
-                    button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#navbar', aria-expanded='false', aria-controls='navbar')
-                        span.sr-only Toggle navigation
-                        span.icon-bar A
-                        span.icon-bar B
-                        span.icon-bar C
-                    a.navbar-brand(href='/index') Мое приложение
-                #navbar.navbar-collapse.collapse
+extends layout
 
-                    form.navbar-form.navbar-right(action='/login', method='post')
-                        .form-group
-                            input.form-control(type='text', name = 'username', placeholder='Логин', required, autofocus)
-                        .form-group
-                            input.form-control(type='password', name = 'password', placeholder='Пароль', required)
-                        button.btn.btn-success(type='submit') Войти
-                        a.btn.btn-primary.btn-small(href='/signup', role='button') Регистрация
-        .jumbotron
-            .container
-                h1 Hello, world!
-                p
-                    #message
-                        if message
-                            h1.text-center.error-message #{message}
-                    | This is a template for a simple marketing or informational website. It includes a large callout
-                    | called a jumbotron and three supporting pieces of content. Use it as a starting point to create
-                    | something more unique.
-                p
-                    a.btn.btn-primary.btn-lg(href='#', role='button') Learn more »
+block content
+    .jumbotron
+        .container
+            h1 Hello, world!
+            p
+                #message
+                    if message
+                        h1.text-center.error-message #{message}
+                | This is a template for a simple marketing or informational website. It includes a large callout
+                | called a jumbotron and three supporting pieces of content. Use it as a starting point to create
+                | something more unique.
+            p
+                a.btn.btn-primary.btn-lg(href='#', role='button') Learn more »

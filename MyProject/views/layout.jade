@@ -26,8 +26,45 @@ html
             .form-group
               input.form-control(type='password', name = 'password', placeholder='Пароль', required)
             button.btn.btn-success(type='submit') Войти
-            a.btn.btn-primary.btn-small(href='/signup', role='button') Регистрация
+            a.btn.btn-primary.btn-small(role='button', data-toggle='modal', data-target='#register') Регистрация
 
+  #register.modal.fade(role='dialog')
+    .modal-dialog(style='width:800px;height:700px')
+      .modal-content
+        .modal-header
+          button.close(type='button', data-dismiss='modal') ×
+          h4.modal-title Регистрация
+        .modal-body
+          form.form-horizontal(action='/signup', method='post')
+            .form-group
+              label.control-label.col-xs-3(for='username') Логин:
+              .col-xs-9
+                input#username.form-control(type='text', name='username', placeholder='Введите логин', required='true')
+            .form-group
+              label.control-label.col-xs-3(for='lastName') Фамилия:
+              .col-xs-9
+                input#lastName.form-control(type='text', name='lastName', placeholder='Введите фамилию', required='true')
+            .form-group
+              label.control-label.col-xs-3(for='firstName') Имя:
+              .col-xs-9
+                input#firstName.form-control(type='text', name='firstName', placeholder='Введите имя', required='true')
+            .form-group
+              label.control-label.col-xs-3(for='inputEmail') Email:
+              .col-xs-9
+                input#inputEmail.form-control(type='email', placeholder='Email', required='true')
+            .form-group
+              label.control-label.col-xs-3(for='inputPassword') Пароль:
+              .col-xs-9
+                input#inputPassword.form-control(type='password', placeholder='Введите пароль', required='true')
+            .form-group
+              label.control-label.col-xs-3(for='confirmPassword') Подтвердите пароль:
+              .col-xs-9
+                input#confirmPassword.form-control(type='password', placeholder='Введите пароль ещё раз', required='true')
+            .modal-footer
+              .form-group
+                .col-xs-offset-3.col-xs-9
+                  input.btn.btn-primary(type='submit', value='Регистрация')
+                  input.btn.btn-default(type='reset', value='Очистить форму')
   block content
 
 script(src='../javascripts/jquery-1.11.2.min.js')
