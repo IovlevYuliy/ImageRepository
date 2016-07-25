@@ -1,4 +1,5 @@
-var express = require('express');var path = require('path');
+var express = require('express');
+var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
@@ -46,6 +47,10 @@ app.get('/home', isAuthenticated, function (req, res) {
     res.render('home',  { user: req.user });
 });
 
+app.get('/edit', function (req, res) {
+    res.render('modalWinEdit');
+});
+
 var index = require('./routes/index');
 index(app);
 
@@ -57,6 +62,7 @@ signup(app);
 
 var upload = require('./routes/upload');
 upload(app);
+
 
 app.use(function(req, res, next) {
     var err = new Error('Not Found');

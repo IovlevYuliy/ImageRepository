@@ -19,6 +19,8 @@ block content
                         a(href='/signout', class='text-center new-account') Sign Out*/
     a#addimage.link(href='#') Добавить изображение
 
+
+
     #addmodal.modal.fade(role='dialog')
         .modal-dialog(style='width:800px;height:700px')
             .modal-content
@@ -27,32 +29,37 @@ block content
                     h4.modal-title Добавить изображение
                 .modal-body
                     .form-group
-                        .col-lg-6
-                            img#image(src='')
-                            label Размер:
-                            li#size
-                            li#weight
-                            label Дата загрузки:
-                            li#date
-                            input#openimage.btn-small(type='file', name='Открыть')
-                            label Дополнительно
-                            input#addinfo.form-control.input-lg(type='text')
-                        .row
+                        form#myform(action='/addImg', enctype='multipart/form-data', name = 'myform', method='post')
                             .col-lg-6
-                                label Файл:
-                                input#nmDefault.form-control(type='text')
-                                label Название:
-                                input#newName.form-control(type='text')
-                                label Теги(Группы):
-                                input#tags.token-input(type='text', autocomplete='off', placeholder='Введите теги', tabindex='0', style='width: 370px;')
-                                label Описание
-                                textarea#descript.form-control.input-lg(rows='4')
+                                img#image(src='', name = 'image')
+                                label Размер:
+                                input#sz(type='hidden', name='size')
+                                input#wt(type='hidden', name='weight')
+                                li#size
+                                li#weight
+                                input#openimage.btn-small(type='file', name='upload')
+                                label Дополнительно
+                                input#addinfo.form-control.input-lg(type='text' name='imginfo')
+                            .row
+                                .col-lg-6
+                                    label Файл:
+                                    input#nmDefault.form-control(type='text')
+                                    label Название:
+                                    input#newName.form-control(type='text' name='imgname')
+                                    label Теги(Группы):
+                                    input#tags.token-input(type='text', autocomplete='off', placeholder='Введите теги', tabindex='0', name='tags', style='width: 370px;')
+                                    label Описание
+                                    textarea#descript.form-control.input-lg(rows='4' name='imgdesc' style='resize:none')
 
-
-                .modal-footer
-                        button#addok.btn.btn-default(type='button' formaction='/addimage') Добавить
-                        button.btn.btn-default(type='button', data-dismiss='modal') Закрыть
-
+                                    label.radio-inline
+                                        input#radio1(type='radio', value ='1', checked, name='optradio')
+                                        | Private
+                                    label.radio-inline
+                                        input#radio2(type='radio', value ='1', name='optradio')
+                                        | Public
+                            .modal-footer
+                                button#addok.btn.btn-default(type='submit') Добавить
+                                button.btn.btn-default(type='button', data-dismiss='modal') Закрыть
 block scripts
     script(src='../javascripts/bootstrap-tokenfield.js')
     script(type='text/javascript').

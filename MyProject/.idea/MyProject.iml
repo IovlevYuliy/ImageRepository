@@ -7,5 +7,6 @@
     <orderEntry type="library" name="MyProject node_modules" level="project" />
     <orderEntry type="library" name="passport-DefinitelyTyped" level="application" />
     <orderEntry type="library" name="mongoose" level="application" />
+    <orderEntry type="library" name="requirejs-DefinitelyTyped" level="application" />
   </component>
 </module>
