@@ -1,69 +1,14 @@
 html
+    head
+        meta(http-equiv='content-type', content='application/xhtml+xml; charset=UTF-8')
+        meta(http-equiv='X-UA-Compatible', content='chrome=1')
+        link(rel='stylesheet', href='/stylesheets/bootstrap.min.css')
+        link(rel='stylesheet', href='/stylesheets/bootstrap-theme.min.css')
+        title Register
     body
-        h2 Регистрация
-        form.form-horizontal
-            .form-group
-                label.control-label.col-xs-3(for='lastName') Фамилия:
-                .col-xs-9
-                    input#lastName.form-control(type='text', placeholder='Введите фамилию')
-            .form-group
-                label.control-label.col-xs-3(for='firstName') Имя:
-                .col-xs-9
-                    input#firstName.form-control(type='text', placeholder='Введите имя')
-            .form-group
-                label.control-label.col-xs-3(for='fatherName') Отчество:
-                .col-xs-9
-                    input#fatherName.form-control(type='text', placeholder='Введите отчество')
-            .form-group
-                label.control-label.col-xs-3 Дата рождения:
-                .col-xs-3
-                    select.form-control
-                        option Дата
-                .col-xs-3
-                    select.form-control
-                        option Месяц
-                .col-xs-3
-                    select.form-control
-                        option Год
-            .form-group
-                label.control-label.col-xs-3(for='inputEmail') Email:
-                .col-xs-9
-                    input#inputEmail.form-control(type='email', placeholder='Email')
-            .form-group
-                label.control-label.col-xs-3(for='inputPassword') Пароль:
-                .col-xs-9
-                    input#inputPassword.form-control(type='password', placeholder='Введите пароль')
-            .form-group
-                label.control-label.col-xs-3(for='confirmPassword') Подтвердите пароль:
-                .col-xs-9
-                    input#confirmPassword.form-control(type='password', placeholder='Введите пароль ещё раз')
-            .form-group
-                label.control-label.col-xs-3(for='phoneNumber') Телефон:
-                .col-xs-9
-                    input#phoneNumber.form-control(type='tel', placeholder='Введите номер телефона')
-            .form-group
-                label.control-label.col-xs-3(for='postalAddress') Адрес:
-                .col-xs-9
-                    textarea#postalAddress.form-control(rows='3', placeholder='Введите адрес')
-            .form-group
-                label.control-label.col-xs-3 Пол:
-                .col-xs-2
-                    label.radio-inline
-                        input(type='radio', name='genderRadios', value='male')
-                        |  Мужской
-                .col-xs-2
-                    label.radio-inline
-                        input(type='radio', name='genderRadios', value='female')
-                        |  Женский
-            .form-group
-                .col-xs-offset-3.col-xs-9
-                    label.checkbox-inline
-                        input(type='checkbox', value='agree')
-                        |   Я согласен с
-                        a(href='#') условиями
-                        | .
-            br
-            .form-group
-                .col-xs-offset-3.col-xs-9
-                    input.btn.btn-primary(type='submit', value='Регистрация')
-                    input.btn.btn-default(type='reset', value='Очистить форму')
+
+
+    script(src='../javascripts/jquery-1.11.2.min.js')
+    script(src='../javascripts/jquery.fancybox.pack.js')
+    script(src='../javascripts/modal.js')
+    script(src='../javascripts/bootstrap.min.js')
