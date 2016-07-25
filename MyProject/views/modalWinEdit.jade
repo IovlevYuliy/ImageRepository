@@ -1,45 +1,32 @@
 extends layout
-
 block styles
     link( href="/stylesheets/bootstrap-tokenfield.css" type="text/css" rel="stylesheet")
 
 block content
     div.container
-        div.row
-            div.col-sm-6.col-md-4.col-md-offset-4
-                #user
-                    h1.text-center.login-title Welcome #{user.firstName}. Check your details below:
-                        div.signup-wall
-                            ul.user-details
-                                li Username ---> #{user.username}
-                                li Email    ---> #{user.email}
-                                li First Name ---> #{user.firstName}
-                                li Last Name ---> #{user.lastName}
-
-                        a(href='/signout', class='text-center new-account') Sign Out*/
-    a#addimage.link(href='#') Добавить изображение
+    div(style='margin-top: 20%')
+        a#openimage.link(href='#') Редактировать изображение
 
 
-
-    #addmodal.modal.fade(role='dialog')
+    #modalopen.modal.fade(role='dialog')
         .modal-dialog(style='width:800px;height:700px')
             .modal-content
                 .modal-header
                     button.close(type='button', data-dismiss='modal') ×
-                    h4.modal-title Добавить изображение
+                    h4.modal-title Редактировать изображение
                 .modal-body
                     .form-group
-                        form#myform(action='/addImg', enctype='multipart/form-data', name = 'myform', method='post')
+                        form#myform(action='/EditImg', enctype='multipart/form-data', method='post')
                             .col-lg-6
-                                img#image(src='', name = 'image')
+                                img#image(src='', width='350px', height='200px')
                                 label Размер:
                                 input#sz(type='hidden', name='size')
                                 input#wt(type='hidden', name='weight')
                                 li#size
                                 li#weight
-                                input#openimage.btn-small(type='file', name='upload')
                                 label Дополнительно
                                 input#addinfo.form-control.input-lg(type='text' name='imginfo')
+                                button#edit(type='submit') Открыть в редакторе
                             .row
                                 .col-lg-6
                                     label Файл:
@@ -58,10 +45,12 @@ block content
                                         input#radio2(type='radio', value ='1', name='optradio')
                                         | Public
                             .modal-footer
-                                button#addok.btn.btn-default(type='submit') Добавить
+                                button#saveServer.btn.btn-default(type='submit') Сохранить изменения
+                                button#saveComp.btn.btn-default(type='submit') Скачать
                                 button.btn.btn-default(type='button', data-dismiss='modal') Закрыть
 block scripts
     script(src='../javascripts/bootstrap-tokenfield.js')
+    script(src='../javascripts/modalWinEdit.js')
     script(type='text/javascript').
         $(document).ready(function () {
             $('#tags').tokenfield({
