@@ -29,8 +29,6 @@ block content
        form(action='/nextImg', method='post')
            button(onclick='nextImg()') Click
 
-        //a#openimage.link(href='#') Редактировать изображение
-
     .img-container
         - var count = 0;
             each item in fls
@@ -39,7 +37,12 @@ block content
                         a.fancyimage(rel='group', href='/images/' + item.name)
                             img#myimg(src='/images/' + item.name, width='200', height='200')
                         .caption
-                            a#openimage(data-img=item).qq Редактировать
+                            small
+                                a#openimage(style = 'margin-left: 50px', data-img=item) Редактировать
+                                a    |
+                                a#downloadimg(href='/images/' + item.name, download) Скачать
+                                #user
+                                a#addtome(style = 'margin-left: 50px', href='', data-imgid=item._id.toString(), data-userid=user._id.toString()) Добавить к себе
                 - count++;
 
 
@@ -81,7 +84,6 @@ block content
                                         | Public
                             .modal-footer
                                 button#saveServer.btn.btn-default(type='submit') Сохранить изменения
-                                button#saveComp.btn.btn-default(type='submit') Скачать
                                 button.btn.btn-default(type='button', data-dismiss='modal') Закрыть
 block scripts
     script(type='text/javascript').
@@ -94,6 +96,24 @@ block scripts
             $('#tags').tokenfield({
                 limit: 10,
                 delay: 100
+            });
+        });
+    script(type = 'text/javascript').
+        $(document).ready(function () {
+            $('body').on('click', '#addtome', function () {
+               $.ajax({
+                   url: "/addtome",
+                   type: "POST",
+                   data: {
+                       UserId: $(this).data('userid'),
+                       ImageId: $(this).data('imgid')
+                   },
+                   cache: true,
+                   timeout: 5000,
+                   success: function (data) {
+                       alert(data);
+                   }
+               })
             });
         });
     script(src='../javascripts/modalWinEdit.js')

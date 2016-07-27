@@ -5,7 +5,8 @@ var formidable = require('formidable'),
     newPath,
     cnt = -1,
     Img = require('../models/Images'),
-    user = require("../models/user");
+    user = require("../models/user"),
+    UserImage = require('../models/UserImage');
 module.exports = function (app) {
     app.post('/upload', function (request, response)
     {
@@ -34,7 +35,7 @@ module.exports = function (app) {
 
     app.get('/upload', function (req, res) {
         Img.find({}, function (err, docs) {
-            res.render('upload', {fls: docs});
+            res.render('upload', {fls: docs, user:req.user});
         });
     });
     
@@ -73,4 +74,24 @@ module.exports = function (app) {
             });
         });
     });
+
+    app.post('/addtome',
+        function (request, response) {
+            UserImage.findOne({'UserId':request.body.UserId, 'ImageId' : request.body.ImageId},
+            function (err, obj) {
+                if (err)
+                    response.send(err);
+                if (obj) {
+                    response.send('Вы уже добавляли данное изображение');
+                }
+                else {
+
+                    var ui = new UserImage({'UserId': request.body.UserId, 'ImageId': request.body.ImageId});
+                    ui.save(function (err) {
+                        console.log(err);
+                    });
+                }
+            });
+       }
+    );
 };
