@@ -13,19 +13,24 @@ $(document).ready(function () {
         $("#image").attr('src', pp);
         var obj = $(this).data('img');
         $("#addinfo").val(obj.addinfo);
-        $("#weight").text(obj.weight);
+        $("#weight").text(obj.weight + ' байт');
         $("#newName").val(obj.name);
-        $("#size").text(obj.size + 'байт');
+        $("#size").text(obj.size);
         $("#nmDefault").val(obj.name);
         $("#descript").text(obj.description);
-        obj.tags.forEach(function(item, i, arr) {
-            $("#tags").tokenfield('setTokens', item);
-        });
 
-        if (obj.access == 'private')
-            $("#radio1").attr("checked", true);
-        else
-            $("#radio2").attr("checked", true);
+        $("#sz").val($("#image").width() + 'x' + $("#image").height());
+        $("#wt").val(obj.weight);
+
+        $("#tags").tokenfield('setTokens', obj.tags);
+
+        // obj.tags.forEach(function(item, i, arr) {
+        //     $("#tags").tokenfield('setTokens', item);
+        // });
+        // if (obj.access == 'private')
+        //     $("#radio1").attr("checked", true);
+        // else
+        //     $("#radio2").attr("checked", true);
         $('#modalopen').modal('show');
     });
     $("body").on('click', '#saveServer', function () {
@@ -44,8 +49,7 @@ $(document).ready(function () {
             //             .removeAttr("height")
             //             .css({ width: "", height: "" });
             //         aImg.attr('src', e.target.result);
-            //         $("#size").text($("#image").width() + 'x' + $("#image").height());
-            //         $("#sz").val($("#image").width() + 'x' + $("#image").height());
+            //
             //         aImg.attr('width', 350);
             //         aImg.attr('height', 200);
             //     };
@@ -54,7 +58,7 @@ $(document).ready(function () {
             // var str = input.val();
             // $("#newName").val(this.files[0].name);
             // $("#weight").text(this.files[0].size + ' байт');
-            // $("#wt").val(this.files[0].size);
+            //
             // var a = $("#nmDefault");
             // a.val(this.files[0].name);
             // a.attr('readonly', true);

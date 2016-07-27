@@ -5,34 +5,53 @@ var formidable = require('formidable'),
     newPath,
     cnt = -1,
     Img = require('../models/Images'),
+    isAuth = require('../passport/isAuthenticated');
     user = require("../models/user");
 module.exports = function (app) {
-    app.post('/upload', function (request, response)
-    {
+    app.post('/upload', function (request, response) {
         var form = new formidable.IncomingForm();
         form.encoding = 'utf-8';
-        form.parse(request, function(error, fields, files) {
-            fs.readFile(files.upload.path, function (err, data) {
-                newPath = "D:/MyProject/public/images/" + files.upload.name;
-                fs.writeFile(newPath, data, function (err) {
-                    if (!Img.findOne({name: files.upload.name}, function(err, obj){
-                            if (!obj) {
-                                var obj = new Img({'name': files.upload.name, 'link': "D:/MyProject/public/images/"});
-                                obj.save();
-                               // cur = Img.find({'name': files.upload.name});
-                            }
-                        }));
-                });
-            });
-            Img.find({}, function (err, docs) {
-                response.render('upload', {fls: docs});
-            });
-            // response.render('upload', {path: files.upload.name});
+        form.parse(request, function (error, fields, files) {
+            if (fields.oldname == undefined) {
+                var arr = fields.imgsearch.split(',');
 
+                Img.find({ tags: {$all: arr} }, function (err, docums) {
+                    response.render('upload', {fls: docums});
+                } );
+            }
+            else {
+                fs.rename('D:/HardWork/ImageRepository/MyProject/public/images/' + fields.oldname,
+                    'D:/HardWork/ImageRepository/MyProject/public/images/' + fields.imgname, function (err) {
+                    });
+
+                if (!Img.findOne({name: fields.oldname}, function (err, obj) {
+                        // if(fields.optradio == '1')
+                        //     obj.access = 'private';
+                        // else
+                        //     obj.access = 'public';
+                        obj.name = fields.imgname;
+                        obj.addinfo = fields.imginfo;
+                        obj.description = fields.imgdesc;
+                        obj.user = request.user.username;
+                        var mas = fields.tags.split(',');
+                        obj.tags = [];
+                        if (mas[0] != "") {
+                            mas.forEach(function (item, i, arr) {
+                                obj.tags.push(item);
+                            });
+                        }
+                        obj.save(function(err)
+                        {
+                            Img.find({}, function (err, docs) {
+                                response.render('upload', {fls: docs});
+                            });
+                        });
+                    }));
+            }
         });
     });
 
-    app.get('/upload', function (req, res) {
+    app.get('/upload', isAuth, function (req, res) {
         Img.find({}, function (err, docs) {
             res.render('upload', {fls: docs});
         });
@@ -52,6 +71,7 @@ module.exports = function (app) {
 
     app.post('/addImg',function (request, response) {
         var form = new formidable.IncomingForm();
+        var qweqwrwe = 1;
         form.encoding = 'utf-8';
         form.parse(request, function(error, fields, files) {
             fs.readFile(files.upload.path, function (err, data) {
@@ -61,7 +81,11 @@ module.exports = function (app) {
                             if (!obj) {
                                 var obj = new Img({'name': files.upload.name,
                                 'addinfo': fields.imginfo, 'description':  fields.imgdesc, 'access': "",
-                                    'user': request.user.username, 'tags': fields.tags, 'size': fields.size, 'weight': fields.weight});
+                                    'user': request.user.username, 'size': fields.size, 'weight': fields.weight});
+                                var mas = fields.tags.split(',');
+                                mas.forEach(function(item, i, arr) {
+                                    obj.tags.push(item);
+                                });
                                 if(fields.optradio == '1')
                                     obj.access = 'private';
                                 else

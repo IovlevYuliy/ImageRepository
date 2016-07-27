@@ -17,7 +17,7 @@ app.use(flash());
 
 app.use(expressSession({
     secret: 'beymax',
-    cookie: {maxAge: 600000}
+    cookie: {maxAge: 6000000}
 }));
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
