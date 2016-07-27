@@ -12,6 +12,8 @@ var flash = require('connect-flash');
 var mongoose = require('mongoose');
 mongoose.connect(dbconfig.url);
 var User = require('./models/user');
+var UserImage = require('./models/UserImage');
+var Images = require('./models/Images');
 var app = express();
 app.use(flash());
 
@@ -45,6 +47,18 @@ var isAuthenticated = require('./passport/isAuthenticated');
 
 app.get('/home', isAuthenticated, function (req, res) {
     res.render('home',  { user: req.user });
+});
+
+app.get('/myRoom', isAuthenticated, function (req, res) {
+    UserImage.find({'UserId': req.user._id.toString()}, function (err, result) {
+        var arrId = [];
+        result.forEach(function (item, i, arr) {
+            arrId.push(item.ImageId);
+        });
+        Images.find({_id: {$in: arrId}}, function (err, docs) {
+            res.render('myRoom', {fls: docs, user: req.user});
+        });
+    });
 });
 
 app.get('/edit', function (req, res) {

@@ -29,6 +29,7 @@ block styles
             margin-left: 80%;
         }
 block content
+<<<<<<< .merge_file_a05392
     div.mrg
     table
         tr
@@ -48,6 +49,29 @@ block content
                                 .caption
                                     a#openimage(data-img=item).qq Редактировать
                         - count++;
+=======
+    form(action='/upload', enctype='multipart/form-data', method='post')
+       input(type='file', name='upload', multiple='multiple')
+       input(type="submit", value="upload")
+       form(action='/nextImg', method='post')
+           button(onclick='nextImg()') Click
+
+    .img-container
+        - var count = 0;
+            each item in fls
+                if count < fls.length
+                    .col-md-2.col-md-2.col-md-2.thumb
+                        a.fancyimage(rel='group', href='/images/' + item.name)
+                            img#myimg(src='/images/' + item.name, width='200', height='200')
+                        .caption
+                            small
+                                a#openimage(style = 'margin-left: 50px', data-img=item) Редактировать
+                                a    |
+                                a#downloadimg(href='/images/' + item.name, download) Скачать
+                                #user
+                                a#addtome(style = 'margin-left: 50px', href='', data-imgid=item._id.toString(), data-userid=user._id.toString()) Добавить к себе
+                - count++;
+>>>>>>> .merge_file_a05772
 
 
     #modalopen.modal.fade(role='dialog')
@@ -100,6 +124,24 @@ block scripts
             $('#tags').tokenfield({
                 limit: 10,
                 delay: 100
+            });
+        });
+    script(type = 'text/javascript').
+        $(document).ready(function () {
+            $('body').on('click', '#addtome', function () {
+               $.ajax({
+                   url: "/addtome",
+                   type: "POST",
+                   data: {
+                       UserId: $(this).data('userid'),
+                       ImageId: $(this).data('imgid')
+                   },
+                   cache: true,
+                   timeout: 5000,
+                   success: function (data) {
+                       alert(data);
+                   }
+               })
             });
         });
     script(src='../javascripts/modalWinEdit.js')

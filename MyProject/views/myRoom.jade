@@ -1,0 +1,23 @@
+extends layoutAuthorized
+
+block content
+
+    .img-container
+        - var count = 0;
+            each item in fls
+                if count < fls.length
+                    .col-md-2.col-md-2.col-md-2.thumb
+                        a.fancyimage(rel='group', href='/images/' + item.name)
+                            img#myimg(src='/images/' + item.name, width='200', height='200')
+                        .caption
+                            small
+                                a#openimage(style = 'margin-left: 50px', data-img=item) Редактировать
+                                a    |
+                                a#downloadimg(href='/images/' + item.name, download) Скачать
+                - count++;
+
+block scripts
+    script(type='text/javascript').
+        $(document).ready(function () {
+            $("a.fancyimage").fancybox()
+        });
