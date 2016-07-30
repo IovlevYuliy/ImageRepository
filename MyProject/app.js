@@ -16,6 +16,8 @@ var UserImage = require('./models/UserImage');
 var Images = require('./models/Images');
 var app = express();
 app.use(flash());
+var partial = require('express-partial');
+app.use(partial());
 
 app.use(expressSession({
     secret: 'beymax',

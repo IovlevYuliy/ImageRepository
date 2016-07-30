@@ -1,7 +1,40 @@
 extends layoutAuthorized
 
-block content
+block styles
+    link(rel='stylesheet', href='/stylesheets/jasny-bootstrap.min.css', type='text/css', media='screen')
+    style.
+        .navmenu {
+            padding-top: 50px;
+            width: 200px;
+        }
+        .img-container {
+            padding-left: 200px;
+            padding-top: 70px;
+        }
 
+block nav
+    nav.navmenu.navmenu-default.navmenu-fixed-left(role='navigation')
+        a.navmenu-brand(href='#') Личный кабинет
+        ul.nav.navmenu-nav
+            li.active
+                a(href='#') Пункт 1
+            li
+                a(href='#') Пункт 2
+            li.dropdown
+                a.dropdown-toggle(href='#', data-toggle='dropdown')
+                    | Пункт 3
+                    b.caret
+                ul.dropdown-menu.navmenu-nav(role='menu')
+                    li
+                        a(href='#') Пункт 3.1
+                    li
+                        a(href='#') Пункт 3.2
+                    li
+                        a(href='#') Пункт 3.3
+                    li
+                        a(href='#') Пункт 3.4
+
+block content
     .img-container
         - var count = 0;
             each item in fls
@@ -17,6 +50,7 @@ block content
                 - count++;
 
 block scripts
+    script(src='../javascripts/jasny-bootstrap.min.js')
     script(type='text/javascript').
         $(document).ready(function () {
             $("a.fancyimage").fancybox()

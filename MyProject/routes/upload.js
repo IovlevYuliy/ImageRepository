@@ -5,6 +5,9 @@ var formidable = require('formidable'),
     newPath,
     cnt = -1,
     Img = require('../models/Images'),
+    user = require('../models/user'),
+    UserImage = require('../models/UserImage'),
+    isAuth = require('../passport/isAuthenticated');
 module.exports = function (app) {
     app.post('/upload', function (request, response) {
         var form = new formidable.IncomingForm();
