@@ -16,7 +16,8 @@ var UserImage = require('./models/UserImage');
 var Images = require('./models/Images');
 var app = express();
 app.use(flash());
-
+var express_partial = require("express-partial");
+app.use(express_partial());
 app.use(expressSession({
     secret: 'beymax',
     cookie: {maxAge: 6000000}
@@ -24,8 +25,8 @@ app.use(expressSession({
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
-app.set('port', process.env.PORT || 3000);
-
+app.set('port', process.env.PORT || 3001);
+app.locals.basedir = 'D:/HardWork/ImageRepository/MyProject/';
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -56,7 +57,7 @@ app.get('/myRoom', isAuthenticated, function (req, res) {
             arrId.push(item.ImageId);
         });
         Images.find({_id: {$in: arrId}}, function (err, docs) {
-            res.render('myRoom', {fls: docs, user: req.user});
+            res.render('myRoom', {fls: docs, user: req.user, pg: '/myRoom'});
         });
     });
 });

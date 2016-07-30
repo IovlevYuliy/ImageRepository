@@ -1,23 +1,36 @@
 extends layoutAuthorized
-
+block styles
+    style.
+        .mrg {
+            margin-top: 4%;
+        }
 block content
-
-    .img-container
-        - var count = 0;
-            each item in fls
-                if count < fls.length
-                    .col-md-2.col-md-2.col-md-2.thumb
-                        a.fancyimage(rel='group', href='/images/' + item.name)
-                            img#myimg(src='/images/' + item.name, width='200', height='200')
-                        .caption
-                            small
-                                a#openimage(style = 'margin-left: 50px', data-img=item) Редактировать
-                                a    |
-                                a#downloadimg(href='/images/' + item.name, download) Скачать
-                - count++;
-
+    div.mrg
+        .img-container
+            - var count = 0;
+                each item in fls
+                    if count < fls.length
+                        .col-md-2.col-md-2.col-md-2.thumb
+                            a.fancyimage(rel='group', href='/images/' + item.name)
+                                img#myimg(src='/images/' + item.name, width='200', height='200')
+                            .caption
+                                small
+                                    a#openimage(style = 'margin-left: 50px', data-img=item, data-user=user) Редактировать
+                                    a    |
+                                    a#downloadimg(href='/images/' + item.name, download) Скачать
+                    - count++;
+    include /views/editWindow
 block scripts
+    script(src='../javascripts/bootstrap-tokenfield.js')
+    script(type='text/javascript').
+        $(document).ready(function () {
+            $('#tags').tokenfield({
+                limit: 10,
+                delay: 100
+            });
+        });
     script(type='text/javascript').
         $(document).ready(function () {
             $("a.fancyimage").fancybox()
         });
+    script(src='../javascripts/modalWinEdit.js')

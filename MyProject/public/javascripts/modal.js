@@ -11,13 +11,17 @@ $(document).ready(function () {
     $("body").on('click', '#addimage', function () {
         document.myform.reset();
         document.myform.image.src = '';
+        $("#size").attr('style', 'list-style:none');
+        $("#weight").attr('style', 'list-style:none');
         $("#size").text("");
         $("#weight").text("");
+        $("#tags").tokenfield('setTokens', ' ');
         $('#addmodal').modal('show');
     });
     $("body").on('click', '#addok', function () {
         $('#addmodal').modal('hide');
     });
+
 
     $("body").on('click', '#myimg', function () {
        
@@ -32,6 +36,8 @@ $(document).ready(function () {
             var reader = new FileReader();
             reader.onload = (function (aImg) {
                 return function (e) {
+                    $("#size").attr('style', 'list-style:square');
+                    $("#weight").attr('style', 'list-style:square');
                     $(aImg).removeAttr("width")
                         .removeAttr("height")
                         .css({ width: "", height: "" });

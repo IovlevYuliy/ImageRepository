@@ -5,66 +5,61 @@ var formidable = require('formidable'),
     newPath,
     cnt = -1,
     Img = require('../models/Images'),
+    user = require('../models/user'),
+    isAuth = require('../passport/isAuthenticated'),
+    UserImage = require('../models/UserImage');
 module.exports = function (app) {
-    app.post('/upload', function (request, response) {
-        var form = new formidable.IncomingForm();
-        form.encoding = 'utf-8';
-        form.parse(request, function (error, fields, files) {
-            if (fields.oldname == undefined) {
-                var arr = fields.imgsearch.split(',');
+    app.post('/upload', isAuth, function (request, response) {
+        if (request.body.oldname == undefined) {
+            var arr = request.body.myfind.split(',');
+            Img.find({ tags: {$all: arr} }, function (err, docs) {
+                response.render('Gallery', {layout: false, fls: docs, user: request.user});
+            });
+        }
+        else {
+            fs.rename('D:/HardWork/ImageRepository/MyProject/public/images/' + request.body.oldname,
+                'D:/HardWork/ImageRepository/MyProject/public/images/' + request.body.newname, function (err) {
+                });
 
-                Img.find({ tags: {$all: arr} }, function (err, docums) {
-                    response.render('upload', {fls: docums});
-                } );
-            }
-            else {
-                fs.rename('D:/HardWork/ImageRepository/MyProject/public/images/' + fields.oldname,
-                    'D:/HardWork/ImageRepository/MyProject/public/images/' + fields.imgname, function (err) {
-                    });
-
-                if (!Img.findOne({name: fields.oldname}, function (err, obj) {
-                        // if(fields.optradio == '1')
-                        //     obj.access = 'private';
-                        // else
-                        //     obj.access = 'public';
-                        obj.name = fields.imgname;
-                        obj.addinfo = fields.imginfo;
-                        obj.description = fields.imgdesc;
-                        obj.user = request.user.username;
-                        var mas = fields.tags.split(',');
-                        obj.tags = [];
-                        if (mas[0] != "") {
-                            mas.forEach(function (item, i, arr) {
-                                obj.tags.push(item);
-                            });
-                        }
-                        obj.save(function(err)
-                        {
-                            Img.find({}, function (err, docs) {
-                                response.render('upload', {fls: docs});
-                            });
+            if (!Img.findOne({name: request.body.oldname}, function (err, obj) {
+                    obj.access = request.body.radiobut;
+                    obj.name = request.body.newname;
+                    obj.addinfo = request.body.adinfo;
+                    obj.description = request.body.descr;
+                    obj.user = request.user.username;
+                    var mas = request.body.mytags.split(', ');
+                    obj.tags = [];
+                    if (mas[0] != "") {
+                        mas.forEach(function (item, i, arr) {
+                            obj.tags.push(item);
                         });
-                    }));
+                    }
+                    obj.save(function(err)
+                    {
+                        Img.find({}, function (err, docs) {
+                            response.render('Gallery', {layout: false, fls: docs, user: request.user});
+                        });
+                    });
+                }));
             }
-        });
     });
 
     app.get('/upload', isAuth, function (req, res) {
         Img.find({}, function (err, docs) {
-            res.render('upload', {fls: docs, user:req.user});
+            res.render('upload', {fls: docs, user:req.user, pg: '/upload'});
         });
     });
     
     
-    function nextImg(response)
-    {
-        cnt++;
-        Img.find({}, function (err, docs) {
-            if (cnt == docs.length)
-                cnt = 0;
-            response.render('upload', {path: docs[cnt].name});
-            });
-    }
+    // function nextImg(response)
+    // {
+    //     cnt++;
+    //     Img.find({}, function (err, docs) {
+    //         if (cnt == docs.length)
+    //             cnt = 0;
+    //         response.render('upload', {path: docs[cnt].name});
+    //         });
+    // }
 
 
     app.post('/addImg',function (request, response) {
