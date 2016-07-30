@@ -1,7 +1,6 @@
 extends layoutAuthorized
 
 block styles
-    link( href="/stylesheets/bootstrap-tokenfield.css" type="text/css" rel="stylesheet")
     //link( href="/stylesheets/bootstrap.css" type="text/css" rel="stylesheet")
     style.
         .thumb img {
@@ -26,72 +25,35 @@ block styles
             margin-top: 4%;
         }
         .tt {
-            margin-left: 80%;
+            margin-left: 70%;
         }
 block content
-    div.mrg
-    table
-        tr
-            form(action='/upload', enctype='multipart/form-data', method='post')
-                input(type='file', name='upload', multiple='multiple')
-                input(type="submit", value="Загрузить")
-                input.tt.search-query(type='text', placeholder='Search', name='imgsearch')
-            //form.navbar-search.pull-left(action='/upload', enctype='multipart/form-data', method='post')
-        tr
-            .img-container
-                - var count = 0;
-                    each item in fls
-                        if count < fls.length
-                            .col-md-2.col-md-2.col-md-2.thumb
-                                a.fancyimage(rel='group', href='/images/' + item.name)
-                                    img#myimg(src='/images/' + item.name, width='200', height='200')
-                                .caption
-                                    small
-                                        a#openimage(style = 'margin-left: 50px', data-img=item) Редактировать
-                                        a    |
-                                        a#downloadimg(href='/images/' + item.name, download) Скачать
-                                        #user
-                                        a#addtome(style = 'margin-left: 50px', href='', data-imgid=item._id.toString(), data-userid=user._id.toString()) Добавить к себе
-                        - count++;
-    #modalopen.modal.fade(role='dialog')
-        .modal-dialog(style='width:800px;height:700px')
-            .modal-content
-                .modal-header
-                    button.close(type='button', data-dismiss='modal') ×
-                    h4.modal-title Редактировать изображение
-                .modal-body
-                    .form-group
-                        form#myform(action='/upload', enctype='multipart/form-data', method='post')
-                            .col-lg-6
-                                img#image(src='', width='100%', height='100%')
-                                label Размер:
-                                input#sz(type='hidden', name='size')
-                                input#wt(type='hidden', name='weight')
-                                li#size
-                                li#weight
+    div#gallery.mrg
+        table
+            tr
+                //form(action='/upload', enctype='multipart/form-data', method='post')
+                //    input(type='file', name='upload', multiple='multiple')
+                //    input(type="submit", value="Загрузить")
+                input#srch.tt(type='text', placeholder='Search', name='imgsearch', style='width:250px')
+                input#findme(type = "button", style='width:60px', value = "Найти")
+            tr
+                .img-container
+                    - var count = 0;
+                        each item in fls
+                            if count < fls.length
+                                .col-md-2.col-md-2.col-md-2.thumb
+                                    a.fancyimage(rel='group', href='/images/' + item.name)
+                                        img#myimg(src='/images/' + item.name, width='200', height='200')
+                                    .caption
+                                        small
+                                            a#openimage(style = 'margin-left: 50px', data-img=item, data-user=user) Редактировать
+                                            a    |
+                                            a#downloadimg(href='/images/' + item.name, download) Скачать
+                                            #user
+                                            a#addtome(style = 'margin-left: 50px', href='', data-imgid=item._id.toString(), data-userid=user._id.toString()) Добавить к себе
+                            - count++;
 
-                            .row
-                                .col-lg-6
-                                    label Файл:
-                                    input#nmDefault.form-control(type='text', required='', readonly='', name='oldname')
-                                    label Название:
-                                    input#newName.form-control(type='text' name='imgname')
-                                    label Теги(Группы):
-                                    input#tags.token-input(type='text', autocomplete='off', placeholder='Введите теги', tabindex='0', name='tags', style='width: 370px;')
-                                    label Описание
-                                    textarea#descript.form-control.input-lg(rows='4' name='imgdesc' style='resize:none')
-                                    label Дополнительно
-                                    input#addinfo.form-control.input-lg(type='text' name='imginfo')
-                                    //
-                                    //label.radio-inline
-                                    //    input#radio1(type='radio', value ='1', checked, name='optradio')
-                                    //    | Private
-                                    //label.radio-inline
-                                    //    input#radio2(type='radio', value ='1', name='optradio')
-                                    //    | Public
-                            .modal-footer
-                                button#saveServer.btn.btn-default(type='submit') Сохранить изменения
-                                button.btn.btn-default(type='button', data-dismiss='modal') Закрыть
+    include /views/editWindow
 block scripts
     script(type='text/javascript').
         $(document).ready(function() {
@@ -121,6 +83,31 @@ block scripts
                        alert(data);
                    }
                })
+            });
+        });
+
+    script(type = 'text/javascript').
+        $(document).ready(function () {
+            $('body').on('click', '#saveServer', function () {
+                var num;
+                if (document.getElementById("radio1").checked) {
+                    num = 'private';
+                }
+                else {
+                    num = 'public';
+                }
+                $("#gallery").load("/upload", {oldname: $("#nmDefault").val(), newname: $("#newName").val(),
+                mytags: $("#tags").val(), descr: $("#descript").val(), adinfo: $("#addinfo").val(),
+                radiobut: num})
+            });
+        });
+
+    script(type = 'text/javascript').
+        $(document).ready(function () {
+            $('body').on("click", "#findme", function(){
+                $("#gallery").load("/upload", {
+                    myfind: $("#srch").val()
+                })
             });
         });
     script(src='../javascripts/modalWinEdit.js')

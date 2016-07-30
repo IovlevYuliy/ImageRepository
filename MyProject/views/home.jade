@@ -20,8 +20,8 @@ block content
                                 label Размер:
                                 input#sz(type='hidden', name='size')
                                 input#wt(type='hidden', name='weight')
-                                li#size
-                                li#weight
+                                li#size(style="list-style:none")
+                                li#weight(style="list-style:none")
                                 input#openimage.btn-small(type='file', name='upload')
                                 label Дополнительно
                                 input#addinfo.form-control.input-lg(type='text' name='imginfo')
@@ -44,7 +44,7 @@ block content
                                         | Public
                             .modal-footer
                                 button#addok.btn.btn-default(type='submit') Добавить
-                                button.btn.btn-default(type='button', data-dismiss='modal') Закрыть
+                                button#close.btn.btn-default(type='button', data-dismiss='modal') Закрыть
 block scripts
     script(src='../javascripts/bootstrap-tokenfield.js')
     script(src='../javascripts/modal.js')

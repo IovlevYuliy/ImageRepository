@@ -1,57 +1,36 @@
 extends layoutAuthorized
-
 block styles
-    link(rel='stylesheet', href='/stylesheets/jasny-bootstrap.min.css', type='text/css', media='screen')
     style.
-        .navmenu {
-            padding-top: 50px;
-            width: 200px;
+        .mrg {
+            margin-top: 4%;
         }
-        .img-container {
-            padding-left: 200px;
-            padding-top: 70px;
-        }
-
-block nav
-    nav.navmenu.navmenu-default.navmenu-fixed-left(role='navigation')
-        a.navmenu-brand(href='#') Личный кабинет
-        ul.nav.navmenu-nav
-            li.active
-                a(href='#') Пункт 1
-            li
-                a(href='#') Пункт 2
-            li.dropdown
-                a.dropdown-toggle(href='#', data-toggle='dropdown')
-                    | Пункт 3
-                    b.caret
-                ul.dropdown-menu.navmenu-nav(role='menu')
-                    li
-                        a(href='#') Пункт 3.1
-                    li
-                        a(href='#') Пункт 3.2
-                    li
-                        a(href='#') Пункт 3.3
-                    li
-                        a(href='#') Пункт 3.4
-
 block content
-    .img-container
-        - var count = 0;
-            each item in fls
-                if count < fls.length
-                    .col-md-2.col-md-2.col-md-2.thumb
-                        a.fancyimage(rel='group', href='/images/' + item.name)
-                            img#myimg(src='/images/' + item.name, width='200', height='200')
-                        .caption
-                            small
-                                a#openimage(style = 'margin-left: 50px', data-img=item) Редактировать
-                                a    |
-                                a#downloadimg(href='/images/' + item.name, download) Скачать
-                - count++;
-
+    div.mrg
+        .img-container
+            - var count = 0;
+                each item in fls
+                    if count < fls.length
+                        .col-md-2.col-md-2.col-md-2.thumb
+                            a.fancyimage(rel='group', href='/images/' + item.name)
+                                img#myimg(src='/images/' + item.name, width='200', height='200')
+                            .caption
+                                small
+                                    a#openimage(style = 'margin-left: 50px', data-img=item, data-user=user) Редактировать
+                                    a    |
+                                    a#downloadimg(href='/images/' + item.name, download) Скачать
+                    - count++;
+    include /views/editWindow
 block scripts
-    script(src='../javascripts/jasny-bootstrap.min.js')
+    script(src='../javascripts/bootstrap-tokenfield.js')
+    script(type='text/javascript').
+        $(document).ready(function () {
+            $('#tags').tokenfield({
+                limit: 10,
+                delay: 100
+            });
+        });
     script(type='text/javascript').
         $(document).ready(function () {
             $("a.fancyimage").fancybox()
         });
+    script(src='../javascripts/modalWinEdit.js')

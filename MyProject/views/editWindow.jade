@@ -1,0 +1,39 @@
+#modalopen.modal.fade(role='dialog')
+    .modal-dialog(style='width:800px;height:700px')
+        .modal-content
+            .modal-header
+                button.close(type='button', data-dismiss='modal') ×
+                h4.modal-title Редактировать изображение
+            .modal-body
+                .form-group
+                    form#myform()
+                        .col-lg-6
+                            img#image(src='', width='100%', height='100%', required="")
+                            label Размер:
+                            input#sz(type='hidden', name='size')
+                            input#wt(type='hidden', name='weight')
+                            li#size
+                            li#weight
+
+                        .row
+                            .col-lg-6
+                                label Файл:
+                                input#nmDefault.form-control(type='text', required='', readonly='', name='oldname')
+                                label Название:
+                                input#newName.form-control(type='text' name='imgname', required="")
+                                label Теги(Группы):
+                                input#tags.token-input(type='text', autocomplete='off', , required="", placeholder='Введите теги', tabindex='0', name='tags', style='width: 370px;')
+                                label Описание
+                                textarea#descript.form-control.input-lg(rows='4' name='imgdesc' style='resize:none', required="")
+                                label Дополнительно
+                                input#addinfo.form-control.input-lg(type='text' name='imginfo')
+
+                                label.radio-inline
+                                    input#radio1(type='radio', value ='1', checked, name='optradio')
+                                    | Private
+                                label.radio-inline
+                                    input#radio2(type='radio', value ='2', name='optradio')
+                                    | Public
+                        .modal-footer
+                            button#saveServer.btn.btn-default(type='button') Сохранить изменения
+                            button.btn.btn-default(type='button', data-dismiss='modal') Закрыть
