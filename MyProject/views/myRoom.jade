@@ -1,27 +1,61 @@
 extends layoutAuthorized
+
 block styles
+    link(rel='stylesheet', href='/stylesheets/jasny-bootstrap.min.css', type='text/css', media='screen')
     style.
+        .thumb img {
+            filter: none; /* IE6-9 */
+            -webkit-filter: grayscale(0);
+            border-radius: 10px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            padding: 5px;
+            margin-left: 25px;
+        }
+
+        .thumb {
+            padding: 5px;
+        }
+        .navmenu {
+            padding-top: 50px;
+            width: 200px;
+        }
+        .img-container {
+            padding-left: 200px;
+            padding-top: 70px;
+        }
         .mrg {
             margin-top: 4%;
+            padding-left: 200px;
         }
+
+block nav
+    nav.navmenu.navmenu-default.navmenu-fixed-left(role='navigation')
+        a.navmenu-brand(href='#') Личный кабинет
+        ul.nav.navmenu-nav
+            li.active
+                a(href='#') Профиль
+            li.dropdown
+                a.dropdown-toggle(href='#', data-toggle='dropdown')
+                    | Изображения
+                    b.caret
+                ul.dropdown-menu.navmenu-nav(role='menu')
+                    li
+                        a#myImage(href='#') Мои изображения
+                    li
+                        a#addImage(href='#') Загрузить изображение
 block content
-    div.mrg
-        .img-container
-            - var count = 0;
-                each item in fls
-                    if count < fls.length
-                        .col-md-2.col-md-2.col-md-2.thumb
-                            a.fancyimage(rel='group', href='/images/' + item.name)
-                                img#myimg(src='/images/' + item.name, width='200', height='200')
-                            .caption
-                                small
-                                    a#openimage(style = 'margin-left: 50px', data-img=item, data-user=user) Редактировать
-                                    a    |
-                                    a#downloadimg(href='/images/' + item.name, download) Скачать
-                    - count++;
+    div#gallery.mrg
+        h1 Hello! #{user.username}
+
     include /views/editWindow
+    include /views/addWindow
 block scripts
-    script(src='../javascripts/bootstrap-tokenfield.js')
+    script(src='../javascripts/jasny-bootstrap.min.js')
+    script(type='text/javascript').
+        $(document).ready(function () {
+            $("a.fancyimage").fancybox()
+        });
     script(type='text/javascript').
         $(document).ready(function () {
             $('#tags').tokenfield({
@@ -29,8 +63,6 @@ block scripts
                 delay: 100
             });
         });
-    script(type='text/javascript').
-        $(document).ready(function () {
-            $("a.fancyimage").fancybox()
-        });
     script(src='../javascripts/modalWinEdit.js')
+    script(src='../javascripts/myRoom.js')
+    script(src='../javascripts/modal.js')

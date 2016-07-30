@@ -25,7 +25,7 @@ app.use(expressSession({
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
-app.set('port', process.env.PORT || 3001);
+app.set('port', process.env.PORT || 3000);
 app.locals.basedir = 'D:/HardWork/ImageRepository/MyProject/';
 
 // uncomment after placing your favicon in /public
@@ -51,19 +51,19 @@ app.get('/home', isAuthenticated, function (req, res) {
 });
 
 app.get('/myRoom', isAuthenticated, function (req, res) {
+    res.render('myRoom');
+});
+
+app.get('/getGallery', function (req, res) {
     UserImage.find({'UserId': req.user._id.toString()}, function (err, result) {
         var arrId = [];
         result.forEach(function (item, i, arr) {
             arrId.push(item.ImageId);
         });
         Images.find({_id: {$in: arrId}}, function (err, docs) {
-            res.render('myRoom', {fls: docs, user: req.user, pg: '/myRoom'});
+            res.render('Gallery', {fls: docs, user: req.user});
         });
-    });
-});
-
-app.get('/edit', function (req, res) {
-    res.render('modalWinEdit');
+    });    
 });
 
 app.get('/logout', function(req, res) {

@@ -1,0 +1,39 @@
+#addmodal.modal.fade(role='dialog')
+    .modal-dialog(style='width:800px;height:700px')
+        .modal-content
+            .modal-header
+                button.close(type='button', data-dismiss='modal') ×
+                h4.modal-title Добавить изображение
+            .modal-body
+                .form-group
+                    form#myform(action='/addImg', enctype='multipart/form-data', name = 'myform', method='post')
+                        .col-lg-6
+                            img#image(src='', name = 'image')
+                            label Размер:
+                            input#sz(type='hidden', name='size')
+                            input#wt(type='hidden', name='weight')
+                            li#size(style="list-style:none")
+                            li#weight(style="list-style:none")
+                            input#openimage.btn-small(type='file', name='upload')
+                            label Дополнительно
+                            input#addinfo.form-control.input-lg(type='text' name='imginfo')
+                        .row
+                            .col-lg-6
+                                label Файл:
+                                input#nmDefault.form-control(type='text', required='', readonly='')
+                                label Название:
+                                input#newName.form-control(type='text' name='imgname')
+                                label Теги(Группы):
+                                input#tags.token-input(type='text',  autocomplete='off', placeholder='Введите теги', tabindex='0', name='tags', style='width: 370px;')
+                                label Описание
+                                textarea#descript.form-control.input-lg(rows='4' name='imgdesc' style='resize:none')
+
+                                label.radio-inline
+                                    input#radio1(type='radio', value ='1', checked, name='optradio')
+                                    | Private
+                                label.radio-inline
+                                    input#radio2(type='radio', value ='1', name='optradio')
+                                    | Public
+                        .modal-footer
+                            button#addok.btn.btn-default(type='submit') Добавить
+                            button#close.btn.btn-default(type='button', data-dismiss='modal') Закрыть

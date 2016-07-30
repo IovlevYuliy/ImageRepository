@@ -8,16 +8,7 @@ $(document).ready(function () {
            $("#radio2").val('2');
     });
 
-    $("body").on('click', '#addimage', function () {
-        document.myform.reset();
-        document.myform.image.src = '';
-        $("#size").attr('style', 'list-style:none');
-        $("#weight").attr('style', 'list-style:none');
-        $("#size").text("");
-        $("#weight").text("");
-        $("#tags").tokenfield('setTokens', ' ');
-        $('#addmodal').modal('show');
-    });
+    
     $("body").on('click', '#addok', function () {
         $('#addmodal').modal('hide');
     });
@@ -27,8 +18,6 @@ $(document).ready(function () {
        
    //     $('#myimg').fancybox().add(input(type='button'));
 });
-
-    
     var img = $('#image');
     var input = $('#openimage');
     input.bind({
