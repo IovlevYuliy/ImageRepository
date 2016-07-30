@@ -35,24 +35,16 @@ block styles
             padding-top: 50px;
             width: 200px;
         }
-
-
-
 block nav
     nav.navmenu.navmenu-default.navmenu-fixed-left(role='navigation')
         a.navmenu-brand(href='#') Личный кабинет
         ul.nav.navmenu-nav
             li.active
                 a(href='#') Профиль
-            li.dropdown
-                a.dropdown-toggle(href='#', data-toggle='dropdown')
-                    | Изображения
-                    b.caret
-                ul.dropdown-menu.navmenu-nav(role='menu')
-                    li
-                        a#myImage(href='#') Мои изображения
-                    li
-                        a#addImage(href='#') Загрузить изображение
+            li
+                a#myImage(href='#') Мои изображения
+            li
+                button#addImage.btn.btn-default(type='button') Загрузить изображение
 block content
     div#gallery.mrg
         h1 Hello! #{user.username}
@@ -61,17 +53,6 @@ block content
     include /views/addWindow
 block scripts
     script(src='../javascripts/jasny-bootstrap.min.js')
-    script(type='text/javascript').
-        $(document).ready(function () {
-            $("a.fancyimage").fancybox()
-        });
-    script(type='text/javascript').
-        $(document).ready(function () {
-            $('#tags').tokenfield({
-                limit: 10,
-                delay: 100
-            });
-        });
     script(src='../javascripts/modalWinEdit.js')
     script(src='../javascripts/myRoom.js')
     script(src='../javascripts/modal.js')

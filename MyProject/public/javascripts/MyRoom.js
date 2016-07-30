@@ -1,9 +1,20 @@
 $(document).ready(function () {
-    
+
+    $("a.fancyimage").fancybox()
+   
+    $('#modalopen #tags').tokenfield({
+        limit: 10,
+        delay: 100
+    });
+    $('#addmodal #tags').tokenfield({
+        limit: 10,
+        delay: 100
+    });
+
     $("body").on('click', '#myImage', function () {
        $("#gallery").load("/getGallery");
     });
-
+    
     $("body").on('click', '#addImage', function () {
         document.myform.reset();
         document.myform.image.src = '';
