@@ -51,7 +51,7 @@ app.get('/home', isAuthenticated, function (req, res) {
 });
 
 app.get('/myRoom', isAuthenticated, function (req, res) {
-    res.render('myRoom');
+    res.render('myRoom', {user: req.user});
 });
 
 app.get('/getGallery', function (req, res) {
@@ -61,7 +61,7 @@ app.get('/getGallery', function (req, res) {
             arrId.push(item.ImageId);
         });
         Images.find({_id: {$in: arrId}}, function (err, docs) {
-            res.render('Gallery', {fls: docs, user: req.user});
+            res.render('Gallery', {fls: docs, user: req.user, be: false});
         });
     });    
 });
