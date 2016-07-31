@@ -49,43 +49,48 @@ module.exports = function (app) {
             res.render('upload', {fls: docs, user:req.user, pg: '/upload'});
         });
     });
-    
-    
-    // function nextImg(response)
-    // {
-    //     cnt++;
-    //     Img.find({}, function (err, docs) {
-    //         if (cnt == docs.length)
-    //             cnt = 0;
-    //         response.render('upload', {path: docs[cnt].name});
-    //         });
-    // }
-
 
     app.post('/addImg',function (request, response) {
         var form = new formidable.IncomingForm();
-        var qweqwrwe = 1;
         form.encoding = 'utf-8';
         form.parse(request, function(error, fields, files) {
-            fs.readFile(files.upload.path, function (err, data) {
+            var ph = files.upload.path;
+            fs.readFile(ph, function (err, data) {
                 newPath = "D:/HardWork/ImageRepository/MyProject/public/images/" + files.upload.name;
                 fs.writeFile(newPath, data, function (err) {
-                    if (!Img.findOne({name: files.upload.name}, function (err, obj) {
-                            if (!obj) {
-                                var obj = new Img({'name': files.upload.name,
-                                'addinfo': fields.imginfo, 'description':  fields.imgdesc, 'access': "",
+                    if (!Img.findOne({name: files.upload.name}, function (err, objj) {
+                            if (!objj) {
+                                var obj = new Img({'name': fields.imgname,
+                                'addinfo': fields.imginfo, 'description':  fields.imgdesc, 'access': fields.optradio,
                                     'user': request.user.username, 'size': fields.size, 'weight': fields.weight});
-                                var mas = fields.tags.split(',');
+                                var mas = fields.tags.split(', ');
                                 mas.forEach(function(item, i, arr) {
                                     obj.tags.push(item);
                                 });
-                                if(fields.optradio == '1')
-                                    obj.access = 'private';
-                                else
-                                    obj.access = 'public';
-                                obj.save();
+                                obj.save(function(){
+                                    UserImage.find({'UserId': request.user._id.toString()}, function (err, result) {
+                                        var arrId = [];
+                                        result.forEach(function (item, i, arr) {
+                                            arrId.push(item.ImageId);
+                                        });
+                                        Img.find({_id: {$in: arrId}}, function (err, docs) {
+                                            response.render('Gallery', {fls: docs, user: request.user, be: false});
+                                        });
+                                    });
+                                });
                             }
                         }));
+                    else{
+                        UserImage.find({'UserId': request.user._id.toString()}, function (err, result) {
+                            var arrId = [];
+                            result.forEach(function (item, i, arr) {
+                                arrId.push(item.ImageId);
+                            });
+                            Img.find({_id: {$in: arrId}}, function (err, docs) {
+                                response.render('Gallery', {fls: docs, user: request.user, be: false});
+                            });
+                        });
+                    }
                 });
             });
         });

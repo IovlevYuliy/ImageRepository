@@ -1,11 +1,11 @@
 $(document).ready(function () {
     $("body").on('change', '#radio1', function()
     {
-           $("#addmodal #radio1").val('1');
+           $("#addmodal #radio1").val('private');
     });
     $("body").on('change', '#radio2', function()
     {
-           $("#addmodal #radio2").val('2');
+           $("#addmodal #radio2").val('public');
     });
 
     

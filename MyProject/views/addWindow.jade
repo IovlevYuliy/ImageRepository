@@ -6,7 +6,7 @@
                 h4.modal-title Добавить изображение
             .modal-body
                 .form-group
-                    form#myform(action='/addImg', enctype='multipart/form-data', name = 'myform', method='post')
+                    form#myform(action='', enctype='multipart/form-data', name = 'myform', method='post')
                         .col-lg-6
                             img#image(src='', name = 'image')
                             label Размер:
@@ -29,10 +29,10 @@
                                 textarea#descript.form-control.input-lg(rows='4' name='imgdesc' style='resize:none')
 
                                 label.radio-inline
-                                    input#radio1(type='radio', value ='1', checked, name='optradio')
+                                    input#radio11(type='radio', value ='private', checked, name='optradio')
                                     | Private
                                 label.radio-inline
-                                    input#radio2(type='radio', value ='1', name='optradio')
+                                    input#radio2(type='radio', value ='private', name='optradio')
                                     | Public
                         .modal-footer
                             button#addok.btn.btn-default(type='submit') Добавить

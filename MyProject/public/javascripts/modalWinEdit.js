@@ -7,8 +7,8 @@ $(document).ready(function () {
     {
         $("#radio2").val('2');
     });
-
-    $("body").on('click', '#openimage', function () {
+    //move to addWindow
+    $("body").on('click', '#galleryblock #openimage', function () {
         var pp = '/images/' + $(this).data('img').name;
         $("#image").attr('src', pp);
         var obj = $(this).data('img');

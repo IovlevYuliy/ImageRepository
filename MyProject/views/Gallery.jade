@@ -12,7 +12,7 @@ html
                 input#srch.tt(type='text', placeholder='Search', style='width:250px')
                 input#findme(type = "button", style='width:60px', value = "Найти")
             tr
-                .img-container
+                .img-container#galleryblock
                     - var count = 0;
                         each item in fls
                             if count < fls.length
@@ -21,7 +21,7 @@ html
                                         img.rt#myimg(src='/images/' + item.name, width='200', height='200')
                                     .caption
                                         small
-                                            a#openimage(style = 'margin-left: 10px', data-img=item, data-user=user) Редактировать
+                                            a#openimage(href='', style = 'margin-left: 10px', data-img=item, data-user=user) Редактировать
                                             a    |
                                             a#downloadimg(href='/images/' + item.name, download) Скачать
                                             #user
