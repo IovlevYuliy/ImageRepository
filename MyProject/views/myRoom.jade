@@ -55,19 +55,36 @@ block scripts
     script(src='../javascripts/jasny-bootstrap.min.js')
     script(src='../javascripts/modalWinEdit.js')
     script(src='../javascripts/myRoom.js')
+    script(src='../javascripts/jquery.form.js')
     script(src='../javascripts/modal.js')
-    script(type = 'text/javascript').
-        $(document).ready(function () {
-            $('body').on('click', '#addok', function () {
-                var num;
-                if (document.getElementById("radio11").checked) {
-                    num = 'private';
-                }
-                else {
-                    num = 'public';
-                }
+    //script(type = 'text/javascript').
+    //    $(document).ready(function () {
+    //        $('body').on('click', '#addok', function () {
+    //            var num;
+    //            if (document.getElementById("radio11").checked) {
+    //                num = 'private';
+    //            }
+    //            else {
+    //                num = 'public';
+    //            }
+    //
+    //            var msg   = $('#addmodal #myform').serialize();
+    //            $("#gallery").load("/addImg", {myfrm: msg});
+    //        });
+    //    });
 
-                var msg   = $('#addmodal #myform').serialize();
-                $("#gallery").load("/addImg", {myfrm: msg});
+    script(type = 'text/javascript').
+        function ajaxPostForm() {
+            // получим форму
+            var form = $('#addmodal #myform');
+            // обернем ее в IFrame - поступаем как при использовании практически любого jQuery плагина
+            form.ajaxForm();
+            // отправим форму - большинство параметров как у $.ajax()
+            form.ajaxSubmit({
+                url: '/addImg',
+                type: 'POST',
+                success: function (data) {
+                   $('#gallery').html(data);
+                }
             });
-        });
+        }

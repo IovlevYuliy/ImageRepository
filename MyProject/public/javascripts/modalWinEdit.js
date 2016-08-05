@@ -1,4 +1,5 @@
 $(document).ready(function () {
+
     $("body").on('change', '#radio1', function()
     {
         $("#radio1").val('1');
@@ -10,41 +11,37 @@ $(document).ready(function () {
     //move to addWindow
     $("body").on('click', '#galleryblock #openimage', function () {
         var pp = '/images/' + $(this).data('img').name;
-        $("#image").attr('src', pp);
+        $("#modalopen #image").attr('src', pp);
         var obj = $(this).data('img');
-        $("#addinfo").val(obj.addinfo);
-        $("#weight").text(obj.weight + ' байт');
-        $("#newName").val(obj.name);
-        $("#size").text(obj.size);
-        $("#nmDefault").val(obj.name);
-        $("#descript").text(obj.description);
+        $("#modalopen #addinfo").val(obj.addinfo);
+        $("#modalopen #weight").text(obj.weight + ' байт');
+        $("#modalopen #newName").val(obj.name);
+        $("#modalopen #size").text(obj.size);
+        $("#modalopen #nmDefault").val(obj.name);
+        $("#modalopen #descript").text(obj.description);
 
-        $("#sz").val($("#image").width() + 'x' + $("#image").height());
-        $("#wt").val(obj.weight);
+        $("#modalopen #sz").val($("#modalopen #image").width() + 'x' + $("#modalopen #image").height());
+        $("#modalopen #wt").val(obj.weight);
 
-        $("#tags").tokenfield('setTokens', obj.tags);
+        $("#modalopen #tags").tokenfield('setTokens', obj.tags);
         if (obj.access == 'private')
-            $("#radio1").attr("checked", true);
+            $("#modalopen #radio1").attr("checked", true);
         else
-            $("#radio2").attr("checked", true);
+            $("#modalopen #radio2").attr("checked", true);
 
         if ($(this).data('user').username != obj.user)
         {
-            $("#radio1").attr("disabled", "disabled");
-            $("#radio2").attr("disabled", "disabled");
+            $("#modalopen #radio1").attr("disabled", "disabled");
+            $("#modalopen #radio2").attr("disabled", "disabled");
         }
         else
         {
-            $("#radio1").removeAttr('disabled');
-            $("#radio2").removeAttr('disabled');
+            $("#modalopen #radio1").removeAttr('disabled');
+            $("#modalopen #radio2").removeAttr('disabled');
         }
 
         $('#modalopen').modal('show');
     });
-    $("body").on('click', '#saveServer', function () {
-        $('#modalopen').modal('hide');
-    });
-
     // var img = $('#image');
     // var input = $('#openimage');
     // input.bind({

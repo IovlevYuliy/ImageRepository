@@ -46,7 +46,7 @@ module.exports = function (app) {
 
     app.get('/upload', isAuth, function (req, res) {
         Img.find({}, function (err, docs) {
-            res.render('upload', {fls: docs, user:req.user, pg: '/upload'});
+            res.render('upload', {fls: docs, user:req.user});
         });
     });
 

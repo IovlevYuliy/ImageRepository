@@ -19,7 +19,7 @@ $(document).ready(function () {
    //     $('#myimg').fancybox().add(input(type='button'));
 });
     var img = $('#addmodal #image');
-    var input = $('#openimage');
+    var input = $('#addmodal #openimage');
     input.bind({
         change: function() {
             var reader = new FileReader();

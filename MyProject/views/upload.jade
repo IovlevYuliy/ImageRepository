@@ -34,7 +34,7 @@ block content
                 input#srch.tt(type='text', placeholder='Search', name='imgsearch', style='width:250px')
                 input#findme(type = "button", style='width:60px', value = "Найти")
             tr
-                .img-container
+                .img-container#galleryblock
                     - var count = 0;
                         each item in fls
                             if count < fls.length
@@ -47,7 +47,7 @@ block content
                                             a    |
                                             a#downloadimg(href='/images/' + item.name, download) Скачать
                                             #user
-                                            a#addtome(style = 'margin-left: 50px', href='', data-imgid=item._id.toString(), data-userid=user._id.toString()) Добавить к себе
+                                            a#addtome(style = 'margin-left: 50px', data-imgid=item._id.toString(), data-userid=user._id.toString()) Добавить к себе
                             - count++;
 
     include /views/editWindow
@@ -95,7 +95,8 @@ block scripts
                 }
                 $("#gallery").load("/upload", {oldname: $("#nmDefault").val(), newname: $("#newName").val(),
                 mytags: $("#tags").val(), descr: $("#descript").val(), adinfo: $("#addinfo").val(),
-                radiobut: num})
+                radiobut: num});
+                $('#modalopen').modal('hide');
             });
         });
 
