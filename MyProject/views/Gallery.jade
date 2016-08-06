@@ -6,6 +6,29 @@ html
         link(rel='stylesheet', href='/stylesheets/bootstrap-theme.min.css')
         link(rel='stylesheet', href='/stylesheets/jquery.fancybox.css', type='text/css', media='screen')
         link( href="/stylesheets/bootstrap-tokenfield.css" type="text/css" rel="stylesheet")
+        link( href="/stylesheets/font-awesome.min.css" type="text/css" rel="stylesheet")
+        link( href="/stylesheets/component.css" type="text/css" rel="stylesheet")
+        style.
+            .holder {
+                position: relative;
+                width: 200px;
+                height: 200px;
+            }
+
+            .block {
+                position: absolute;
+                left: 0;
+                bottom: 0;
+                right: 0;
+                top: 0;
+                background: rgba(255, 255, 255, 0.7);
+                padding: 5px;
+                display: none;
+            }
+
+            .holder:hover .block {
+                display: block;
+            }
     body
         table
             tr
@@ -17,15 +40,55 @@ html
                         each item in fls
                             if count < fls.length
                                 .col-md-2.col-md-2.col-md-2.thumb
-                                    a.fancyimage(rel='group', href='/images/' + item.name)
-                                        img.rt#myimg(src='/images/' + item.name, width='200', height='200')
-                                    .caption
-                                        small
-                                            a#openimage(style = 'margin-left: 10px', data-img=item, data-user=user) Редактировать
-                                            a    |
-                                            a#downloadimg(href='/images/' + item.name, download) Скачать
+                                    div.holder
+                                        a.fancyimage(rel='group', href='/images/' + item.name)
+                                            img.rt#myimg(src='/images/' + item.name, width='200', height='200')
+                                        div.block
+                                            button#openimage.cbutton.cbutton--effect-ivana(data-img=item, data-user=user)
+                                                i.fa.fa-pencil-square-o.fa-2x
+                                            a.cbutton.cbutton--effect-milan(href='/images/' + item.name, download=item.name)
+                                                i.fa.fa-fw.fa-save.fa-2x
+                                            button.cbutton.cbutton--effect-tamara
+                                                i.fa.fa-fw.fa-trash-o.fa-2x
                                             #user
-                                            if (be)
-                                                a#addtome(href='', data-imgid=item._id.toString(), data-userid=user._id.toString()) Добавить к себе
+                                                if (be)
+                                                    button#addtome.cbutton.cbutton--effect-marin(data-imgid=item._id.toString(), data-userid=user._id.toString())
+                                                        i.fa.fa-fw.fa-star-o.fa-2x
                             - count++;
-
+script(type = 'text/javascript').
+    (function () {
+        var support = {animations: Modernizr.cssanimations},
+                animEndEventNames = {
+                    'WebkitAnimation': 'webkitAnimationEnd',
+                    'OAnimation': 'oAnimationEnd',
+                    'msAnimation': 'MSAnimationEnd',
+                    'animation': 'animationend'
+                },
+                animEndEventName = animEndEventNames[Modernizr.prefixed('animation')],
+                onEndAnimation = function (el, callback) {
+                    var onEndCallbackFn = function (ev) {
+                        if (support.animations) {
+                            if (ev.target != this) return;
+                            this.removeEventListener(animEndEventName, onEndCallbackFn);
+                        }
+                        if (callback && typeof callback === 'function') {
+                            callback.call();
+                        }
+                    };
+                    if (support.animations) {
+                        el.addEventListener(animEndEventName, onEndCallbackFn);
+                    }
+                    else {
+                        onEndCallbackFn();
+                    }
+                }
+        var eventtype = 'click';
+        [].slice.call(document.querySelectorAll('.cbutton')).forEach(function (el) {
+            el.addEventListener(eventtype, function (ev) {
+                classie.add(el, 'cbutton--click');
+                onEndAnimation(classie.has(el, 'cbutton--complex') ? el.querySelector('.cbutton__helper') : el, function () {
+                    classie.remove(el, 'cbutton--click');
+                });
+            });
+        });
+    })();

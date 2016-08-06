@@ -2,6 +2,8 @@ extends layoutAuthorized
 
 block styles
     //link( href="/stylesheets/bootstrap.css" type="text/css" rel="stylesheet")
+    link( href="/stylesheets/font-awesome.min.css" type="text/css" rel="stylesheet")
+    link( href="/stylesheets/component.css" type="text/css" rel="stylesheet")
     style.
         .thumb img {
          filter: none; /* IE6-9 */
@@ -10,7 +12,6 @@ block styles
          background-color: #fff;
          border: 1px solid #ddd;
          padding: 5px;
-         margin-left: 25px;
         }
 
         .thumb {
@@ -27,11 +28,32 @@ block styles
         .tt {
             margin-left: 75%;
         }
+
+        .holder {
+            position: relative;
+            width: 200px;
+            height: 200px;
+        }
+
+        .block {
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            top: 0;
+            background: rgba(255, 255, 255, 0.7);
+            padding: 5px;
+            display: none;
+        }
+
+        .holder:hover .block {
+            display: block;
+        }
 block content
     div#gallery.mrg
         table
             tr
-                input#srch.tt(type='text', placeholder='Search', name='imgsearch', style='width:250px')
+                input#srch.tt(type='text', placeholder='Search', style='width:250px')
                 input#findme(type = "button", style='width:60px', value = "Найти")
             tr
                 .img-container#galleryblock
@@ -39,17 +61,19 @@ block content
                         each item in fls
                             if count < fls.length
                                 .col-md-2.col-md-2.col-md-2.thumb
-                                    a.fancyimage(rel='group', href='/images/' + item.name)
-                                        img#myimg(src='/images/' + item.name, width='200', height='200')
-                                    .caption
-                                        small
-                                            a#openimage(style = 'margin-left: 50px', data-img=item, data-user=user) Редактировать
-                                            a    |
-                                            a#downloadimg(href='/images/' + item.name, download) Скачать
-                                            #user
-                                            a#addtome(style = 'margin-left: 50px', data-imgid=item._id.toString(), data-userid=user._id.toString()) Добавить к себе
+                                    div.holder
+                                        a.fancyimage(rel='group', href='/images/' + item.name)
+                                            img.rt#myimg(src='/images/' + item.name, width='200', height='200')
+                                        div.block
+                                            button#openimage.cbutton.cbutton--effect-ivana(data-img=item, data-user=user)
+                                                i.fa.fa-pencil-square-o.fa-2x
+                                            a.cbutton.cbutton--effect-milan(href='/images/' + item.name, download=item.name)
+                                                i.fa.fa-fw.fa-save.fa-2x
+                                            button.cbutton.cbutton--effect-tamara
+                                                i.fa.fa-fw.fa-trash-o.fa-2x
+                                            button#addtome.cbutton.cbutton--effect-marin(data-imgid=item._id.toString(), data-userid=user._id.toString())
+                                                i.fa.fa-fw.fa-star-o.fa-2x
                             - count++;
-
     include /views/editWindow
 block scripts
     script(type='text/javascript').
@@ -109,3 +133,5 @@ block scripts
             });
         });
     script(src='../javascripts/modalWinEdit.js')
+    script(src='../javascripts/classie.js')
+    script(src='../javascripts/modernizr.custom.js')
