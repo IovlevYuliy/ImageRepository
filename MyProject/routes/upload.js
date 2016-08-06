@@ -13,7 +13,7 @@ module.exports = function (app) {
         if (request.body.oldname == undefined) {
             var arr = request.body.myfind.split(',');
             Img.find({ tags: {$all: arr} }, function (err, docs) {
-                response.render('Gallery', {layout: false, fls: docs, user: request.user});
+                response.render('Gallery', {layout: false, fls: docs, user: request.user, be: true});
             });
         }
         else {
@@ -58,7 +58,7 @@ module.exports = function (app) {
             fs.readFile(ph, function (err, data) {
                 newPath = "D:/HardWork/ImageRepository/MyProject/public/images/" + files.upload.name;
                 fs.writeFile(newPath, data, function (err) {
-                    if (!Img.findOne({name: files.upload.name}, function (err, objj) {
+                    Img.findOne({name: files.upload.name}, function (err, objj) {
                             if (!objj) {
                                 var obj = new Img({'name': fields.imgname,
                                 'addinfo': fields.imginfo, 'description':  fields.imgdesc, 'access': fields.optradio,
@@ -67,30 +67,24 @@ module.exports = function (app) {
                                 mas.forEach(function(item, i, arr) {
                                     obj.tags.push(item);
                                 });
-                                obj.save(function(){
-                                    UserImage.find({'UserId': request.user._id.toString()}, function (err, result) {
-                                        var arrId = [];
-                                        result.forEach(function (item, i, arr) {
-                                            arrId.push(item.ImageId);
+                                obj.save(function(err, obj){
+                                    var ui = new UserImage({'UserId': request.user._id.toString(), 'ImageId': obj._id.toString()});
+                                    ui.save(function (err) {
+                                        UserImage.find({'UserId': request.user._id.toString()}, function (err, result) {
+                                            var arrId = [];
+                                            result.forEach(function (item, i, arr) {
+                                                arrId.push(item.ImageId);
+                                            });
+                                            Img.find({_id: {$in: arrId}}, function (err, docs) {
+                                                response.render('Gallery', {fls: docs, user: request.user, be: false});
+                                            });
                                         });
-                                        Img.find({_id: {$in: arrId}}, function (err, docs) {
-                                            response.render('Gallery', {fls: docs, user: request.user, be: false});
-                                        });
+                                        console.log(err);
                                     });
+
                                 });
                             }
-                        }));
-                    else{
-                        UserImage.find({'UserId': request.user._id.toString()}, function (err, result) {
-                            var arrId = [];
-                            result.forEach(function (item, i, arr) {
-                                arrId.push(item.ImageId);
-                            });
-                            Img.find({_id: {$in: arrId}}, function (err, docs) {
-                                response.render('Gallery', {fls: docs, user: request.user, be: false});
-                            });
-                        });
-                    }
+                        })
                 });
             });
         });
