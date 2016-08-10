@@ -76,7 +76,9 @@ module.exports = function (app) {
                                                 arrId.push(item.ImageId);
                                             });
                                             Img.find({_id: {$in: arrId}}, function (err, docs) {
-                                                response.render('Gallery', {fls: docs, user: request.user, be: false});
+                                                response.render('Gallery', {fls: docs, user: request.user, be: false, numpage: 1}, function(){
+                                                    $("#li_1").addClass('active');
+                                                });
                                             });
                                         });
                                         console.log(err);

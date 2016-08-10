@@ -12,7 +12,8 @@ $(document).ready(function () {
     });
 
     $("body").on('click', '#myImage', function () {
-       $("#gallery").load("/getGallery");
+        $("#gallery").load("/getGallery", {numpage: 1}, function () {
+        });
     });
     
     $("body").on('click', '#addImage', function () {

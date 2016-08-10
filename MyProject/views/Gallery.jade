@@ -14,7 +14,10 @@ html
                 width: 200px;
                 height: 200px;
             }
-
+            .next{
+                margin-top:20%;
+                margin-right: 40%;
+            }
             .block {
                 position: absolute;
                 left: 0;
@@ -25,36 +28,59 @@ html
                 padding: 5px;
                 display: none;
             }
-
+            .pages {
+                margin-top: 40%;
+                margin-left: 20%;
+            }
             .holder:hover .block {
                 display: block;
             }
-    body
+            .pagelist{
+                margin-left: 40%;
+                margin-top: auto;
+            }
+body
         table
             tr
                 input#srch.tt(type='text', placeholder='Search', style='width:250px')
                 input#findme(type = "button", style='width:60px', value = "Найти")
+                input#hidden(type='hidden', data-pg = numpage)
             tr
                 .img-container#galleryblock
-                    - var count = 0;
-                        each item in fls
-                            if count < fls.length
-                                .col-md-2.col-md-2.col-md-2.thumb
-                                    div.holder
-                                        a.fancyimage(rel='group', href='/images/' + item.name)
-                                            img.rt#myimg(src='/images/' + item.name, width='200', height='200')
-                                        div.block
-                                            button#openimage.cbutton.cbutton--effect-ivana(data-img=item, data-user=user)
-                                                i.fa.fa-pencil-square-o.fa-2x
-                                            a.cbutton.cbutton--effect-milan(href='/images/' + item.name, download=item.name)
-                                                i.fa.fa-fw.fa-save.fa-2x
-                                            button.cbutton.cbutton--effect-tamara
-                                                i.fa.fa-fw.fa-trash-o.fa-2x
-                                            #user
-                                                if (be)
-                                                    button#addtome.cbutton.cbutton--effect-marin(data-imgid=item._id.toString(), data-userid=user._id.toString())
-                                                        i.fa.fa-fw.fa-star-o.fa-2x
-                            - count++;
+                    - var mypage = numpage * 10;
+                        -   for (var i = (mypage - 10); i < Math.min(fls.length, mypage); ++i){
+                            .col-md-2.col-md-2.col-md-2.thumb
+                                div.holder
+                                    a.fancyimage(rel='group', href='/images/' + fls[i].name)
+                                        img.rt#myimg(src='/images/' + fls[i].name, width='200', height='200')
+                                    div.block
+                                        button#openimage.cbutton.cbutton--effect-ivana(data-img=fls[i], data-user=user)
+                                            i.fa.fa-pencil-square-o.fa-2x
+                                        a.cbutton.cbutton--effect-milan(href='/images/' + fls[i].name, download=fls[i].name)
+                                            i.fa.fa-fw.fa-save.fa-2x
+                                        button.cbutton.cbutton--effect-tamara
+                                            i.fa.fa-fw.fa-trash-o.fa-2x
+                                        #user
+                                            -if (be)
+                                                button#addtome.cbutton.cbutton--effect-marin(data-imgid=fls[i]._id.toString(), data-userid=user._id.toString())
+                                                    i.fa.fa-fw.fa-star-o.fa-2x
+                        -}
+        ul.pagination.pagelist
+            li
+                a#prev(href='#') «
+            li#li_1
+                a#pg(href='#', name = 'page')
+            li#li_2
+                a#pg(href='#', name = 'page')
+            li#li_3
+                a#pg(href='#', name = 'page')
+            li#li_4
+                a#pg(href='#', name = 'page')
+            li#li_5
+                a#pg(href='#', name = 'page')
+            li
+                a#next(href='#') »
+
 script(type = 'text/javascript').
     (function () {
         var support = {animations: Modernizr.cssanimations},
@@ -92,3 +118,17 @@ script(type = 'text/javascript').
             });
         });
     })();
+script(type = 'text/javascript').
+    $(document).ready(function () {
+        var mas = $("a[name='page']");
+        var curpage = parseInt($("#hidden").data('pg'));
+        var firstpage = (curpage / 5 >> 0) * 5;
+        mas.each(function (i, obj) {
+           $(obj).text(++firstpage);
+        });
+        var num = curpage % 5;
+        if (!num)
+            num = 1;
+        $("li.active").removeClass('active');
+        $("#li_" + num).addClass('active');
+    });

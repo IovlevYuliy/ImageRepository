@@ -69,6 +69,7 @@ block nav
                 a#myImage(href='#') Мои изображения
             li
                 button#addImage.btn.btn-default(type='button') Загрузить изображение
+                input#activepg(type='hidden', data-activepage=1)
 block content
     div#gallery.mrg
         h1 Hello! #{user.username}
@@ -95,3 +96,48 @@ block scripts
                 }
             });
         }
+    script(type = 'text/javascript').
+        $(document).ready(function () {
+            $('body').on('click', '#next', function () {
+                var mas = $("a[name='page']");
+                var curpage = $("#activepg").data('activepage');
+                $("li.active").removeClass('active');
+                mas.each(function (i, obj) {
+                    var num = parseInt($(obj).text()) + 5;
+                    $(obj).text(num);
+                });
+
+            var num = curpage % 5;
+            if (!num)
+                num = 1;
+            if (curpage >= parseInt($("#li_1").children()[0].text) && curpage <= parseInt($("#li_5").children()[0].text))
+                $("#li_" + num).addClass('active');
+        });
+        });
+    script(type = 'text/javascript').
+        $(document).ready(function () {
+            $('body').on('click', '#prev', function () {
+                var mas = $("a[name='page']");
+                mas.each(function (i, obj) {
+                    var num = parseInt($(obj).text()) - 5;
+                    if (num > 0)
+                        $(obj).text(num);
+                });
+                var curpage = $("#activepg").data('activepage');
+                $("li.active").removeClass('active');
+                var num = curpage % 5;
+                if (!num)
+                    num = 1;
+                if (curpage >= parseInt($("#li_1").children()[0].text) && curpage <= parseInt($("#li_5").children()[0].text))
+                    $("#li_" + num).addClass('active');
+            });
+        });
+    script(type = 'text/javascript').
+        $(document).ready(function () {
+            $('body').on('click', '#pg', function () {
+                var page = $(this).text();
+                $("#gallery").load("/getGallery", {numpage: parseInt(page)}, function () {
+                    $("#activepg").data('activepage', page);
+                })
+            });
+        });
