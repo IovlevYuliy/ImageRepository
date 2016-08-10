@@ -25,7 +25,7 @@ app.use(expressSession({
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
-app.set('port', process.env.PORT || 3001);
+app.set('port', process.env.PORT || 3000);
 app.locals.basedir = 'D:/HardWork/ImageRepository/MyProject/';
 
 // uncomment after placing your favicon in /public
@@ -53,17 +53,23 @@ app.get('/home', isAuthenticated, function (req, res) {
 app.get('/myRoom', isAuthenticated, function (req, res) {
     res.render('myRoom', {user: req.user});
 });
+app.get('/getAllImages', function (req, res) {
+    Images.find({}, function (err, docs) {
+        res.render('Gallery', {fls: docs, user: req.user, be: true});
+    });
+});
+
 
 app.get('/getGallery', function (req, res) {
-    UserImage.find({'UserId': req.user._id.toString()}, function (err, result) {
-        var arrId = [];
-        result.forEach(function (item, i, arr) {
-            arrId.push(item.ImageId);
+        UserImage.find({'UserId': req.user._id.toString()}, function (err, result) {
+            var arrId = [];
+            result.forEach(function (item, i, arr) {
+                arrId.push(item.ImageId);
+            });
+            Images.find({_id: {$in: arrId}}, function (err, docs) {
+                res.render('Gallery', {fls: docs, user: req.user, be: false});
+            });
         });
-        Images.find({_id: {$in: arrId}}, function (err, docs) {
-            res.render('Gallery', {fls: docs, user: req.user, be: false});
-        });
-    });    
 });
 
 app.get('/logout', function(req, res) {

@@ -51,33 +51,11 @@ block styles
         }
 block content
     div#gallery.mrg
-        table
-            tr
-                input#srch.tt(type='text', placeholder='Search', style='width:250px')
-                input#findme(type = "button", style='width:60px', value = "Найти")
-            tr
-                .img-container#galleryblock
-                    - var count = 0;
-                        each item in fls
-                            if count < fls.length
-                                .col-md-2.col-md-2.col-md-2.thumb
-                                    div.holder
-                                        a.fancyimage(rel='group', href='/images/' + item.name)
-                                            img.rt#myimg(src='/images/' + item.name, width='200', height='200')
-                                        div.block
-                                            button#openimage.cbutton.cbutton--effect-ivana(data-img=item, data-user=user)
-                                                i.fa.fa-pencil-square-o.fa-2x
-                                            a.cbutton.cbutton--effect-milan(href='/images/' + item.name, download=item.name)
-                                                i.fa.fa-fw.fa-save.fa-2x
-                                            button.cbutton.cbutton--effect-tamara
-                                                i.fa.fa-fw.fa-trash-o.fa-2x
-                                            button#addtome.cbutton.cbutton--effect-marin(data-imgid=item._id.toString(), data-userid=user._id.toString())
-                                                i.fa.fa-fw.fa-star-o.fa-2x
-                            - count++;
     include /views/editWindow
 block scripts
     script(type='text/javascript').
         $(document).ready(function() {
+            $("#gallery").load("/getAllImages");
             $("a.fancyimage").fancybox()
         });
     script(src='../javascripts/bootstrap-tokenfield.js')
@@ -86,6 +64,24 @@ block scripts
             $('#tags').tokenfield({
                 limit: 10,
                 delay: 100
+            });
+        });
+    script(type='text/javascript').
+        $(document).ready(function () {
+            $('body').on('click', '#removeImage', function () {
+                $.ajax({
+                    url: "/removeImage",
+                    type: "POST",
+                    data: {
+                        imageId: $(this).data('imgid'),
+                        imageName: $(this).data('imgname')
+                    },
+                    cache: true,
+                    timeout: 5000,
+                    success: function (data) {
+                        $('#gallery').load('getAllImages')
+                    }
+                })
             });
         });
     script(type = 'text/javascript').
