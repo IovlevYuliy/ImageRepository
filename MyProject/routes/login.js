@@ -7,4 +7,4 @@ module.exports = function (app) {
         failureRedirect: '/',
         failureFlash: true
     }));
-}
+};

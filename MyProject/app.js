@@ -53,21 +53,22 @@ app.get('/home', isAuthenticated, function (req, res) {
 app.get('/myRoom', isAuthenticated, function (req, res) {
     res.render('myRoom', {user: req.user});
 });
-
-app.post('/getGallery', function (req, res) {
-    UserImage.find({'UserId': req.user._id.toString()}, function (err, result) {
-        var arrId = [];
-        result.forEach(function (item, i, arr) {
-            arrId.push(item.ImageId);
-        });
-        Images.find({_id: {$in: arrId}}, function (err, docs) {
-            res.render('Gallery', {fls: docs, user: req.user, be: false, numpage: req.body.numpage});
-        });
-    });    
+app.get('/getAllImages', function (req, res) {
+    Images.find({}, function (err, docs) {
+        res.render('Gallery', {fls: docs, user: req.user, be: true});
+    });
 });
 
-app.get('/test', function(req, res) {
-    res.render('test');
+    UserImage.find({'UserId': req.user._id.toString()}, function (err, result) {
+        UserImage.find({'UserId': req.user._id.toString()}, function (err, result) {
+            var arrId = [];
+            result.forEach(function (item, i, arr) {
+                arrId.push(item.ImageId);
+            });
+            Images.find({_id: {$in: arrId}}, function (err, docs) {
+                res.render('Gallery', {fls: docs, user: req.user, be: false});
+            });
+        });
 });
 
 app.get('/logout', function(req, res) {

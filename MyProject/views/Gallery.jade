@@ -47,40 +47,6 @@ body
                 input#hidden(type='hidden', data-pg = numpage)
             tr
                 .img-container#galleryblock
-                    - var mypage = numpage * 10;
-                        -   for (var i = (mypage - 10); i < Math.min(fls.length, mypage); ++i){
-                            .col-md-2.col-md-2.col-md-2.thumb
-                                div.holder
-                                    a.fancyimage(rel='group', href='/images/' + fls[i].name)
-                                        img.rt#myimg(src='/images/' + fls[i].name, width='200', height='200')
-                                    div.block
-                                        button#openimage.cbutton.cbutton--effect-ivana(data-img=fls[i], data-user=user)
-                                            i.fa.fa-pencil-square-o.fa-2x
-                                        a.cbutton.cbutton--effect-milan(href='/images/' + fls[i].name, download=fls[i].name)
-                                            i.fa.fa-fw.fa-save.fa-2x
-                                        button.cbutton.cbutton--effect-tamara
-                                            i.fa.fa-fw.fa-trash-o.fa-2x
-                                        #user
-                                            -if (be)
-                                                button#addtome.cbutton.cbutton--effect-marin(data-imgid=fls[i]._id.toString(), data-userid=user._id.toString())
-                                                    i.fa.fa-fw.fa-star-o.fa-2x
-                        -}
-        ul.pagination.pagelist
-            li
-                a#prev(href='#') «
-            li#li_1
-                a#pg(href='#', name = 'page')
-            li#li_2
-                a#pg(href='#', name = 'page')
-            li#li_3
-                a#pg(href='#', name = 'page')
-            li#li_4
-                a#pg(href='#', name = 'page')
-            li#li_5
-                a#pg(href='#', name = 'page')
-            li
-                a#next(href='#') »
-
 script(type = 'text/javascript').
     (function () {
         var support = {animations: Modernizr.cssanimations},
