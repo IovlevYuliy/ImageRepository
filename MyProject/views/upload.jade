@@ -55,7 +55,7 @@ block content
 block scripts
     script(type='text/javascript').
         $(document).ready(function() {
-            $("#gallery").load("/getAllImages");
+            $("#gallery").load("/getAllImages", {numpage: 1});
             $("a.fancyimage").fancybox()
         });
     script(src='../javascripts/bootstrap-tokenfield.js')
@@ -79,7 +79,7 @@ block scripts
                     cache: true,
                     timeout: 5000,
                     success: function (data) {
-                        $('#gallery').load('getAllImages')
+                        $('#gallery').load('getAllImages', {numpage: 1})
                     }
                 })
             });

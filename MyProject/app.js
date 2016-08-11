@@ -53,12 +53,12 @@ app.get('/home', isAuthenticated, function (req, res) {
 app.get('/myRoom', isAuthenticated, function (req, res) {
     res.render('myRoom', {user: req.user});
 });
-app.get('/getAllImages', function (req, res) {
+app.post('/getAllImages', function (req, res) {
     Images.find({}, function (err, docs) {
-        res.render('Gallery', {fls: docs, user: req.user, be: true});
+        res.render('Gallery', {fls: docs, user: req.user, be: true, numpage: req.body.numpage});
     });
 });
-
+app.post('/getGallery', function (req, res) {
     UserImage.find({'UserId': req.user._id.toString()}, function (err, result) {
         UserImage.find({'UserId': req.user._id.toString()}, function (err, result) {
             var arrId = [];
@@ -66,9 +66,10 @@ app.get('/getAllImages', function (req, res) {
                 arrId.push(item.ImageId);
             });
             Images.find({_id: {$in: arrId}}, function (err, docs) {
-                res.render('Gallery', {fls: docs, user: req.user, be: false});
+                res.render('Gallery', {fls: docs, user: req.user, be: false, numpage: req.body.numpage});
             });
         });
+    });
 });
 
 app.get('/logout', function(req, res) {

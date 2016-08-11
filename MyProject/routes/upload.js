@@ -45,9 +45,7 @@ module.exports = function (app) {
     });
 
     app.get('/upload', isAuth, function (req, res) {
-        Img.find({}, function (err, docs) {
-               res.render('upload', {user:req.user});
-        });
+       res.render('upload', {user:req.user});
     });
 
     app.post('/addImg',function (request, response) {
@@ -59,7 +57,30 @@ module.exports = function (app) {
                 newPath = "D:/HardWork/ImageRepository/MyProject/public/images/" + files.upload.name;
                 fs.writeFile(newPath, data, function (err) {
                     Img.findOne({name: files.upload.name}, function (err, objj) {
+                        if (!objj) {
+                            var obj = new Img({'name': fields.imgname,
+                                'addinfo': fields.imginfo, 'description':  fields.imgdesc, 'access': fields.optradio,
+                                'user': request.user.username, 'size': fields.size, 'weight': fields.weight});
+                            var mas = fields.tags.split(', ');
+                            mas.forEach(function(item, i, arr) {
+                                obj.tags.push(item);
+                            });
+                            obj.save(function(err, obj){
+                                var ui = new UserImage({'UserId': request.user._id.toString(), 'ImageId': obj._id.toString()});
+                                ui.save(function (err) {
+                                    UserImage.find({'UserId': request.user._id.toString()}, function (err, result) {
+                                        var arrId = [];
+                                        result.forEach(function (item, i, arr) {
+                                            arrId.push(item.ImageId);
+                                        });
+                                        Img.find({_id: {$in: arrId}}, function (err, docs) {
+                                            response.render('Gallery', {fls: docs, user: request.user, be: false, numpage: 1}, function(){
+                                            });
+                                        });
+                                    });
+                                    console.log(err);
                                 });
+
                             });
                         }
                     })
