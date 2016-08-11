@@ -37,7 +37,7 @@ module.exports = function (app) {
                     obj.save(function(err)
                     {
                         Img.find({}, function (err, docs) {
-                            response.render('Gallery', {layout: false, fls: docs, user: request.user});
+                            response.render('Gallery', {layout: false, fls: docs, user: request.user, be: true, numpage: 1});
                         });
                     });
                 }));
@@ -74,11 +74,9 @@ module.exports = function (app) {
                                             arrId.push(item.ImageId);
                                         });
                                         Img.find({_id: {$in: arrId}}, function (err, docs) {
-                                            response.render('Gallery', {fls: docs, user: request.user, be: false, numpage: 1}, function(){
-                                            });
+                                            response.render('Gallery', {fls: docs, user: request.user, be: false, numpage: 1});
                                         });
                                     });
-                                    console.log(err);
                                 });
 
                             });

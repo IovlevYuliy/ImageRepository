@@ -128,6 +128,58 @@ block scripts
                 })
             });
         });
+
+
+
+    script(type = 'text/javascript').
+        $(document).ready(function () {
+            $('body').on('click', '#next', function () {
+                var countpages = Math.cell(($("#hidden").data('fls').length + 9) / 10);
+                if (parseInt($("#li_5").children()[0].text) < countpages) {
+                    var mas = $("a[name='page']");
+                    var curpage = $("#hidden").data('pg');
+                    $("li.active").removeClass('active');
+                    mas.each(function (i, obj) {
+                        var num = parseInt($(obj).text()) + 5;
+                        $(obj).text(num);
+                    });
+
+                    var num = curpage % 5;
+                    if (!num)
+                        num = 5;
+                    if (curpage >= parseInt($("#li_1").children()[0].text) && curpage <= parseInt($("#li_5").children()[0].text))
+                        $("#li_" + num).addClass('active');
+                }
+            });
+        });
+    script(type = 'text/javascript').
+        $(document).ready(function () {
+            $('body').on('click', '#prev', function () {
+                if ($("#li_1").children()[0].text == '1')
+                        return;
+                var mas = $("a[name='page']");
+                mas.each(function (i, obj) {
+                    var num = parseInt($(obj).text()) - 5;
+                    if (num > 0)
+                        $(obj).text(num);
+                });
+                var curpage = $("#hidden").data('pg');
+                $("li.active").removeClass('active');
+                var num = curpage % 5;
+                if (!num)
+                    num = 5;
+                if (curpage >= parseInt($("#li_1").children()[0].text) && curpage <= parseInt($("#li_5").children()[0].text))
+                    $("#li_" + num).addClass('active');
+            });
+        });
+    script(type = 'text/javascript').
+        $(document).ready(function () {
+            $('body').on('click', '#pg', function () {
+                var pg = parseInt($(this).text());
+                $("#gallery").load("/getAllImages", {numpage: pg}, function () {
+                })
+            });
+        });
     script(src='../javascripts/modalWinEdit.js')
     script(src='../javascripts/classie.js')
     script(src='../javascripts/modernizr.custom.js')
