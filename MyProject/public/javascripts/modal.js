@@ -9,9 +9,9 @@ $(document).ready(function () {
     });
 
     
-    $("body").on('click', '#addok', function () {
-        $('#addmodal').modal('hide');
-    });
+    // $("body").on('click', '#addok', function () {
+    //     $('#addmodal').modal('hide');
+    // });
 
 
     $("body").on('click', '#myimg', function () {

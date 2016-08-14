@@ -6,7 +6,7 @@
                 h4.modal-title Добавить изображение
             .modal-body
                 .form-group
-                    form#myform(action='/addImg', enctype='multipart/form-data', name = 'myform', method='post', onsubmit = 'return false;')
+                    form#addImageForm(action='/addImg', enctype='multipart/form-data', name = 'myform', method='post', onsubmit = 'return false;')
                         .col-lg-6
                             img#image(src='', name = 'image')
                             label Размер:
@@ -14,19 +14,23 @@
                             input#wt(type='hidden', name='weight')
                             li#size(style="list-style:none")
                             li#weight(style="list-style:none")
-                            input#openimage.btn-small(type='file', name='upload')
+                            input#openimage.btn-small(type='file', required=true, name='upload', accept="image")
                             label Дополнительно
-                            input#addinfo.form-control.input-lg(type='text' name='imginfo')
+                            input#addinfo.form-control.input-lg(type='text', name='imginfo')
+                            #dangerMsg.alert.alert-danger()
+                                | Заполните все пустые поля, а также выберите файл!
+                            #successMsg.alert.alert-success
+                                | Изображение успешно добавлено, подождите немного.
                         .row
                             .col-lg-6
                                 label Файл:
-                                input#nmDefault.form-control(type='text', required='', readonly='')
+                                input#nmDefault.form-control(type='text', required=true, readonly='')
                                 label Название:
-                                input#newName.form-control(type='text' name='imgname')
+                                input#newName.form-control(type='text', required=true, name='imgname')
                                 label Теги(Группы):
-                                input#tags.token-input(type='text',  autocomplete='off', placeholder='Введите теги', tabindex='0', name='tags', style='width: 370px;')
+                                input#tags.token-input(type='text', required=true, autocomplete='off', placeholder='Введите теги', tabindex='0', name='tags', style='width: 370px;')
                                 label Описание
-                                textarea#descript.form-control.input-lg(rows='4' name='imgdesc' style='resize:none')
+                                textarea#descript.form-control.input-lg(rows='4', required=true, name='imgdesc', style='resize:none')
 
                                 label.radio-inline
                                     input#radio11(type='radio', value ='private', checked, name='optradio')

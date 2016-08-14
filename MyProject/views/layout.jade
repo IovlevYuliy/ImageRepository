@@ -1,4 +1,4 @@
-doctype html
+  doctype html
 html
   head
     meta(http-equiv='content-type', content='application/xhtml+xml; charset=UTF-8')
@@ -39,27 +39,34 @@ html
             .form-group
               label.control-label.col-xs-3(for='username') Логин:
               .col-xs-9
-                input#username.form-control(type='text', name='username', placeholder='Введите логин', required='true')
+                input#username.form-control(type='text', name='username', placeholder='Введите логин', maxlength='20', pattern = '^[а-яА-ЯёЁa-zA-Z0-9]{2,}$', required='true',
+                oninvalid="setCustomValidity('Логин должен содержать только буквы и цифры и иметь длину от 2 до 20 символов')",
+                onchange="try{setCustomValidity('')}catch(e){}" )
             .form-group
               label.control-label.col-xs-3(for='lastName') Фамилия:
               .col-xs-9
-                input#lastName.form-control(type='text', name='lastName', placeholder='Введите фамилию', required='true')
+                input#lastName.form-control(type='text', name='lastName', placeholder='Введите фамилию', maxlength = '20', pattern='^[а-яА-ЯёЁa-zA-Z]{1,}$', required='true',
+                oninvalid="setCustomValidity('Фамилия должна содержать только буквы')",
+                onchange="try{setCustomValidity('')}catch(e){}")
             .form-group
               label.control-label.col-xs-3(for='firstName') Имя:
               .col-xs-9
-                input#firstName.form-control(type='text', name='firstName', placeholder='Введите имя', required='true')
+                input#firstName.form-control(type='text', name='firstName', placeholder='Введите имя', maxlength = '20', pattern='^[A-Za-zА-Яа-яЁё]{1,}$', required='true',
+                oninvalid="setCustomValidity('Имя должно содержать только буквы')",
+                onchange="try{setCustomValidity('')}catch(e){}")
             .form-group
               label.control-label.col-xs-3(for='inputEmail') Email:
               .col-xs-9
-                input#inputEmail.form-control(type='email',  name='email', placeholder='Email', required='true')
+                input#inputEmail.form-control(type='email',  name='email', placeholder='Email', maxlength="20", required='true')
             .form-group
               label.control-label.col-xs-3(for='inputPassword') Пароль:
               .col-xs-9
-                input#inputPassword.form-control(type='password', name='password', placeholder='Введите пароль', required='true')
+                input#inputPassword.form-control(type='password', name='password', maxlength = '20', pattern='^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\\s).*$', placeholder='Введите пароль', required='true',
+                oninvalid="setCustomValidity('Пароль должен содержать хотя бы одну цифру и символы из верхнего и нижнего регистра')")
             .form-group
               label.control-label.col-xs-3(for='confirmPassword') Подтвердите пароль:
               .col-xs-9
-                input#confirmPassword.form-control(type='password', name='confirmpassword', placeholder='Введите пароль ещё раз', required='true')
+                input#confirmPassword.form-control(type='password', name='confirmpassword', placeholder='Введите пароль ещё раз')
             .modal-footer
               .form-group
                 .col-xs-offset-3.col-xs-9
@@ -71,5 +78,25 @@ script(src='../javascripts/jquery-1.11.2.min.js')
 script(src='../javascripts/jquery.fancybox.pack.js')
 script(src='../javascripts/modal.js')
 script(src='../javascripts/bootstrap.min.js')
+script(type = 'text/javascript').
+  window.onload = function () {
+    document.getElementById('inputPassword').onchange = validateInputPassword;
+    document.getElementById('confirmPassword').onchange = validateConfirmPassword;
+
+  }
+  function  validateInputPassword()
+  {
+    try{this.setCustomValidity('')}catch(e){}
+    validateConfirmPassword();
+  }
+  function validateConfirmPassword() {
+    var pass2 = document.getElementById("inputPassword").value;
+    var pass1 = document.getElementById("confirmPassword").value;
+    if (pass1 != pass2)
+      document.getElementById("confirmPassword").setCustomValidity("Пароли не совпадают");
+    else {
+      document.getElementById("confirmPassword").setCustomValidity('');
+    }// пустая строка означает отсутствие ошибок
+  }
 block scripts
 

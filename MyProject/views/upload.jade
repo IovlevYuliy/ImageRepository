@@ -105,23 +105,6 @@ block scripts
 
     script(type = 'text/javascript').
         $(document).ready(function () {
-            $('body').on('click', '#saveServer', function () {
-                var num;
-                if (document.getElementById("radio1").checked) {
-                    num = 'private';
-                }
-                else {
-                    num = 'public';
-                }
-                $("#gallery").load("/upload", {oldname: $("#nmDefault").val(), newname: $("#newName").val(),
-                mytags: $("#tags").val(), descr: $("#descript").val(), adinfo: $("#addinfo").val(),
-                radiobut: num});
-                $('#modalopen').modal('hide');
-            });
-        });
-
-    script(type = 'text/javascript').
-        $(document).ready(function () {
             $('body').on("click", "#findme", function(){
                 $("#gallery").load("/upload", {
                     myfind: $("#srch").val()
