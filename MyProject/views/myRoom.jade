@@ -4,84 +4,7 @@ block styles
     link(rel='stylesheet', href='/stylesheets/jasny-bootstrap.min.css', type='text/css', media='screen')
     link( href="/stylesheets/font-awesome.min.css" type="text/css" rel="stylesheet")
     link( href="/stylesheets/component.css" type="text/css" rel="stylesheet")
-    style.
-        .thumb img {
-            filter: none; /* IE6-9 */
-            -webkit-filter: grayscale(0);
-            border-radius: 10px;
-            background-color: #fff;
-            border: 1px solid #ddd;
-            padding: 5px;
-        }
-
-        .thumb {
-            margin-left: 2%;
-            margin-top: 1%;
-        }
-
-        .qq {
-            padding: 15px;
-            margin-left: 20px;
-            font-size: small;
-        }
-
-        .mrg {
-            margin-top: 4%;
-            margin-left: 15%;
-            position: relative;
-        }
-        .mrg pagination {
-            position: absolute;
-            margin-top: auto;
-        }
-        .mrg pagination{
-            position: absolute;
-            margin-top: 90%;
-            margin-left: 0;
-        }
-        .tt {
-            margin-left: 72%;
-        }
-        .navmenu {
-            padding-top: 50px;
-            width: 200px;
-        }
-
-        .holder {
-            position: relative;
-            width: 200px;
-            height: 200px;
-        }
-
-        .pages {
-            margin-top: 40%;
-            margin-left: 20%;
-        }
-
-        .pagelist {
-            margin-left: 40%;
-            margin-top: auto;
-        }
-        .block {
-            position: absolute;
-            left: 0;
-            bottom: 0;
-            right: 0;
-            top: 0;
-            background: rgba(255, 255, 255, 0.7);
-            padding: 5px;
-            display: none;
-        }
-
-        .holder:hover .block {
-            display: block;
-        }
-
-        .next {
-            margin-top: 20%;
-            margin-right: 40%;
-        }
-
+    link( href="/stylesheets/myRoomStyle.css" type="text/css" rel="stylesheet")
 block nav
     nav.navmenu.navmenu-default.navmenu-fixed-left(role='navigation')
         a.navmenu-brand(href='#') Личный кабинет
@@ -92,6 +15,7 @@ block nav
                 a#myImage(href='#') Мои изображения
             li
                 button#addImage.btn.btn-default(type='button') Загрузить изображение
+                input#hiddenPlace(type='hidden', data-place='myRoom')
 
 block content
     div#gallery.mrg
@@ -101,102 +25,11 @@ block content
     include /views/addWindow
 block scripts
     script(src='../javascripts/jasny-bootstrap.min.js')
-    script(src='../javascripts/modalWinEdit.js')
-    script(src='../javascripts/myRoom.js')
     script(src='../javascripts/jquery.form.js')
-    script(src='../javascripts/modal.js')
+    script(src='../javascripts/bootstrap-tokenfield.js')
     script(src='../javascripts/classie.js')
     script(src='../javascripts/modernizr.custom.js')
-    script(type = 'text/javascript').
-        function ajaxPostForm() {
-            var form = $('#addImageForm');
-            if(!document.getElementById('addImageForm').checkValidity())
-            {
-                $("#addImageForm #dangerMsg").show();
-                return;
-            }
-            form.ajaxForm();
-            form.ajaxSubmit({
-                url: '/addImg',
-                type: 'POST',
-                success: function (data) {
-                    $('#addmodal').modal('hide');
-                    $('#gallery').html(data);
-                    $(".alert").hide();
-                },
-                beforeSend: function () {
-                    $("#addImageForm #dangerMsg").hide();
-                    $("#addImageForm #successMsg").show();
-                }
-            });
-        }
-    script(type = 'text/javascript').
-        $(document).ready(function () {
-            $('body').on('click', '#next', function () {
-                var countpages = Math.cell(($("#hidden").data('fls').length + 9) / 10);
-                if (parseInt($("#li_5").children()[0].text) < countpages) {
-                    var mas = $("a[name='page']");
-                    var curpage = $("#hidden").data('pg');
-                    $("li.active").removeClass('active');
-                    mas.each(function (i, obj) {
-                        var num = parseInt($(obj).text()) + 5;
-                        $(obj).text(num);
-                    });
-
-                    var num = curpage % 5;
-                    if (!num)
-                        num = 5;
-                    if (curpage >= parseInt($("#li_1").children()[0].text) && curpage <= parseInt($("#li_5").children()[0].text))
-                        $("#li_" + num).addClass('active');
-                }
-            });
-        });
-
-    script(type = 'text/javascript').
-        $(document).ready(function () {
-            $('body').on('click', '#prev', function () {
-                if ($("#li_1").children()[0].text == '1')
-                    return;
-                var mas = $("a[name='page']");
-                mas.each(function (i, obj) {
-                    var num = parseInt($(obj).text()) - 5;
-                    if (num > 0)
-                        $(obj).text(num);
-                });
-
-                var curpage = $("#hidden").data('pg');
-                $("li.active").removeClass('active');
-                var num = curpage % 5;
-                if (!num)
-
-                    num = 5;
-                if (curpage >= parseInt($("#li_1").children()[0].text) && curpage <= parseInt($("#li_5").children()[0].text))
-                    $("#li_" + num).addClass('active');
-            });
-        });
-    script(type = 'text/javascript').
-        $(document).ready(function () {
-            $('body').on('click', '#pg', function () {
-                var pg = parseInt($(this).text());
-                $("#gallery").load("/getGallery", {numpage: pg}, function () {
-                })
-            });
-        });
-    script(type='text/javascript').
-        $(document).ready(function () {
-            $('body').on('click', '#removeImage', function () {
-                $.ajax({
-                    url: "/removeImage",
-                    type: "POST",
-                    data: {
-                        imageId: $(this).data('imgid'),
-                        imageName: $(this).data('imgname')
-                    },
-                    cache: true,
-                    timeout: 5000,
-                    success: function (data) {
-                        $('#gallery').load('/getGallery', {numpage: 1})
-                    }
-                })
-            });
-        });
+    script(src='../javascripts/myRoom.js')
+    script(src='../javascripts/addWindow.js')
+    script(src='../javascripts/editWindow.js')
+    script(src='../javascripts/gallery.js')

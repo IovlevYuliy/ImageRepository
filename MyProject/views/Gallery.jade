@@ -1,39 +1,4 @@
-html
-    head
-        meta(http-equiv='content-type', content='application/xhtml+xml; charset=UTF-8')
-        meta(http-equiv='X-UA-Compatible', content='chrome=1')
-        link(rel='stylesheet', href='/stylesheets/bootstrap.min.css')
-        link(rel='stylesheet', href='/stylesheets/bootstrap-theme.min.css')
-        link(rel='stylesheet', href='/stylesheets/jquery.fancybox.css', type='text/css', media='screen')
-        link( href="/stylesheets/bootstrap-tokenfield.css" type="text/css" rel="stylesheet")
-        link( href="/stylesheets/font-awesome.min.css" type="text/css" rel="stylesheet")
-        link( href="/stylesheets/component.css" type="text/css" rel="stylesheet")
-        style.
-            .holder {
-                position: relative;
-                width: 200px;
-                height: 200px;
-            }
-            .next{
-                margin-top:20%;
-                margin-right: 40%;
-            }
-            .block {
-                position: absolute;
-                left: 0;
-                bottom: 0;
-                right: 0;
-                top: 0;
-                background: rgba(255, 255, 255, 0.7);
-                padding: 5px;
-                display: none;
-            }
-
-
-            .holder:hover .block {
-                display: block;
-            }
-   body
+body
     table
         tr
             input#srch.tt(type='text', placeholder='Search', style='width:250px')
@@ -58,23 +23,9 @@ html
                                         button#addtome.cbutton.cbutton--effect-marin(data-imgid=fls[i]._id.toString(), data-userid=user._id.toString())
                                             i.fa.fa-fw.fa-star-o.fa-2x
                     -   }
-    ul.pagination.pagination-centered
-        li
-            a#prev(href='#') «
-        //
-        //
-        //li#li_1
-        //    a#pg(href='#', name = 'page')
-        //li#li_2
-        //    a#pg(href='#', name = 'page')
-        //li#li_3
-        //    a#pg(href='#', name = 'page')
-        //li#li_4
-        //    a#pg(href='#', name = 'page')
-        //li#li_5
-        //    a#pg(href='#', name = 'page')
-        //li
-        //    a#next(href='#') »
+        ul.pagination.pagination-centered
+            li
+                a#prev(href='#') «
 script(type = 'text/javascript').
     (function () {
         var support = {animations: Modernizr.cssanimations},

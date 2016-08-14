@@ -1,0 +1,24 @@
+extends layoutAuthorized
+
+block styles
+    link( href="/stylesheets/font-awesome.min.css" type="text/css" rel="stylesheet")
+    link( href="/stylesheets/component.css" type="text/css" rel="stylesheet")
+    link( href="/stylesheets/catalogStyle.css" type="text/css" rel="stylesheet")
+
+block content
+    div#gallery.mrg
+    input#hiddenPlace(type='hidden', data-place='catalog')
+    include /views/editWindow
+block scripts
+    script(src='../javascripts/jquery.form.js')
+    script(type='text/javascript').
+        $(document).ready(function() {
+            $("#gallery").load("/getGallery", {place: 'catalog', numpage: 1});
+            $("a.fancyimage").fancybox();
+        });
+
+    script(src='../javascripts/bootstrap-tokenfield.js')
+    script(src='../javascripts/classie.js')
+    script(src='../javascripts/modernizr.custom.js')
+    script(src='../javascripts/editWindow.js')
+    script(src='../javascripts/gallery.js')

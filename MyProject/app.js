@@ -55,20 +55,10 @@ app.get('/myRoom', isAuthenticated, function (req, res) {
 });
 app.post('/getAllImages', function (req, res) {
     Images.find({ access: 'public' }, function (err, docs) {
-        res.render('Gallery', {fls: docs, user: req.user, be: true, numpage: req.body.numpage});
+        res.render('gallery', {fls: docs, user: req.user, be: true, numpage: req.body.numpage});
     });
 });
-app.post('/getGallery', function (req, res) {
-    UserImage.find({'UserId': req.user._id.toString()}, function (err, result) {
-        var arrId = [];
-        result.forEach(function (item, i, arr) {
-            arrId.push(item.ImageId);
-        });
-        Images.find({_id: {$in: arrId}}, function (err, docs) {
-            res.render('Gallery', {fls: docs, user: req.user, be: false, numpage: req.body.numpage});
-        });
-    });
-});
+
 
 app.get('/logout', function(req, res) {
     req.logout();
