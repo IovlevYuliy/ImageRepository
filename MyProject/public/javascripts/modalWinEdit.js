@@ -2,11 +2,11 @@ $(document).ready(function () {
 
     $("body").on('change', '#radio1', function()
     {
-        $("#radio1").val('1');
+        $("#radio1").val('private');
     });
     $("body").on('change', '#radio2', function()
     {
-        $("#radio2").val('2');
+        $("#radio2").val('public');
     });
     //move to addWindow
     $("body").on('click', '#galleryblock #openimage', function () {
@@ -41,6 +41,29 @@ $(document).ready(function () {
         }
 
         $('#modalopen').modal('show');
+    });
+    $('body').on('click', '#saveServer', function () {
+            var form = $('#modalopen #myform');
+            form.ajaxForm();
+            form.ajaxSubmit({
+                url: '/upload',
+                type: 'POST',
+                success: function (data) {
+                    $('#gallery').html(data);
+                    $('#modalopen').modal('hide');
+                }
+            });
+        // var num;
+        // if (document.getElementById("radio1").checked) {
+        //     num = 'private';
+        // }
+        // else {
+        //     num = 'public';
+        // }
+        // $("#gallery").load("/upload", {oldname: $("#nmDefault").val(), newname: $("#newName").val(),
+        //     mytags: $("#tags").val(), descr: $("#descript").val(), adinfo: $("#addinfo").val(),
+        //     radiobut: num});
+
     });
     // var img = $('#image');
     // var input = $('#openimage');

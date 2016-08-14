@@ -8,6 +8,7 @@ var formidable = require('formidable'),
     user = require('../models/user'),
     isAuth = require('../passport/isAuthenticated'),
     UserImage = require('../models/UserImage');
+
 module.exports = function (app) {
     app.post('/upload', isAuth, function (request, response) {
         if (request.body.oldname == undefined) {
@@ -22,12 +23,12 @@ module.exports = function (app) {
                 });
 
             if (!Img.findOne({name: request.body.oldname}, function (err, obj) {
-                    obj.access = request.body.radiobut;
-                    obj.name = request.body.newname;
-                    obj.addinfo = request.body.adinfo;
-                    obj.description = request.body.descr;
+                    obj.access = request.body.optradio;
+                    obj.name = request.body.imgname;
+                    obj.addinfo = request.body.imginfo;
+                    obj.description = request.body.imgdesc;
                     obj.user = request.user.username;
-                    var mas = request.body.mytags.split(', ');
+                    var mas = request.body.tags.split(', ');
                     obj.tags = [];
                     if (mas[0] != "") {
                         mas.forEach(function (item, i, arr) {
@@ -36,7 +37,7 @@ module.exports = function (app) {
                     }
                     obj.save(function(err)
                     {
-                        Img.find({}, function (err, docs) {
+                        Img.find({ access: 'public' }, function (err, docs) {
                             response.render('Gallery', {layout: false, fls: docs, user: request.user, be: true, numpage: 1});
                         });
                     });

@@ -28,18 +28,12 @@ html
                 padding: 5px;
                 display: none;
             }
-            .pages {
-                margin-top: 40%;
-                margin-left: 20%;
-            }
+
+
             .holder:hover .block {
                 display: block;
             }
-            .pagelist{
-                margin-top: auto;
-                margin-left: 40%;
-            }
-body
+   body
     table
         tr
             input#srch.tt(type='text', placeholder='Search', style='width:250px')
@@ -64,7 +58,7 @@ body
                                         button#addtome.cbutton.cbutton--effect-marin(data-imgid=fls[i]._id.toString(), data-userid=user._id.toString())
                                             i.fa.fa-fw.fa-star-o.fa-2x
                     -   }
-    ul.pagination.pagelist
+    ul.pagination.pagination-centered
         li
             a#prev(href='#') «
         //
@@ -122,11 +116,11 @@ script(type = 'text/javascript').
     $(document).ready(function () {
         var countpages = Math.ceil(($("#hidden").data('fls').length + 9) / 10);
         for (var i = 1; i <= Math.min(5, countpages); ++i) {
-            $(".pagination").append(function(){
+            $(".pagination.pagination-centered").append(function(){
                 return '<li id=' + "li_" + i + '><a id="pg" href="#" name="page">1</a></li>';
             })
         }
-        $(".pagination").append(function () {
+        $(".pagination.pagination-centered").append(function () {
             return '<li><a id="next" href="#">»</a></li>';
         })
         var mas = $("a[name='page']");

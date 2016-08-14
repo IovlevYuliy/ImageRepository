@@ -54,20 +54,18 @@ app.get('/myRoom', isAuthenticated, function (req, res) {
     res.render('myRoom', {user: req.user});
 });
 app.post('/getAllImages', function (req, res) {
-    Images.find({}, function (err, docs) {
+    Images.find({ access: 'public' }, function (err, docs) {
         res.render('Gallery', {fls: docs, user: req.user, be: true, numpage: req.body.numpage});
     });
 });
 app.post('/getGallery', function (req, res) {
     UserImage.find({'UserId': req.user._id.toString()}, function (err, result) {
-        UserImage.find({'UserId': req.user._id.toString()}, function (err, result) {
-            var arrId = [];
-            result.forEach(function (item, i, arr) {
-                arrId.push(item.ImageId);
-            });
-            Images.find({_id: {$in: arrId}}, function (err, docs) {
-                res.render('Gallery', {fls: docs, user: req.user, be: false, numpage: req.body.numpage});
-            });
+        var arrId = [];
+        result.forEach(function (item, i, arr) {
+            arrId.push(item.ImageId);
+        });
+        Images.find({_id: {$in: arrId}}, function (err, docs) {
+            res.render('Gallery', {fls: docs, user: req.user, be: false, numpage: req.body.numpage});
         });
     });
 });
@@ -99,6 +97,7 @@ app.use(function(req, res, next) {
 if (app.get('env') === 'development') {
     app.use(function(err, req, res, next) {
         res.status(err.status || 500);
+        console.log(err.message);
         res.render('error', {
             message: err.message,
             error: err
