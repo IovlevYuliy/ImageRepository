@@ -8,6 +8,27 @@ $(document).ready(function () {
     {
         $("#radio2").val('public');
     });
+
+    $('body').on('click', '#saveServer', function () {
+        if(!document.getElementById('myform').checkValidity())
+        {
+            $("#myform #dangerMsg").show();
+            return;
+        }
+        $("#myform #dangerMsg").hide();
+        $("#myform #successMsg").show();
+        var num;
+        if (document.getElementById("radio1").checked) {
+            num = 'private';
+        }
+        else {
+            num = 'public';
+        }
+        $("#gallery").load("/upload", {oldname: $("#nmDefault").val(), newname: $("#newName").val(),
+            mytags: $("#tags").val(), descr: $("#descript").val(), adinfo: $("#addinfo").val(),
+            radiobut: num});
+        $('#modalopen').modal('hide');
+    });
     //move to addWindow
     $("body").on('click', '#galleryblock #openimage', function () {
         var pp = '/images/' + $(this).data('img').name;
@@ -39,7 +60,7 @@ $(document).ready(function () {
             $("#modalopen #radio1").removeAttr('disabled');
             $("#modalopen #radio2").removeAttr('disabled');
         }
-
+        $(".alert").hide();
         $('#modalopen').modal('show');
     });
     $('body').on('click', '#saveServer', function () {

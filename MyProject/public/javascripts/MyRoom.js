@@ -1,6 +1,6 @@
 $(document).ready(function () {
 
-    $("a.fancyimage").fancybox()
+    $("a.fancyimage").fancybox();
    
     $('#modalopen #tags').tokenfield({
         limit: 10,
@@ -17,6 +17,7 @@ $(document).ready(function () {
     });
     
     $("body").on('click', '#addImage', function () {
+        $(".alert").hide();
         document.myform.reset();
         document.myform.image.src = '';
         $("#addmodal #size").attr('style', 'list-style:none');

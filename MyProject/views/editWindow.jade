@@ -14,17 +14,20 @@
                             input#wt(type='hidden', name='weight')
                             li#size
                             li#weight
-
+                            #dangerMsg.alert.alert-danger()
+                                | Заполните все пустые поля!
+                            #successMsg.alert.alert-success
+                                | Изменения успешно сохранены, подождите немного.
                         .row
                             .col-lg-6
                                 label Файл:
-                                input#nmDefault.form-control(type='text', required='', readonly='', name='oldname')
+                                input#nmDefault.form-control(type='text', required=true, readonly='', name='oldname')
                                 label Название:
-                                input#newName.form-control(type='text' name='imgname', required="")
+                                input#newName.form-control(type='text' name='imgname', required=true)
                                 label Теги(Группы):
-                                input#tags.token-input(type='text', autocomplete='off', , required="", placeholder='Введите теги', tabindex='0', name='tags', style='width: 370px;')
+                                input#tags.token-input(type='text', autocomplete='off', placeholder='Введите теги', tabindex='0', name='tags', style='width: 370px;')
                                 label Описание
-                                textarea#descript.form-control.input-lg(rows='4' name='imgdesc' style='resize:none', required="")
+                                textarea#descript.form-control.input-lg(rows='4' name='imgdesc' style='resize:none', required=true)
                                 label Дополнительно
                                 input#addinfo.form-control.input-lg(type='text' name='imginfo')
 

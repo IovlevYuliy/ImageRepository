@@ -23,11 +23,13 @@ module.exports = function (app) {
                 });
 
             if (!Img.findOne({name: request.body.oldname}, function (err, obj) {
+
                     obj.access = request.body.optradio;
                     obj.name = request.body.imgname;
                     obj.addinfo = request.body.imginfo;
                     obj.description = request.body.imgdesc;
                     obj.user = request.user.username;
+
                     var mas = request.body.tags.split(', ');
                     obj.tags = [];
                     if (mas[0] != "") {

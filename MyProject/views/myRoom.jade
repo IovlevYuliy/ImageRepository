@@ -30,7 +30,10 @@ block styles
             margin-left: 15%;
             position: relative;
         }
-
+        .mrg pagination {
+            position: absolute;
+            margin-top: auto;
+        }
         .mrg pagination{
             position: absolute;
             margin-top: 90%;
@@ -50,6 +53,15 @@ block styles
             height: 200px;
         }
 
+        .pages {
+            margin-top: 40%;
+            margin-left: 20%;
+        }
+
+        .pagelist {
+            margin-left: 40%;
+            margin-top: auto;
+        }
         .block {
             position: absolute;
             left: 0;
@@ -65,6 +77,11 @@ block styles
             display: block;
         }
 
+        .next {
+            margin-top: 20%;
+            margin-right: 40%;
+        }
+
 block nav
     nav.navmenu.navmenu-default.navmenu-fixed-left(role='navigation')
         a.navmenu-brand(href='#') Личный кабинет
@@ -75,6 +92,7 @@ block nav
                 a#myImage(href='#') Мои изображения
             li
                 button#addImage.btn.btn-default(type='button') Загрузить изображение
+
 block content
     div#gallery.mrg
         h1 Hello! #{user.username}
@@ -91,13 +109,24 @@ block scripts
     script(src='../javascripts/modernizr.custom.js')
     script(type = 'text/javascript').
         function ajaxPostForm() {
-            var form = $('#addmodal #myform');
+            var form = $('#addImageForm');
+            if(!document.getElementById('addImageForm').checkValidity())
+            {
+                $("#addImageForm #dangerMsg").show();
+                return;
+            }
             form.ajaxForm();
             form.ajaxSubmit({
                 url: '/addImg',
                 type: 'POST',
                 success: function (data) {
-                   $('#gallery').html(data);
+                    $('#addmodal').modal('hide');
+                    $('#gallery').html(data);
+                    $(".alert").hide();
+                },
+                beforeSend: function () {
+                    $("#addImageForm #dangerMsg").hide();
+                    $("#addImageForm #successMsg").show();
                 }
             });
         }
@@ -122,6 +151,7 @@ block scripts
                 }
             });
         });
+
     script(type = 'text/javascript').
         $(document).ready(function () {
             $('body').on('click', '#prev', function () {
@@ -133,10 +163,12 @@ block scripts
                     if (num > 0)
                         $(obj).text(num);
                 });
+
                 var curpage = $("#hidden").data('pg');
                 $("li.active").removeClass('active');
                 var num = curpage % 5;
                 if (!num)
+
                     num = 5;
                 if (curpage >= parseInt($("#li_1").children()[0].text) && curpage <= parseInt($("#li_5").children()[0].text))
                     $("#li_" + num).addClass('active');
