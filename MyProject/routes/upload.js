@@ -37,7 +37,6 @@ gallery['myRoom'] = galleryInMyRoom;
 gallery['catalog'] = galleryInCatalog;
 
 module.exports = function (app) {
-
     //Поиск изображения по тегам
     app.post('/findImages', isAuth, function (request, response) {
         var arr = request.body.myfind.split(',');
@@ -49,6 +48,24 @@ module.exports = function (app) {
     //Получение галереи
     app.post('/getGallery', function (request, response) {
         gallery[request.body.place](request, response);
+    });
+    //Редактирование профиля
+    app.get('/profile', isAuth, function (request, response) {
+        response.render('profile', {user: request.user});
+    });
+
+    app.post('/profile', function (request, response) {
+        user.findOne({_id: request.user._id.toString()}, function (err, obj) {
+            obj.firstName = request.body.firstName;
+            obj.lastName = request.body.lastName;
+            obj.email = request.body.email;
+            obj.password = request.body.password[0];
+
+            obj.save(function(err)
+            {
+                response.render('myRoom', {user: request.user});
+            });
+        });
     });
 
     //Изменение данных о изображении в БД

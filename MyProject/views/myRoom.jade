@@ -5,12 +5,13 @@ block styles
     link( href="/stylesheets/font-awesome.min.css" type="text/css" rel="stylesheet")
     link( href="/stylesheets/component.css" type="text/css" rel="stylesheet")
     link( href="/stylesheets/myRoomStyle.css" type="text/css" rel="stylesheet")
+    link( href="/stylesheets/profile.css" type="text/css" rel="stylesheet")
 block nav
     nav.navmenu.navmenu-default.navmenu-fixed-left(role='navigation')
         a.navmenu-brand(href='#') Личный кабинет
         ul.nav.navmenu-nav
             li.active
-                a(href='#') Профиль
+                a#profile(href='#') Профиль
             li
                 a#myImage(href='#') Мои изображения
             li
