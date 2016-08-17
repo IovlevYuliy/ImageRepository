@@ -27,8 +27,19 @@
   position: absolute;
   margin-top: auto;
 }
+.tokenfield
+{
+  display:inline-block;
+}
 .tt {
-  margin-left: 72%;
+  width: 10px;
+  display:inline-block;
+}
+.tt input
+{
+  margin-left: 70%;
+  width: 70px;
+  height: auto;
 }
 .navmenu {
   padding-top: 50px;

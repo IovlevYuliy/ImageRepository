@@ -2,6 +2,7 @@ $(document).ready(function () {
     var body = $('body');
 
     $("a.fancyimage").fancybox();
+   
 
 
     //Функция next(следующая страница с изображениями)
@@ -72,9 +73,9 @@ $(document).ready(function () {
     //Обработчик поиска по тегам
     body.on("click", "#findme", function(){
         $("#gallery").load("/findImages", {
-            myfind: $("#srch").val(),
+            myfind: $("#tagsSearch").val(),
             place: $("#hiddenPlace").data('place')
-        })
+        });
     });
 });
 

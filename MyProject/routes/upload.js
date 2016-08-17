@@ -38,10 +38,10 @@ gallery['catalog'] = galleryInCatalog;
 
 module.exports = function (app) {
     //Поиск изображения по тегам
-    app.post('/findImages', isAuth, function (request, response) {
-        var arr = request.body.myfind.split(',');
-        Images.find({ tags: {$all: arr} }, function (err, docs) {
-            response.render('gallery', {layout: false, fls: docs, user: request.user, be: true});
+    app.post('/findImages', isAuth, function (request, response) {  
+        var arr = request.body.myfind.split(', ');
+        Images.find({ tags: {$in: arr} }, function (err, docs) {
+            response.render('gallery', {layout: false, fls: docs, user: request.user, be: true, numpage:1});
         });
     });
 

@@ -18,8 +18,20 @@
 .mrg {
     margin-top: 4%;
 }
-.tt {
+.tokenfield
+{
     margin-left: 75%;
+    display:inline-block;
+}
+.tt {
+    width: 10px;
+    display:inline-block;
+}
+.tt input
+{
+    margin-left: 75%;
+    width: 70px;
+    height: auto;
 }
 
 .holder {
