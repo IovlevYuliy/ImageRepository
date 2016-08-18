@@ -60,20 +60,23 @@ $(document).ready(function () {
         $("#myform #dangerMsg").hide();
         $("#myform #successMsg").show();
 
-        var form = $('#modalopen #myform');
-        form.ajaxForm();
-        form.ajaxSubmit({
-            url: '/upload',
-            type: 'POST',
-            success: function (data) {
-                $('#gallery').html(data);
+        var options = {
+            target: '#gallery',
+            url: 'saveChanges',
+            type: 'post',
+            data: {
+                place: window.location.pathname,
+                numpage: 1
+            },
+            success: function () {
                 $('#modalopen').modal('hide');
             },
-            beforeSend: function () {
+            beforeSubmit: function () {
                 $("#myform #dangerMsg").hide();
                 $("#myform #successMsg").show();
             }
-        });
+        };
+        $('#modalopen #myform').ajaxSubmit(options);
     });
 
     //Добавление изображения в свой профиль

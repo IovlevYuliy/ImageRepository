@@ -8,46 +8,44 @@ var formidable = require('formidable'),
     isAuth = require('../passport/isAuthenticated'),
     UserImage = require('../models/UserImage');
 
-function galleryInMyRoom(request, response) {
+function galleryInMyRoom(request, callback) {
     UserImage.find({'UserId': request.user._id.toString()}, function (err, result) {
         var arrId = [];
         result.forEach(function (item, i, arr) {
             arrId.push(item.ImageId);
         });
         Images.find({_id: {$in: arrId}}, function (err, docs) {
-            var numpage = 1;
-            if(request.body.numpage)
-                numpage = request.body.numpage;
-            response.render('gallery', {fls: docs, user: request.user, be: false, numpage: numpage});
+            callback(docs, false);
         });
     });
 }
 
-function galleryInCatalog(request, response) {
+function galleryInCatalog(request, callback) {
     Images.find({ access: 'public' }, function (err, docs) {
-        var numpage = 1;
-        if(request.body.numpage)
-            numpage = request.body.numpage;
-        response.render('gallery', {fls: docs, user: request.user, be: true, numpage: numpage});
+        callback(docs, true);
     });
 }
 
 var gallery = {};
-gallery['myRoom'] = galleryInMyRoom;
-gallery['catalog'] = galleryInCatalog;
+gallery['/myRoom'] = galleryInMyRoom;
+gallery['/catalog'] = galleryInCatalog;
 
 module.exports = function (app) {
     //Поиск изображения по тегам
     app.post('/findImages', isAuth, function (request, response) {
         var arr = request.body.myfind.split(',');
-        Images.find({ tags: {$all: arr} }, function (err, docs) {
-            response.render('gallery', {layout: false, fls: docs, user: request.user, be: true});
-        });
+        // gallery[request.body.place](request, function (docs) {
+        //     docs.find({ tags: {$all: arr} }, function (err, documents) {
+        //         response.render('gallery', {layout: false, fls: documents, user: request.user, be: true, numpage: 1});
+        //     });
+        // });
     });
 
     //Получение галереи
     app.post('/getGallery', function (request, response) {
-        gallery[request.body.place](request, response);
+        gallery[request.body.place](request, function (docs, flag) {
+            response.render('gallery', {fls: docs, user: request.user, be: flag, numpage: request.body.numpage});
+        });
     });
     //Редактирование профиля
     app.get('/profile', isAuth, function (request, response) {
@@ -69,7 +67,7 @@ module.exports = function (app) {
     });
 
     //Изменение данных о изображении в БД
-    app.post('/upload', isAuth, function (request, response) {
+    app.post('/saveChanges', isAuth, function (request, response) {
         fs.rename('D:/HardWork/ImageRepository/MyProject/public/images/' + request.body.oldname,
             'D:/HardWork/ImageRepository/MyProject/public/images/' + request.body.imgname);
 
@@ -89,7 +87,9 @@ module.exports = function (app) {
             }
             obj.save(function(err)
             {
-                galleryInCatalog(request, response);
+                gallery[request.body.place](request, function (docs, flag) {
+                    response.render('gallery', {fls: docs, user: request.user, be: flag, numpage: request.body.numpage});
+                });
             });
         });
     });
@@ -100,7 +100,7 @@ module.exports = function (app) {
     });
 
     //Добавление изображения в БД
-    app.post('/addImg', isAuth, function (request, response) {
+    app.post('/addImage', isAuth, function (request, response) {
         var form = new formidable.IncomingForm();
         form.encoding = 'utf-8';
         form.parse(request, function(error, fields, files) {
@@ -120,7 +120,9 @@ module.exports = function (app) {
                             obj.save(function(err, obj){
                                 var ui = new UserImage({'UserId': request.user._id.toString(), 'ImageId': obj._id.toString()});
                                 ui.save(function (err) {
-                                    galleryInMyRoom(request, response);
+                                    gallery[fields.place](request, function (docs, flag) {
+                                        response.render('gallery', {fls: docs, user: request.user, be: flag, numpage: fields.numpage});
+                                    });
                                 });
 
                             });

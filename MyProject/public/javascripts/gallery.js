@@ -48,7 +48,7 @@ $(document).ready(function () {
     //Конкретная страница с изображениями
     body.on('click', '#pg', function () {
         var pg = parseInt($(this).text());
-            $("#gallery").load("/getGallery", {numpage: pg, place: $("hiddenPlace").data('place')}, function () {
+            $("#gallery").load("/getGallery", {numpage: pg, place: window.location}, function () {
         })
     });
 
@@ -64,7 +64,7 @@ $(document).ready(function () {
             cache: true,
             timeout: 5000,
             success: function (data) {
-                $('#gallery').load('/getGallery', {numpage: 1, place: $("#hiddenPlace").data('place')})
+                $('#gallery').load('/getGallery', {numpage: 1, place: window.location.pathname})
             }
         })
     });
@@ -73,7 +73,7 @@ $(document).ready(function () {
     body.on("click", "#findme", function(){
         $("#gallery").load("/findImages", {
             myfind: $("#srch").val(),
-            place: $("#hiddenPlace").data('place')
+            place: window.location.pathname
         })
     });
 });

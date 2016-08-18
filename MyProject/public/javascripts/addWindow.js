@@ -62,25 +62,29 @@ $(document).ready(function () {
     
     //Обработчик для отправки изображения на сервер
     body.on('click', '#addok', function () {
-        var form = $('#addImageForm');
         if(!document.getElementById('addImageForm').checkValidity())
         {
             $("#addImageForm #dangerMsg").show();
             return;
         }
-        form.ajaxForm();
-        form.ajaxSubmit({
-            url: '/addImg',
-            type: 'POST',
-            success: function (data) {
-                $('#addmodal').modal('hide');
-                $('#gallery').html(data);
+
+        var options = {
+            target: '#gallery',
+            url: '/addImage',
+            type: 'post',
+            data: {
+                place: window.location.pathname,
+                numpage: 1
             },
-            beforeSend: function () {
+            success: function () {
+                $('#addmodal').modal('hide');
+            },
+            beforeSubmit: function () {
                 $("#addImageForm #dangerMsg").hide();
                 $("#addImageForm #successMsg").show();
             }
-        });
+        };
+        $('#addImageForm').ajaxSubmit(options);
     });
 });
 
