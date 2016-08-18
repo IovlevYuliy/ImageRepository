@@ -32,8 +32,8 @@ gallery['/catalog'] = galleryInCatalog;
 
 module.exports = function (app) {
     //Поиск изображения по тегам
-    });
 
+    
     //Получение галереи
     app.post('/getGallery', function (request, response) {
         gallery[request.body.place](request, function (docs, flag) {
