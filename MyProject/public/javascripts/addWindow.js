@@ -1,14 +1,14 @@
 $(document).ready(function () {
 
     var body = $('body');
-    body.on('change', '#radio1', function()
-    {
-        $("#addmodal #radio1").val('private');
-    });
-    body.on('change', '#radio2', function()
-    {
-        $("#addmodal #radio2").val('public');
-    });
+    // body.on('change', '#radio1', function()
+    // {
+    //     $("#addmodal #radio1").val('private');
+    // });
+    // body.on('change', '#radio2', function()
+    // {
+    //     $("#addmodal #radio2").val('public');
+    // });
 
     $('#addmodal #tags').tokenfield({
         limit: 10,

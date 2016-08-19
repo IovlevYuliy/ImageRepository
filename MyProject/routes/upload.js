@@ -10,10 +10,10 @@ var formidable = require('formidable'),
 
 function galleryInMyRoom(request, callback) {
     UserImage.find({'UserId': request.user._id.toString()}, function (err, result) {
-        var arrId = [];
-        result.forEach(function (item, i, arr) {
-            arrId.push(item.ImageId);
-        });
+         var arrId = [];
+         result.forEach(function (item, i, arr) {
+             arrId.push(item.ImageId);
+         });
         Images.find({_id: {$in: arrId}}, function (err, docs) {
             callback(docs, false);
         });
@@ -32,7 +32,14 @@ gallery['/catalog'] = galleryInCatalog;
 
 module.exports = function (app) {
     //Поиск изображения по тегам
-
+    app.post('/findImages', isAuth, function (request, response) {
+        var arr = request.body.myfind.split(', ');
+        gallery[request.body.place](request, function (docs, flag) {
+             Images.find({ tags: {$all: arr}, _id: {$in: docs } }, function (err, documents) {
+                 response.render('gallery', {layout: false, fls: documents, user: request.user, be: flag, numpage: 1});
+             });
+        });
+    });
     
     //Получение галереи
     app.post('/getGallery', function (request, response) {

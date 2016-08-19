@@ -67,7 +67,7 @@ script(type = 'text/javascript').
     })();
 script(type = 'text/javascript').
     $(document).ready(function () {
-        var countpages = Math.ceil(($("#hidden").data('fls').length + 9) / 10);
+        var countpages = Math.ceil(($("#hidden").data('fls').length) / 10);
         for (var i = 1; i <= Math.min(5, countpages); ++i) {
             $(".pagination.pagination-centered").append(function(){
                 return '<li id=' + "li_" + i + '><a id="pg" href="#" name="page">1</a></li>';

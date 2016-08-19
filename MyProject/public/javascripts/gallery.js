@@ -7,7 +7,7 @@ $(document).ready(function () {
 
     //Функция next(следующая страница с изображениями)
     body.on('click', '#next', function () {
-        var countpages = Math.cell(($("#hidden").data('fls').length + 9) / 10);
+        var countpages = Math.ceil(($("#hidden").data('fls').length) / 10);
         if (parseInt($("#li_5").children()[0].text) < countpages) {
             var mas = $("a[name='page']");
             var curpage = $("#hidden").data('pg');
@@ -49,8 +49,7 @@ $(document).ready(function () {
     //Конкретная страница с изображениями
     body.on('click', '#pg', function () {
         var pg = parseInt($(this).text());
-            $("#gallery").load("/getGallery", {numpage: pg, place: window.location}, function () {
-        })
+        $("#gallery").load("/getGallery", {numpage: pg, place: window.location.pathname});
     });
 
     //Удалить изображение из галереи

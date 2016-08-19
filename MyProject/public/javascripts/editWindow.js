@@ -5,14 +5,14 @@ $(document).ready(function () {
         delay: 100
     });
 
-    $("body").on('change', '#radio1', function()
-    {
-        $("#radio1").val('private');
-    });
-    $("body").on('change', '#radio2', function()
-    {
-        $("#radio2").val('public');
-    });
+    // $("body").on('change', '#radio1', function()
+    // {
+    //     $("#radio1").val('private');
+    // });
+    // $("body").on('change', '#radio2', function()
+    // {
+    //     $("#radio2").val('public');
+    // });
 
     //Функция открытия окна редактирования
     $("body").on('click', '#galleryblock #openimage', function () {
