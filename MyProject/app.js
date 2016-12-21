@@ -5,6 +5,8 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var http = require('http');
+var url = require('url');
+var querystring = require('querystring');
 var expressSession = require('express-session');
 var passport = require('passport');
 var dbconfig = require('./db');
@@ -45,6 +47,15 @@ var initPassport = require('./passport/init');
 initPassport(passport);
 
 var isAuthenticated = require('./passport/isAuthenticated');
+
+app.get('/imageEditor', isAuthenticated, function (request, response) {
+    var query = url.parse(request.originalUrl).query;
+    var id = querystring.parse(query)['image'];
+    Images.findOne({_id: id}, function (err, obj) {
+        response.render('imageEditor', {image: obj});
+    });
+
+});
 
 app.get('/home', isAuthenticated, function (req, res) {
     res.render('home',  { user: req.user });
