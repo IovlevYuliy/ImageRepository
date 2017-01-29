@@ -1,34 +1,39 @@
 body
-    table
-        tr
-            input#tagsSearch(type='text', autocomplete='off', placeholder='Поиск', tabindex='0', name='tags', style='width: 250px;')
-            //input#srch.tt(type='text', placeholder='Search', style='width:250px')
-            div.tt
-                input#findme(type = "button", value = "Найти")
-            input#hidden(type='hidden', data-pg = numpage, data-fls = fls)
-        tr
-            .img-container#galleryblock
-                - var mypage = numpage * 10;
-                    -   for (var i = (mypage - 10); i < Math.min(fls.length, mypage); ++i){
-                        .col-md-2.col-md-2.col-md-2.thumb
-                            div.holder
-                                a.fancyimage(rel='group', href='/images/' + fls[i].name)
-                                    img.rt#myimg(src='/images/' + fls[i].name, width='200', height='200')
-                                div.block
-                                    button#openimage.cbutton.cbutton--effect-ivana(data-img=fls[i], data-user=user)
-                                        i.fa.fa-pencil-square-o.fa-2x
-                                    a.cbutton.cbutton--effect-milan(href='/images/' + fls[i].name, download=fls[i].name)
-                                        i.fa.fa-fw.fa-save.fa-2x
-                                    button#removeImage.cbutton.cbutton--effect-tamara(data-imgid=fls[i]._id.toString(), data-imgname=fls[i].name)
-                                        i.fa.fa-fw.fa-trash-o.fa-2x
-                                    if (be)
-                                        button#addtome.cbutton.cbutton--effect-marin(data-imgid=fls[i]._id.toString(), data-userid=user._id.toString())
-                                            i.fa.fa-fw.fa-star-o.fa-2x
-                            a#openWebGl(href='/imageEditor?image=' + fls[i]._id.toString(), data-image=fls[i], target='_blank') Открыть в редакторе
-                    -   }
-        ul.pagination.pagination-centered
-            li
-                a#prev(href='#') «
+            table
+                tr
+                    input#tagsSearch(type='text', autocomplete='off', placeholder='Поиск', tabindex='0', name='tags', style='width: 250px;')
+                    //input#srch.tt(type='text', placeholder='Search', style='width:250px')
+                    div.tt
+                        input#findme(type = "button", value = "Найти")
+                    input#hidden(type='hidden', data-pg = numpage, data-fls = fls)
+                tr
+                    .img-container#galleryblock
+                        .row
+                            - var mypage = numpage * 10;
+                                -   for (var i = (mypage - 10); i < Math.min(fls.length, mypage); ++i){
+                                    .col-md-2.col-md-2.col-md-2.thumb
+                                        div.holder
+                                            a.fancyimage(rel='group', href='/images/' + fls[i].name)
+                                                img.rt#myimg(src='/images/' + fls[i].name, width='200px', height='200px')
+                                            div.block
+                                                    button#openimage.cbutton.cbutton--effect-ivana.fourbuttons(data-img=fls[i], data-user=user)
+                                                        i.fa.fa-pencil-square-o.fa-2x
+                                                    a.cbutton.cbutton--effect-milan(href='/images/' + fls[i].name, download=fls[i].name)
+                                                        i.fa.fa-fw.fa-save.fa-2x
+                                                    button#removeImage.cbutton.cbutton--effect-tamara(data-imgid=fls[i]._id.toString(), data-imgname=fls[i].name)
+                                                        i.fa.fa-fw.fa-trash-o.fa-2x
+                                                    if (be)
+                                                        button#addtome.cbutton.cbutton--effect-marin(data-imgid=fls[i]._id.toString(), data-userid=user._id.toString())
+                                                            i.fa.fa-fw.fa-star-o.fa-2x
+                                -   }
+                    div#pgn
+                        .row
+                            div.col-md-3.col-lg-3
+                            div.col-md-6.col-lg-6.pgn
+                                ul.pagination.pagination-centered
+                                        li
+                                            a#prev(href='#') «
+                            div.col-md-3.col-lg-3
 script(type = 'text/javascript').
     (function () {
         var support = {animations: Modernizr.cssanimations},

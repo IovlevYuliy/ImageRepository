@@ -8,13 +8,14 @@
                 .form-group
                     form#addImageForm(action='/addImg', enctype='multipart/form-data', name = 'myform', method='post', onsubmit = 'return false;')
                         .col-lg-6
+                            select#filesName(multiple, size = '10', hidden='', style='width = 50%')
                             img#image(src='', name = 'image')
-                            label Размер:
+                            label#labelsize Размер:
                             input#sz(type='hidden', name='size')
                             input#wt(type='hidden', name='weight')
                             li#size(style="list-style:none")
                             li#weight(style="list-style:none")
-                            input#openimage.btn-small(type='file', required=true, name='upload', accept="image")
+                            input#openimage.btn-small(type='file', required=true, name='upload', accept="image" multiple="multiple")
                             label Дополнительно
                             input#addinfo.form-control.input-lg(type='text', name='imginfo')
                             #dangerMsg.alert.alert-danger()
@@ -23,7 +24,7 @@
                                 | Изображение успешно добавлено, подождите немного.
                         .row
                             .col-lg-6
-                                label Файл:
+                                label#filename Файл:
                                 input#nmDefault.form-control(type='text', required=true, readonly='')
                                 label Название:
                                 input#newName.form-control(type='text', required=true, name='imgname')

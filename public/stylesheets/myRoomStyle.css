@@ -27,9 +27,16 @@
   position: absolute;
   margin-top: auto;
 }
+.pgn {
+  text-align: center;
+}
 .tokenfield
 {
   display:inline-block;
+}
+.fourbuttons{
+  margin-left: 15%;
+  margin-top: 17%;
 }
 .tt {
   width: 10px;
