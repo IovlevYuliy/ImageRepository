@@ -25,6 +25,7 @@ body
                                                     if (be)
                                                         button#addtome.cbutton.cbutton--effect-marin(data-imgid=fls[i]._id.toString(), data-userid=user._id.toString())
                                                             i.fa.fa-fw.fa-star-o.fa-2x
+                                        a#openWebGl(href='/imageEditor?image=' + fls[i]._id.toString(), data-image=fls[i], target='_blank') Открыть в редакторе
                                 -   }
                     div#pgn
                         .row

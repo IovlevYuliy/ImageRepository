@@ -102,11 +102,11 @@ $(document).ready(function () {
     
     //Обработчик для отправки изображения на сервер
     body.on('click', '#addok', function () {
-        // if(!document.getElementById('addImageForm').checkValidity())
-        // {
-        //     $("#addImageForm #dangerMsg").show();
-        //     return;
-        // }
+        if(!document.getElementById('addImageForm').checkValidity())
+        {
+            $("#addImageForm #dangerMsg").show();
+            return;
+        }
 
         var options = {
             target: '#gallery',
