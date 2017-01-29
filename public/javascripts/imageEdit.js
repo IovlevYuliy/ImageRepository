@@ -1,16 +1,21 @@
-var canvas, ctx, offsetX, offsetY, points, bufer, action='up';
+var canvas, ctx, offsetX, offsetY, points, bufer, action = 'up';
 document.getElementById('closeButton').addEventListener('click', actionClose);
 
+var listOfobject = [];
+var ColorOfobject = [];
 function actionClose() {
     if (points.length > 2)
     {
         ctx.lineTo(points[0][0], points[0][1]);
         ctx.stroke();
         ctx.closePath();
+        points.push(points[0][1]);
+        listOfobject.push(points);
+        ColorOfobject.push(ctx.strokeStyle);
         points = new Array(0);
         printPoints();
         ctx.strokeStyle = getRandomColor();
-        bufer = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        //bufer = ctx.getImageData(0, 0, canvas.width, canvas.height);
     }
     else
         alert("Добавьте точки на изображение!")
@@ -18,7 +23,26 @@ function actionClose() {
 
 function drawMultiLine()
 {
-    for (var i = 0; i < points.length;++i)
+    let tmp = ctx.strokeStyle;
+    listOfobject.forEach(function (obj, j) {
+        ctx.strokeStyle = ColorOfobject[j];
+        for (var i = 0; i < obj.length; ++i)
+        {
+            if (i == 0)
+            {
+                ctx.beginPath();
+                ctx.moveTo(obj[i][0], obj[i][1]);
+            }
+            else
+                ctx.lineTo(obj[i][0], obj[i][1]);
+            ctx.arc(obj[i][0], obj[i][1], 1, 0, 2 * Math.PI, false);
+        }
+        ctx.closePath();
+        ctx.stroke();
+    });
+
+    ctx.strokeStyle = tmp;
+    for (var i = 0; i < points.length; ++i)
     {
         if (i == 0)
         {
@@ -30,11 +54,17 @@ function drawMultiLine()
         ctx.arc(points[i][0], points[i][1], 1, 0, 2 * Math.PI, false);
         ctx.stroke();
     }
-
 }
 
 function removeLastPoint() {
+    if (!points.length && !listOfobject.length)
+        return;
+    if (!points.length) {
+        points = listOfobject.pop();
+        ctx.strokeStyle = ColorOfobject.pop();
+    }
     points.pop();
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.putImageData(bufer, 0, 0);
     drawMultiLine();
     printPoints();
@@ -69,10 +99,8 @@ $(document).on('click', "#myCanvas", function (event) {
         ctx.beginPath();
         ctx.moveTo(x, y);
     }
-    else {
+    else
         ctx.lineTo(x, y);
-        ctx.stroke();
-    }
     ctx.arc(x, y, 1, 0, 2 * Math.PI, false);
     ctx.stroke();
     printPoints();
