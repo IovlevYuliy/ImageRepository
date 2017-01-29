@@ -1,0 +1,94 @@
+* {
+    margin: 0;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -o-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.container.one {
+    font-weight: bold;
+    padding: 0%;
+    margin: 1% auto;
+    width: 75%;
+}
+
+.profileinput {
+    margin: 1%;
+    padding: 0.4%;
+    width: 30%;
+    display: inline-block;
+}
+
+label {
+    width: 6.5em;
+    position: relative;
+}
+.title{
+    margin-left: 5%;
+    color: #018D09;
+}
+input ~ span::after {
+    content: '';
+    padding-left: 5px;
+    vertical-align: middle;
+}
+
+/* Раскрашиваем input в фокусе */
+input:focus ~ span::after,
+input:focus:valid ~ span::after,
+input:focus:invalid ~ span::after {
+    content: '';
+}
+
+/* Раскрашиваем корректные input  */
+input:valid ~ span::after {
+    content: '✓';
+    color: #4E9B5A;
+}
+
+/* Раскрашиваем ошибочные input */
+input:invalid ~ span::after {
+    content: '×';
+    color: #B11117;
+}
+
+.container.two {
+    padding: 0% 0 1% 12%;
+    margin: 1% auto;
+    width: 75%;
+}
+
+button {
+    color: #fff;
+    background-color: #029E0A;
+    -webkit- border-radius: 25px;
+    -moz-border-radius: 25px;
+    -o-border-radius: 25px;
+    border-radius: 25px;
+    border: none;
+    padding: 0.8% 3%;
+    /*-webkit-background: linear-gradient(#018D09, #0BE100);*/
+    /*-moz-background: linear-gradient(#018D09, #0BE100);*/
+    /*-o-background: linear-gradient(#018D09, #0BE100);*/
+    /*background: linear-gradient(#018D09, #0BE100);*/
+    position: relative;
+    overflow: hidden;
+}
+
+button.profilebutton::before  {
+    position: absolute;
+    content: '';
+    height: 50%;
+    width: 96%;
+    left: 2%;
+    top: 0.9px;
+    -webkit-background: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.4));
+    -moz-background: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.4));
+    -o-background: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.4));
+    background: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.4));
+    -webkit- border-radius: 25px;
+    -moz-border-radius: 25px;
+    -o-border-radius: 25px;
+    border-radius: 25px;
+}

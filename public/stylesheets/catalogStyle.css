@@ -1,0 +1,55 @@
+.thumb img {
+    filter: none; /* IE6-9 */
+    -webkit-filter: grayscale(0);
+    border-radius: 10px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 5px;
+}
+
+.thumb {
+    padding: 5px;
+}
+.qq {
+    padding: 15px;
+    margin-left: 20px;
+    font-size: small;
+}
+.mrg {
+    margin-top: 4%;
+}
+.tokenfield
+{
+    display:inline-block;
+}
+.tt {
+    width: 10px;
+    display:inline-block;
+}
+.tt input
+{
+    margin-left: 75%;
+    width: 70px;
+    height: auto;
+}
+
+.holder {
+    position: relative;
+    width: 200px;
+    height: 200px;
+}
+
+.block {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    top: 0;
+    background: rgba(255, 255, 255, 0.7);
+    padding: 5px;
+    display: none;
+}
+
+.holder:hover .block {
+    display: block;
+}

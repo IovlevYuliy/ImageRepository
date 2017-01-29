@@ -1,0 +1,102 @@
+  doctype html
+html
+  head
+    meta(http-equiv='content-type', content='application/xhtml+xml; charset=UTF-8')
+    meta(http-equiv='X-UA-Compatible', content='chrome=1')
+    link(rel='stylesheet', href='/stylesheets/bootstrap.min.css')
+    link(rel='stylesheet', href='/stylesheets/bootstrap-theme.min.css')
+    link(rel='stylesheet', href='/stylesheets/jquery.fancybox.css', type='text/css', media='screen')
+    block styles
+    title ImageRepository
+  body
+    nav.navbar.navbar-inverse.navbar-fixed-top
+      .container
+        .navbar-header
+          button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#navbar', aria-expanded='false', aria-controls='navbar')
+            span.sr-only Toggle navigation
+            span.icon-bar A
+            span.icon-bar B
+            span.icon-bar C
+          a.navbar-brand(href='/index') Мое приложение
+        #navbar.navbar-collapse.collapse
+
+          form.navbar-form.navbar-right(action='/login', method='post')
+            .form-group
+              input.form-control(type='text', name = 'username', placeholder='Логин', required, autofocus)
+            .form-group
+              input.form-control(type='password', name = 'password', placeholder='Пароль', required)
+            button.btn.btn-success(type='submit') Войти
+            a.btn.btn-primary.btn-small(role='button', data-toggle='modal', data-target='#register') Регистрация
+
+  #register.modal.fade(role='dialog')
+    .modal-dialog(style='width:800px;height:700px')
+      .modal-content
+        .modal-header
+          button.close(type='button', data-dismiss='modal') ×
+          h4.modal-title Регистрация
+        .modal-body
+          form.form-horizontal(action='/signup', method='post')
+            .form-group
+              label.control-label.col-xs-3(for='username') Логин:
+              .col-xs-9
+                input#username.form-control(type='text', name='username', placeholder='Введите логин', maxlength='20', pattern = '^[а-яА-ЯёЁa-zA-Z0-9]{2,}$', required='true',
+                oninvalid="setCustomValidity('Логин должен содержать только буквы и цифры и иметь длину от 2 до 20 символов')",
+                onchange="try{setCustomValidity('')}catch(e){}" )
+            .form-group
+              label.control-label.col-xs-3(for='lastName') Фамилия:
+              .col-xs-9
+                input#lastName.form-control(type='text', name='lastName', placeholder='Введите фамилию', maxlength = '20', pattern='^[а-яА-ЯёЁa-zA-Z]{1,}$', required='true',
+                oninvalid="setCustomValidity('Фамилия должна содержать только буквы')",
+                onchange="try{setCustomValidity('')}catch(e){}")
+            .form-group
+              label.control-label.col-xs-3(for='firstName') Имя:
+              .col-xs-9
+                input#firstName.form-control(type='text', name='firstName', placeholder='Введите имя', maxlength = '20', pattern='^[A-Za-zА-Яа-яЁё]{1,}$', required='true',
+                oninvalid="setCustomValidity('Имя должно содержать только буквы')",
+                onchange="try{setCustomValidity('')}catch(e){}")
+            .form-group
+              label.control-label.col-xs-3(for='inputEmail') Email:
+              .col-xs-9
+                input#inputEmail.form-control(type='email',  name='email', placeholder='Email', maxlength="20", required='true')
+            .form-group
+              label.control-label.col-xs-3(for='inputPassword') Пароль:
+              .col-xs-9
+                input#inputPassword.form-control(type='password', name='password', maxlength = '20', pattern='^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\\s).*$', placeholder='Введите пароль', required='true',
+                oninvalid="setCustomValidity('Пароль должен содержать хотя бы одну цифру и символы из верхнего и нижнего регистра')")
+            .form-group
+              label.control-label.col-xs-3(for='confirmPassword') Подтвердите пароль:
+              .col-xs-9
+                input#confirmPassword.form-control(type='password', name='confirmpassword', placeholder='Введите пароль ещё раз')
+            .modal-footer
+              .form-group
+                .col-xs-offset-3.col-xs-9
+                  input.btn.btn-primary(type='submit', value='Регистрация')
+                  input.btn.btn-default(type='reset', value='Очистить форму')
+  block content
+
+script(src='../javascripts/jquery-1.11.2.min.js')
+script(src='../javascripts/jquery.fancybox.pack.js')
+script(src='../javascripts/modal.js')
+script(src='../javascripts/bootstrap.min.js')
+script(type = 'text/javascript').
+  window.onload = function () {
+    document.getElementById('inputPassword').onchange = validateInputPassword;
+    document.getElementById('confirmPassword').onchange = validateConfirmPassword;
+
+  }
+  function  validateInputPassword()
+  {
+    try{this.setCustomValidity('')}catch(e){}
+    validateConfirmPassword();
+  }
+  function validateConfirmPassword() {
+    var pass2 = document.getElementById("inputPassword").value;
+    var pass1 = document.getElementById("confirmPassword").value;
+    if (pass1 != pass2)
+      document.getElementById("confirmPassword").setCustomValidity("Пароли не совпадают");
+    else {
+      document.getElementById("confirmPassword").setCustomValidity('');
+    }// пустая строка означает отсутствие ошибок
+  }
+block scripts
+

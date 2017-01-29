@@ -1,0 +1,36 @@
+extends layoutAuthorized
+
+block styles
+    link(rel='stylesheet', href='/stylesheets/jasny-bootstrap.min.css', type='text/css', media='screen')
+    link( href="/stylesheets/font-awesome.min.css" type="text/css" rel="stylesheet")
+    link( href="/stylesheets/component.css" type="text/css" rel="stylesheet")
+    link( href="/stylesheets/myRoomStyle.css" type="text/css" rel="stylesheet")
+    link( href="/stylesheets/profile.css" type="text/css" rel="stylesheet")
+block nav
+    nav.navmenu.navmenu-default.navmenu-fixed-left(role='navigation')
+        a.navmenu-brand(href='#') Личный кабинет
+        ul.nav.navmenu-nav
+            li.active
+                a#profile(href='#') Профиль
+            li
+                a#myImage(href='#') Мои изображения
+            li
+                button#addImage.btn.btn-default(type='button') Загрузить изображение
+                input#hiddenPlace(type='hidden', data-place='myRoom')
+
+block content
+    div#gallery.mrg
+        h1 Hello! #{user.username}
+
+    include /views/editWindow
+    include /views/addWindow
+block scripts
+    script(src='../javascripts/jasny-bootstrap.min.js')
+    script(src='../javascripts/jquery.form.js')
+    script(src='../javascripts/bootstrap-tokenfield.js')
+    script(src='../javascripts/classie.js')
+    script(src='../javascripts/modernizr.custom.js')
+    script(src='../javascripts/myRoom.js')
+    script(src='../javascripts/addWindow.js')
+    script(src='../javascripts/editWindow.js')
+    script(src='../javascripts/gallery.js')

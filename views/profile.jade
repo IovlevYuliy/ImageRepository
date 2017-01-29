@@ -1,0 +1,35 @@
+div(style='margin-top: 100px')
+    html(lang='ru')
+        head
+            meta(charset='utf-8')
+            meta(http-equiv='x-ua-compatible', content='ie-edge')
+            meta(name='viewport', content='width=device-width, initial-scale=1')
+        body
+            form(action='/profile', method='post')
+                div
+                    h3.title Редактировать профиль #{user.username}
+                section.container.one
+                    p
+                        label(for='user_name') Имя
+                        input.profileinput(type='text', name='firstName', value = user.firstName, pattern='^[A-Za-zА-Яа-яЁё]{1,}$')
+                        span
+                    p
+                        label(for='user_surname') Фамилия
+                        input.profileinput(type='text', name='lastName', value = user.lastName, pattern='^[а-яА-ЯёЁa-zA-Z]{1,}$')
+                        span
+                    p
+                        label(for='email') Эл. почта
+                        input.profileinput(type='email', name='email', value = user.email)
+                        span
+                    p
+                        label(for='password') Пароль
+                        input.profileinput(type='password', name='password', value = user.password, pattern='^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\\s).*$')
+                        span
+                    p
+                        label(for='password') Повторите пароль
+                        input.profileinput(type='password', name='password', value = user.password, pattern='^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\\s).*$')
+                        span
+
+                section.container.two
+                    button.profilebutton(type='submit') Сохранить изменения
+

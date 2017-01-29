@@ -1,0 +1,83 @@
+.thumb img {
+  filter: none; /* IE6-9 */
+  -webkit-filter: grayscale(0);
+  border-radius: 10px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  padding: 5px;
+}
+
+.thumb {
+  margin-left: 2%;
+  margin-top: 1%;
+}
+
+.qq {
+  padding: 15px;
+  margin-left: 20px;
+  font-size: small;
+}
+
+.mrg {
+  margin-top: 4%;
+  margin-left: 15%;
+  position: relative;
+}
+.mrg pagination {
+  position: absolute;
+  margin-top: auto;
+}
+.tokenfield
+{
+  display:inline-block;
+}
+.tt {
+  width: 10px;
+  display:inline-block;
+}
+.tt input
+{
+  margin-left: 70%;
+  width: 70px;
+  height: auto;
+}
+.navmenu {
+  padding-top: 50px;
+  width: 200px;
+}
+
+.holder {
+  position: relative;
+  width: 200px;
+  height: 200px;
+}
+
+.pages {
+  margin-top: 40%;
+  margin-left: 20%;
+}
+
+.pagelist {
+  margin-left: 40%;
+  margin-top: auto;
+}
+
+.block {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  top: 0;
+  background: rgba(255, 255, 255, 0.7);
+  padding: 5px;
+  display: none;
+}
+
+.holder:hover .block {
+  display: block;
+}
+
+.next {
+  margin-top: 20%;
+  margin-right: 40%;
+}
