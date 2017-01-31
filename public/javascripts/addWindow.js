@@ -15,7 +15,7 @@ $(document).ready(function () {
         delay: 100
     });
 
-    function    OneLoadFunc(fileinput)
+    function OneLoadFunc(fileinput)
     {
         var reader = new FileReader();
         reader.onload = (function (aImg) {
@@ -43,7 +43,7 @@ $(document).ready(function () {
         a.attr('readonly', true);
     }
 
-    function  MultiLoadFunc(fileinput) {
+    function MultiLoadFunc(fileinput) {
 
         var reader = new FileReader();
         reader.readAsDataURL(fileinput.files[0]);

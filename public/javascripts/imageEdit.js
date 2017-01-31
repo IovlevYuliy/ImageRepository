@@ -3,6 +3,7 @@ document.getElementById('closeButton').addEventListener('click', actionClose);
 
 var listOfobject = [];
 var ColorOfobject = [];
+var toolBox;
 function actionClose() {
     if (points.length > 2)
     {
@@ -14,7 +15,7 @@ function actionClose() {
         ColorOfobject.push(ctx.strokeStyle);
         points = new Array(0);
         printPoints();
-        ctx.strokeStyle = getRandomColor();
+        ctx.strokeStyle = toolBox.getSelectedColor();
         //bufer = ctx.getImageData(0, 0, canvas.width, canvas.height);
     }
     else
@@ -116,7 +117,10 @@ function printPoints()
 
 function initcnvs() {
     ctx.lineWidth = 3;
-    ctx.strokeStyle = getRandomColor();
     points = new Array(0);
     bufer = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    toolBox = new MagicToolBox (
+        ['red', 'yellow', 'green', 'cyan', 'blue', 'magenta', 'orange']
+    );
+    ctx.strokeStyle = toolBox.getSelectedColor();
 }
