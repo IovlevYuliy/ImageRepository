@@ -32,9 +32,52 @@ body
                             div.col-md-3.col-lg-3
                             div.col-md-6.col-lg-6.pgn
                                 ul.pagination.pagination-centered
-                                        li
-                                            a#prev(href='#') «
+                                        //li
+                                        //    a#prev(href='#') «
+
                             div.col-md-3.col-lg-3
+
+script(type = 'text/javascript').
+    $(document).ready(function () {
+        var countpages = Math.ceil(($("#hidden").data('fls').length) / 10);
+
+        if (countpages)
+        {
+            $(".pagination.pagination-centered").append(function () {
+                return '<li><a id="prev" href="#">«</a></li>';
+            })
+
+            //рассчитываем и отображением нужное кол-во страниц
+            for (var i = 1; i <= Math.min(5, countpages); ++i) {
+                $(".pagination.pagination-centered").append(function(){
+                    return '<li id=' + "li_" + i + '><a id="pg" href="#" name="page">1</a></li>';
+                })
+            }
+
+            $(".pagination.pagination-centered").append(function () {
+                return '<li><a id="next" href="#">»</a></li>';
+            })
+
+            var mas = $("a[name='page']");
+            var curpage = parseInt($("#hidden").data('pg'));
+            var firstpage = ((curpage - 1) / 5 >> 0) * 5;
+            mas.each(function (i, obj) {
+               $(obj).text(++firstpage);
+            });
+            var num = curpage % 5;
+            if (!num)
+                num = 5;
+            $("ul.pagination.li.active").removeClass('active');
+            $("#li_" + num).addClass('active');
+        }
+
+        $('#tagsSearch').tokenfield({
+            limit: 10,
+            delay: 100
+        });
+        $("#tagsSearch-tokenfield").parent().css("marginLeft", "70%");
+    });
+
 script(type = 'text/javascript').
     (function () {
         var support = {animations: Modernizr.cssanimations},
@@ -72,33 +115,3 @@ script(type = 'text/javascript').
             });
         });
     })();
-script(type = 'text/javascript').
-    $(document).ready(function () {
-        var countpages = Math.ceil(($("#hidden").data('fls').length) / 10);
-        for (var i = 1; i <= Math.min(5, countpages); ++i) {
-            $(".pagination.pagination-centered").append(function(){
-                return '<li id=' + "li_" + i + '><a id="pg" href="#" name="page">1</a></li>';
-            })
-        }
-        $(".pagination.pagination-centered").append(function () {
-            return '<li><a id="next" href="#">»</a></li>';
-        })
-        var mas = $("a[name='page']");
-        var curpage = parseInt($("#hidden").data('pg'));
-        var firstpage = ((curpage - 1) / 5 >> 0) * 5;
-        mas.each(function (i, obj) {
-           $(obj).text(++firstpage);
-        });
-        var num = curpage % 5;
-        if (!num)
-            num = 5;
-        $("li.active").removeClass('active');
-        $("#li_" + num).addClass('active');
-
-
-        $('#tagsSearch').tokenfield({
-            limit: 10,
-            delay: 100
-        });
-        $("#tagsSearch-tokenfield").parent().css("marginLeft", "70%");
-    });

@@ -1,22 +1,35 @@
 $(document).ready(function () {
 
     var body = $('body');
-    // body.on('change', '#radio1', function()
-    // {
-    //     $("#addmodal #radio1").val('private');
-    // });
-    // body.on('change', '#radio2', function()
-    // {
-    //     $("#addmodal #radio2").val('public');
-    // });
 
     $('#addmodal #tags').tokenfield({
         limit: 10,
         delay: 100
     });
 
+    var listOfFiles = [], SelectfileSizes = [];
+
+    var Selectfiles;
+    $('input[type=file]').change(function(){
+        Selectfiles = this.files;
+    });
+
     function    OneLoadFunc(fileinput)
     {
+        $("#addmodal #filesName").hide();
+        $("#addmodal #image").show();
+        $("#addmodal #labelsize").show();
+        $("#addmodal #sz").show();
+        $("#addmodal #wt").show();
+        $("#addmodal #size").show();
+        $("#addmodal #weight").show();
+        $("#addmodal #filename").show();
+        $("#addmodal #nmDefault").show();
+        $("#addmodal #weight").show();
+        $("#addmodal #newfilename").show();
+        $("#addmodal #newName").show();
+        $("#addmodal #labelsize").show();
+
         var reader = new FileReader();
         reader.onload = (function (aImg) {
             return function (e) {
@@ -27,38 +40,22 @@ $(document).ready(function () {
                     .css({ width: "", height: "" });
                 aImg.attr('src', e.target.result);
                 $("#addmodal #size").text(img.width() + 'x' + img.height());
-                $("#addmodal #sz").val(img.width() + 'x' + img.height());
+                SelectfileSizes.push((img.width() + 'x' + img.height()).toString());
                 aImg.attr('width', '100%');
                 aImg.attr('height', '100%');
             };
         })(img);
         reader.readAsDataURL(fileinput.files[0]);
-        var str = input.val();
 
         $("#addmodal #newName").val(fileinput.files[0].name);
         $("#addmodal #weight").text(fileinput.files[0].size + ' байт');
         $("#addmodal #wt").val(fileinput.files[0].size);
-        var a = $("#addmodal #nmDefault");
-        a.val(fileinput.files[0].name);
-        a.attr('readonly', true);
+        $("#addmodal #nmDefault").val(fileinput.files[0].name);
     }
 
     function  MultiLoadFunc(fileinput) {
-
-        var reader = new FileReader();
-        reader.readAsDataURL(fileinput.files[0]);
-        var str = input.val();
-        var HtmlString = "";
-        var x = document.getElementById("filesName");
-        for (var i = 0; i < fileinput.files.length; i++) {
-            var option = document.createElement("option");
-            option.text = (i + 1).toString() + '. ' +  fileinput.files[i].name;
-            x.add(option);
-            // $("#addmodal #files").val($("#addmodal #files").value + fileinput.files[i].name.toString() + "    ");
-        }
         $("#addmodal #filesName").show();
         $("#addmodal #image").hide();
-        $("#addmodal #labelsize").hide();
         $("#addmodal #sz").hide();
         $("#addmodal #wt").hide();
         $("#addmodal #size").hide();
@@ -66,7 +63,30 @@ $(document).ready(function () {
         $("#addmodal #filename").hide();
         $("#addmodal #nmDefault").hide();
         $("#addmodal #weight").hide();
+        $("#addmodal #newfilename").hide();
+        $("#addmodal #newName").hide();
+        $("#addmodal #labelsize").hide();
 
+        var listFileNames = document.getElementById("filesName");
+        for (var i = 0; i < fileinput.files.length; i++) {
+            var option = document.createElement("option");
+            option.text = (i + 1).toString() + '. ' + fileinput.files[i].name;
+            listFileNames.add(option);
+
+            var reader = new FileReader();
+            reader.onload = (function (aImg) {
+                return function (e) {
+                    $(aImg).removeAttr("width")
+                        .removeAttr("height")
+                        .css({ width: "", height: "" });
+                    aImg.attr('src', e.target.result);
+                    SelectfileSizes.push((img.width() + 'x' + img.height()).toString());
+                    aImg.attr('width', '100%');
+                    aImg.attr('height', '100%');
+                };
+            })(img);
+            reader.readAsDataURL(fileinput.files[i]);
+        }
     }
 
     //Отображение миниатюры изображения
@@ -74,13 +94,13 @@ $(document).ready(function () {
     var input = $('#addmodal #openimage');
     input.bind({
         change: function() {
+            SelectfileSizes.length = 0;
             if (this.files.length > 1) {
                 MultiLoadFunc(this);
             }
             else {
                 OneLoadFunc(this);
             }
-
         }
     });
 
@@ -93,7 +113,7 @@ $(document).ready(function () {
         $("#addmodal #weight").attr('style', 'list-style:none');
         $("#addmodal #size").text("");
         $("#addmodal #weight").text("");
-
+        $("#addmodal #labelsize").hide();
         $("#addmodal #filesName").text("");
         $("#addmodal #filesName").hide();
         $("#addmodal #tags").tokenfield('setTokens', ' ');
@@ -102,29 +122,36 @@ $(document).ready(function () {
     
     //Обработчик для отправки изображения на сервер
     body.on('click', '#addok', function () {
-        if(!document.getElementById('addImageForm').checkValidity())
-        {
-            $("#addImageForm #dangerMsg").show();
-            return;
+        // if(!document.getElementById('addImageForm').checkValidity())
+        // {
+        //     $("#addImageForm #dangerMsg").show();
+        //     return;
+        // }
+        var data = new FormData(document.forms[2]);
+
+        for (var i = 0; i < Selectfiles.length; ++i) {
+            data.append(Selectfiles[i].name, Selectfiles[i]);
+            data.append(Selectfiles[i].name + '_size', SelectfileSizes[i]);
         }
 
-        var options = {
-            target: '#gallery',
-            url: '/addImage',
+        data.append('place', window.location.pathname);
+        data.append('numpage', 1);
+
+        $.ajax({
+            url : "/addImage",
             type: 'post',
-            data: {
-                place: window.location.pathname,
-                numpage: 1
-            },
-            success: function () {
+            processData: false,
+            contentType: false,
+            data: data,
+            success: function (data) {
                 $('#addmodal').modal('hide');
+                $("#gallery").html(data);
             },
             beforeSubmit: function () {
-                $("#addImageForm #dangerMsg").hide();
-                $("#addImageForm #successMsg").show();
+                $("#addmodal #dangerMsg").hide();
+                $("#addmodal #successMsg").show();
             }
-        };
-        $('#addImageForm').ajaxSubmit(options);
+        });
     });
 });
 

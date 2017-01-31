@@ -28,7 +28,7 @@ app.use(expressSession({
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 app.set('port', process.env.PORT || 3000);
-app.locals.basedir = 'D:/HardWork/ImageRepository/MyProject/';
+app.locals.basedir = 'D:/Diploma/ImageRepository/';
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));

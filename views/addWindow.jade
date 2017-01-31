@@ -15,7 +15,7 @@
                             input#wt(type='hidden', name='weight')
                             li#size(style="list-style:none")
                             li#weight(style="list-style:none")
-                            input#openimage.btn-small(type='file', required=true, name='upload', accept="image" multiple="multiple")
+                            input#openimage.btn-small(type='file', required=true, accept="image" multiple="multiple")
                             label Дополнительно
                             input#addinfo.form-control.input-lg(type='text', name='imginfo')
                             #dangerMsg.alert.alert-danger()
@@ -26,7 +26,7 @@
                             .col-lg-6
                                 label#filename Файл:
                                 input#nmDefault.form-control(type='text', required=true, readonly='')
-                                label Название:
+                                label#newfilename Название:
                                 input#newName.form-control(type='text', required=true, name='imgname')
                                 label Теги(Группы):
                                 input#tags.token-input(type='text', required=true, autocomplete='off', placeholder='Введите теги', tabindex='0', name='tags', style='width: 370px;')
