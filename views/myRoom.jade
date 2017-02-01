@@ -9,13 +9,13 @@ block styles
 block nav
     nav.navmenu.navmenu-default.navmenu-fixed-left(role='navigation')
         a.navmenu-brand(href='#') Личный кабинет
-        ul.nav.navmenu-nav
+        ul#leftMenu.nav.navmenu-nav
             li#liProfile.active
                 a#profile(href='#') Профиль
             li#liMyImage
                 a#myImage(href='#') Мои изображения
-            li
-                button#addImage.btn.btn-default(type='button') Загрузить изображение
+            li#liAddImage
+                a#addImage(href='#') Загрузить изображение
                 input#hiddenPlace(type='hidden', data-place='myRoom')
 
 block content

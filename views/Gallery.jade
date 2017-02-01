@@ -1,8 +1,7 @@
 body
             table
                 tr
-                    input#tagsSearch(type='text', autocomplete='off', placeholder='Поиск', tabindex='0', name='tags', style='width: 250px;')
-                    //input#srch.tt(type='text', placeholder='Search', style='width:250px')
+                    input#tagsSearch(type='text', autocomplete='off', placeholder='Введите тег и нажмите Enter', tabindex='0', name='tags', style='width: 250px;')
                     div.tt
                         input#findme(type = "button", value = "Найти")
                     input#hidden(type='hidden', data-pg = numpage, data-fls = fls)
@@ -14,7 +13,7 @@ body
                                     .col-md-2.col-md-2.col-md-2.thumb
                                         div.holder
                                             a.fancyimage(rel='group', href='/images/' + fls[i].name)
-                                                img.rt#myimg(src='/images/' + fls[i].name, width='200px', height='200px')
+                                                img.rt#myimg(src='/images/' + fls[i].name, width='200px', height='200px', )
                                             div.block
                                                     button#openimage.cbutton.cbutton--effect-ivana.fourbuttons(data-img=fls[i], data-user=user)
                                                         i.fa.fa-pencil-square-o.fa-2x
@@ -25,7 +24,8 @@ body
                                                     if (be)
                                                         button#addtome.cbutton.cbutton--effect-marin(data-imgid=fls[i]._id.toString(), data-userid=user._id.toString())
                                                             i.fa.fa-fw.fa-star-o.fa-2x
-                                        a#openWebGl(href='/imageEditor?image=' + fls[i]._id.toString(), data-image=fls[i], target='_blank') Открыть в редакторе
+                                        div(align='center')
+                                            a#openWebGl(href='/imageEditor?image=' + fls[i]._id.toString(), data-image=fls[i], target='_blank') Открыть в редакторе
                                 -   }
                     div#pgn
                         .row
@@ -69,6 +69,7 @@ script(type = 'text/javascript').
                 num = 5;
             $("ul.pagination.li.active").removeClass('active');
             $("#li_" + num).addClass('active');
+            //$("#hidden").data('pg', num);
         }
 
         $('#tagsSearch').tokenfield({

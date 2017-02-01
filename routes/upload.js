@@ -67,8 +67,8 @@ module.exports = function (app) {
 
     //Изменение данных о изображении в БД
     app.post('/saveChanges', isAuth, function (request, response) {
-        fs.rename('D:/Diploma/ImageRepository/public/images/' + request.body.oldname,
-            'D:/Diploma/ImageRepository/public/images/' + request.body.imgname);
+        fs.rename(app.locals.basedir + 'public/images/' + request.body.oldname,
+            app.locals.basedir + 'public/images/' + request.body.imgname);
 
         Images.findOne({_id: request.body.id}, function (err, obj) {
             obj.access = request.body.optradio; 
@@ -97,54 +97,70 @@ module.exports = function (app) {
     app.get('/catalog', isAuth, function (req, res) {
        res.render('catalog', {user:req.user});
     });
+
+    function SaveImage(obj, request, files, callback)
+    {
+        obj.save(function (err, obj) {
+            var ui = new UserImage({
+                'UserId': request.user._id.toString(),
+                'ImageId': obj._id.toString()
+            });
+            ui.save(function (err) {
+                callback();
+            });
+        });
+    }
+
+    function CreateFile(newPath, data, file, fields, request, files, fileSize, callback) {
+        fs.writeFile(newPath, data, function (err) {
+            Images.findOne({name: file.name}, function (err, objj) {
+                if (!objj) {
+                    var obj = new Images({
+                        'name': file.name,
+                        'addinfo': fields.imginfo,
+                        'description': fields.imgdesc,
+                        'access': fields.optradio,
+                        'user': request.user.username,
+                        'size': fields[fileSize],
+                        'weight': file.size
+                    });
+
+                    if (Object.keys(files).length == 1)
+                        obj.name = fields.imgname;
+
+                    var mas = fields.tags.split(', ');
+                    mas.forEach(function (item, i, arr) {
+                        obj.tags.push(item);
+                    });
+
+                    SaveImage(obj, request, files, function(){
+                        callback();
+                    });
+                }
+                else {
+                    callback();
+                }
+            });
+        });
+    }
     function AddImages(request, fields, files, callback) {
-        var cnt = 0;
+        var cntAllFiles = 0;
         for(var property in files){
             (function () {
                 var file = files[property];
+                var fileSize = property +'_size';
 
                 fs.readFile(file.path, function (err, data) {
 
                     if (Object.keys(files).length == 1)
-                        newPath = "D:/Diploma/ImageRepository/public/images/" + fields.imgname;
+                        newPath = app.locals.basedir + 'public/images/' + fields.imgname;
                     else
-                        newPath = "D:/Diploma/ImageRepository/public/images/" + file.name;
+                        newPath = app.locals.basedir + 'public/images/' + file.name;
 
-                    fs.writeFile(newPath, data, function (err) {
-                        Images.findOne({name: file.name}, function (err, objj) {
-
-                            if (!objj) {
-                                var obj = new Images({
-                                    'name': file.name,
-                                    'addinfo': fields.imginfo,
-                                    'description': fields.imgdesc,
-                                    'access': fields.optradio,
-                                    'user': request.user.username,
-                                    'size': fields[file.name + '_size'],
-                                    'weight': file.size
-                                });
-
-                                if (Object.keys(files).length == 1)
-                                    obj.name = fields.imgname;
-
-                                var mas = fields.tags.split(', ');
-                                mas.forEach(function (item, i, arr) {
-                                    obj.tags.push(item);
-                                });
-
-                                obj.save(function (err, obj) {
-                                    var ui = new UserImage({
-                                        'UserId': request.user._id.toString(),
-                                        'ImageId': obj._id.toString()
-                                    });
-                                    ui.save(function (err) {
-                                        cnt++;
-                                        if (cnt == Object.keys(files).length)
-                                            callback();
-                                    });
-                                });
-                            }
-                        })
+                    CreateFile(newPath, data, file, fields, request, files, fileSize, function(){
+                        cntAllFiles++;
+                        if (cntAllFiles == Object.keys(files).length)
+                            callback();
                     });
                 });
             })();
@@ -170,7 +186,7 @@ module.exports = function (app) {
     //Удаление изображения из БД
     app.post('/removeImage', function (req, res) {
         Images.remove({_id: req.body.imageId},function (err) {
-            fs.unlink('D:/Diploma/ImageRepository/public/images/' + req.body.imageName, function (err) {
+            fs.unlink(app.locals.basedir + 'public/images/' + req.body.imageName, function (err) {
                 if(err)
                     console.log(err);
                 res.send("OK");

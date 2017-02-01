@@ -19,17 +19,16 @@ $(document).ready(function () {
         $("#addmodal #filesName").hide();
         $("#addmodal #image").show();
         $("#addmodal #labelsize").show();
-        $("#addmodal #sz").show();
-        $("#addmodal #wt").show();
         $("#addmodal #size").show();
         $("#addmodal #weight").show();
-        $("#addmodal #filename").show();
+        $("#addmodal #fileNameLabel").show();
         $("#addmodal #nmDefault").show();
         $("#addmodal #weight").show();
-        $("#addmodal #newfilename").show();
+        $("#addmodal #newFileNamelLabel").show();
         $("#addmodal #newName").show();
         $("#addmodal #labelsize").show();
 
+        $("#addmodal #filesName").hide();
         var reader = new FileReader();
         reader.onload = (function (aImg) {
             return function (e) {
@@ -55,15 +54,14 @@ $(document).ready(function () {
 
     function  MultiLoadFunc(fileinput) {
         $("#addmodal #filesName").show();
+        $("#addmodal #filesName").text("");
         $("#addmodal #image").hide();
-        $("#addmodal #sz").hide();
-        $("#addmodal #wt").hide();
         $("#addmodal #size").hide();
         $("#addmodal #weight").hide();
-        $("#addmodal #filename").hide();
+        $("#addmodal #fileNameLabel").hide();
         $("#addmodal #nmDefault").hide();
         $("#addmodal #weight").hide();
-        $("#addmodal #newfilename").hide();
+        $("#addmodal #newFileNamelLabel").hide();
         $("#addmodal #newName").hide();
         $("#addmodal #labelsize").hide();
 
@@ -109,14 +107,21 @@ $(document).ready(function () {
         $(".alert").hide();
         document.myform.reset();
         document.myform.image.src = '';
+
         $("#addmodal #size").attr('style', 'list-style:none');
         $("#addmodal #weight").attr('style', 'list-style:none');
         $("#addmodal #size").text("");
         $("#addmodal #weight").text("");
         $("#addmodal #labelsize").hide();
-        $("#addmodal #filesName").text("");
+        $("#addmodal #fileNameLabel").show();
+        $("#addmodal #nmDefault").show();
+        $("#addmodal #newFileNamelLabel").show();
+        $("#addmodal #newName").show();
         $("#addmodal #filesName").hide();
+        $("#addmodal #image").hide();
+
         $("#addmodal #tags").tokenfield('setTokens', ' ');
+
         $('#addmodal').modal('show');
     });
     
@@ -130,8 +135,8 @@ $(document).ready(function () {
         var data = new FormData(document.forms[2]);
 
         for (var i = 0; i < Selectfiles.length; ++i) {
-            data.append(Selectfiles[i].name, Selectfiles[i]);
-            data.append(Selectfiles[i].name + '_size', SelectfileSizes[i]);
+            data.append(Selectfiles[i].name + i, Selectfiles[i]);
+            data.append(Selectfiles[i].name + i + '_size', SelectfileSizes[i]);
         }
 
         data.append('place', window.location.pathname);
@@ -145,6 +150,9 @@ $(document).ready(function () {
             data: data,
             success: function (data) {
                 $('#addmodal').modal('hide');
+                $('#leftMenu li.active').removeClass('active');
+                $("#liMyImage").addClass('active');
+                
                 $("#gallery").html(data);
             },
             beforeSubmit: function () {
