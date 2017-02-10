@@ -78,7 +78,6 @@ var MagicToolBox = (function() {
                 'continuous': true,
                 'eraser': true
             });
-
         /**
         * Fired when user starts change slider value
         * Workaround for mouseup error

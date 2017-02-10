@@ -1,10 +1,11 @@
 var canvas, ctx, offsetX, offsetY, points, bufer, action = 'up';
-document.getElementById('closeButton').addEventListener('click', actionClose);
+document.getElementById('close-button').addEventListener('click', actionClose);
 
 var listOfobject = [];
 var BorderColor = [];
 var BorderSize = [];
 var FillingColor = [];
+var ListOfPolygon = document.getElementById('polygon-list');
 var toolBox;
 function actionClose() {
     if (points.length > 2)
@@ -18,7 +19,27 @@ function actionClose() {
         BorderSize.push(ctx.lineWidth);
         FillingColor.push('-1');
         points = new Array(0);
-        printPoints();
+        //var item = $('<li>').addClass('list-box')
+        var item = $('<a>')
+            .addClass('list-group-item list-box')
+            .attr({
+                'href': '#',
+                'onclick': 'return false;'
+            })
+            //.id(listOfobject.length)
+            .appendTo(ListOfPolygon);
+        var icon = $('<div>')
+            .addClass('color-icon')
+            .css({ 'background-color': ctx.strokeStyle })
+            .appendTo(item);
+        var label = $('<div>')
+            .addClass('list-box-label')
+            .text('Полигон ' + listOfobject.length)
+            .appendTo(item);
+        var eraser = $('<div>')
+            .addClass('deleteMe')
+            .text('X')
+            .appendTo(item);
     }
     else
         alert("Добавьте точки на изображение!")
@@ -77,7 +98,6 @@ function removeLastPoint() {
     points.pop();
 
     drawMultiLine();
-    printPoints();
 }
 
 document.onkeydown = function(e) {
@@ -115,7 +135,6 @@ function AddNewVertex(x, y) {
     else
         ctx.lineTo(x, y);
     ctx.stroke();
-    printPoints();
 }
 
 function IsHitInPolygon(polygon, x, y) {
@@ -180,14 +199,8 @@ $(document).on('click', "#myCanvas", function (event) {
         if (DeleteNearestPoint(x, y))
             drawMultiLine();
     }
-});
 
-function printPoints() {
-    var str = "";
-    for (var i = 0; i < points.length;++i)
-        str += "[" + points[i].x + ", " + points[i].y + "]\n";
-    $('#pointsList').html(str);
-}
+});
 
 function initcnvs() {
     ctx.lineCap = "round";

@@ -6,6 +6,31 @@ canvas {
   border: 1px solid black;
 }
 
+.list-box div {
+  overflow: auto;
+}
+.list-box a {
+  width: 200px;
+  border: 1px solid black;
+  margin: 2px;
+  border-radius: 5px;
+  display: flex;
+  padding: 0;
+}
+
+.list-box-label {
+  padding: 2px;
+}
+.color-icon {
+  width: 15px;
+  height: 15px;
+  margin: 4px;
+}
+
+.deleteMe {
+  padding-left: 90px;
+  padding-top: 2px;
+}
 .dg .c input[type=text] {
   line-height:normal;
 }
