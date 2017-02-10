@@ -132,7 +132,7 @@ $(document).ready(function () {
         //     $("#addImageForm #dangerMsg").show();
         //     return;
         // }
-        var data = new FormData(document.forms[2]);
+        var data = new FormData(document.getElementById("addImageForm"));
 
         for (var i = 0; i < Selectfiles.length; ++i) {
             data.append(Selectfiles[i].name + i, Selectfiles[i]);
@@ -152,7 +152,6 @@ $(document).ready(function () {
                 $('#addmodal').modal('hide');
                 $('#leftMenu li.active').removeClass('active');
                 $("#liMyImage").addClass('active');
-                
                 $("#gallery").html(data);
             },
             beforeSubmit: function () {

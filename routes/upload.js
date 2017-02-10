@@ -56,7 +56,7 @@ module.exports = function (app) {
             obj.firstName = request.body.firstName;
             obj.lastName = request.body.lastName;
             obj.email = request.body.email;
-            obj.password = request.body.password[0];
+            obj.password = request.body.password;
 
             obj.save(function(err)
             {
@@ -185,12 +185,14 @@ module.exports = function (app) {
     });
     //Удаление изображения из БД
     app.post('/removeImage', function (req, res) {
-        Images.remove({_id: req.body.imageId},function (err) {
-            fs.unlink(app.locals.basedir + 'public/images/' + req.body.imageName, function (err) {
-                if(err)
-                    console.log(err);
-                res.send("OK");
-            })
+        UserImage.remove({ImageId: req.body.imageId},function (err) {
+            Images.remove({_id: req.body.imageId},function (err) {
+                fs.unlink(app.locals.basedir + 'public/images/' + req.body.imageName, function (err) {
+                    if(err)
+                        console.log(err);
+                    res.send("OK");
+                })
+            });
         });
     });
 

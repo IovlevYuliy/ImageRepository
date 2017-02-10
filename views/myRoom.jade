@@ -10,7 +10,7 @@ block nav
     nav.navmenu.navmenu-default.navmenu-fixed-left(role='navigation')
         a.navmenu-brand(href='#') Личный кабинет
         ul#leftMenu.nav.navmenu-nav
-            li#liProfile.active
+            li#liProfile
                 a#profile(href='#') Профиль
             li#liMyImage
                 a#myImage(href='#') Мои изображения
@@ -20,7 +20,9 @@ block nav
 
 block content
     div#gallery.mrg
-        h1 Hello! #{user.username}
+        //h1.headTitle Добро пожаловать в личный кабинет, #{user.username}!
+        //div.one
+        //    h1 Добро пожаловать в личный кабинет, #{user.username}!
 
     include /views/editWindow
     include /views/addWindow

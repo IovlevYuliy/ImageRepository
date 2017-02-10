@@ -65,7 +65,7 @@ $(document).ready(function () {
             success: function (data) {
                 let cnt = Math.ceil(($("#hidden").data('fls').length - 1) / 10);
                 let number = $("#hidden").data('pg');
-                if (number > cnt)
+                if ((number > cnt) && cnt)
                     number = cnt;
                 $('#gallery').load('/getGallery', {numpage: number, place: window.location.pathname})
             }

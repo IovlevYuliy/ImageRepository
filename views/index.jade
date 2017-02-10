@@ -1,19 +1,25 @@
+html
+    head
+        link(rel='stylesheet', href='/stylesheets/LabelStyle.css')
 #user
      if user
         include  layoutAuthorized
      else
         include  layout
 block content
-    .jumbotron
-        .container
-            h1 Hello, world!
-            p
-                #message
-                    if message
-                        h1.text-center.error-message #{message}
-            | This is a template for a simple marketing or informational website. It includes a large callout
-            | called a jumbotron and three supporting pieces of content. Use it as a starting point to create
-            | something more unique.
-            p
-                a.btn.btn-primary.btn-lg(href='#', role='button') Learn more »
+    div.container(style="margin-top:8%")
+        div.row
+            div.labelStyle.col-md-4
+                h1 ImageKeeper
+            div.col-md-8
+                p
+                    span.letter Д
+                    | анная программа предназначена для хранения, сохранения и редактирования изображений.
+
+                p
+                    span.letter Р
+                    | азработана для сдачи диплома, не для использования в коммерческих целях.
+            div#footer
+                &copy; ImageKeeper, 2017
+    </div>
 block scripts

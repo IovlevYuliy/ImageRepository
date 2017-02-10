@@ -12,10 +12,5 @@ $(document).ready(function () {
         $("#liMyImage").addClass('active');
         $("#gallery").load("/getGallery", {place: window.location.pathname, numpage: 1});
     });
-
-    $("body").on('click', '#liAddImage', function () {
-        $('#leftMenu li.active').removeClass('active');
-        $("#liAddImage").addClass('active');
-    });
 });
 
