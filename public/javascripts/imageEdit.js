@@ -2,21 +2,23 @@ var canvas, ctx, offsetX, offsetY, points, bufer, action = 'up';
 document.getElementById('closeButton').addEventListener('click', actionClose);
 
 var listOfobject = [];
-var ColorOfobject = [];
+var BorderColor = [];
+var BorderSize = [];
+var FillingColor = [];
 var toolBox;
 function actionClose() {
     if (points.length > 2)
     {
-        ctx.lineTo(points[0][0], points[0][1]);
+        ctx.lineTo(points[0].x, points[0].y);
         ctx.stroke();
         ctx.closePath();
-        points.push(points[0][1]);
+        points.push(points[0]);
         listOfobject.push(points);
-        ColorOfobject.push(ctx.strokeStyle);
+        BorderColor.push(ctx.strokeStyle);
+        BorderSize.push(ctx.lineWidth);
+        FillingColor.push('-1');
         points = new Array(0);
         printPoints();
-        ctx.strokeStyle = toolBox.getSelectedColor();
-        //bufer = ctx.getImageData(0, 0, canvas.width, canvas.height);
     }
     else
         alert("Добавьте точки на изображение!")
@@ -24,35 +26,41 @@ function actionClose() {
 
 function drawMultiLine()
 {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.putImageData(bufer, 0, 0);
     let tmp = ctx.strokeStyle;
+    let size = ctx.lineWidth;
     listOfobject.forEach(function (obj, j) {
-        ctx.strokeStyle = ColorOfobject[j];
+        ctx.strokeStyle = BorderColor[j];
+        ctx.lineWidth = BorderSize[j];
+        ctx.fillStyle = FillingColor[j];
         for (var i = 0; i < obj.length; ++i)
         {
             if (i == 0)
             {
                 ctx.beginPath();
-                ctx.moveTo(obj[i][0], obj[i][1]);
+                ctx.moveTo(obj[i].x, obj[i].y);
             }
             else
-                ctx.lineTo(obj[i][0], obj[i][1]);
-            ctx.arc(obj[i][0], obj[i][1], 1, 0, 2 * Math.PI, false);
+                ctx.lineTo(obj[i].x, obj[i].y);
         }
         ctx.closePath();
+        if (FillingColor[j] != -1)
+            ctx.fill();
         ctx.stroke();
     });
 
     ctx.strokeStyle = tmp;
+    ctx.lineWidth = size;
     for (var i = 0; i < points.length; ++i)
     {
         if (i == 0)
         {
             ctx.beginPath();
-            ctx.moveTo(points[i][0], points[i][1]);
+            ctx.moveTo(points[i].x, points[i].y);
         }
         else
-            ctx.lineTo(points[i][0], points[i][1]);
-        ctx.arc(points[i][0], points[i][1], 1, 0, 2 * Math.PI, false);
+            ctx.lineTo(points[i].x, points[i].y);
         ctx.stroke();
     }
 }
@@ -62,11 +70,12 @@ function removeLastPoint() {
         return;
     if (!points.length) {
         points = listOfobject.pop();
-        ctx.strokeStyle = ColorOfobject.pop();
+        FillingColor.pop();
+        ctx.strokeStyle = BorderColor.pop();
+        ctx.lineWidth = BorderSize.pop();
     }
     points.pop();
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.putImageData(bufer, 0, 0);
+
     drawMultiLine();
     printPoints();
 }
@@ -87,40 +96,104 @@ window.onload = function () {
     WebGL2D.enable(canvas);
     ctx = canvas.getContext("2d");
     var Img = document.getElementById("displayimage");
+    // canvas.width = 10 * Img.width;
+    // canvas.height = 10 * Img.height;
+    // canvas.getContext('2d').drawImage(Img, 0, 0, canvas.width, canvas.height);
+    // $(Img).attr('src', canvas.toDataURL("image/png"));
     ctx.drawImage(Img, 0, 0, canvas.width, canvas.height);
     initcnvs();
 };
 
-$(document).on('click', "#myCanvas", function (event) {
-    var x = event.pageX - $(this).offset().left;
-    var y = event.pageY - $(this).offset().top;
-
-    points.push([x, y]);
+function AddNewVertex(x, y) {
+    points.push({x, y});
     if (points.length == 1) {
+        ctx.strokeStyle = toolBox.getSelectedColor();
+        ctx.lineWidth =   toolBox.getSize();
         ctx.beginPath();
         ctx.moveTo(x, y);
     }
     else
         ctx.lineTo(x, y);
-    ctx.arc(x, y, 1, 0, 2 * Math.PI, false);
     ctx.stroke();
     printPoints();
+}
+
+function IsHitInPolygon(polygon, x, y) {
+    let hit = false;
+    for (let j = 0; j < polygon.length - 1; j++) {
+        let i = j + 1;
+        if ((((polygon[i].y <= y) && (y < polygon[j].y)) || ((polygon[j].y <= y) && (y<polygon[i].y)))
+            && (x > (polygon[j].x - polygon[i].x) * (y - polygon[i].y) / (polygon[j].y - polygon[i].y) + polygon[i].x)) {
+            hit = !hit;
+        }
+    }
+    return hit;
+}
+
+function CheckFilling(x, y) {
+    var isChanged = false;
+    for (let i = 0; i < listOfobject.length; ++i) {
+        if (IsHitInPolygon(listOfobject[i], x, y)) {
+            FillingColor[i] = toolBox.getSelectedColor();
+            isChanged = true;
+        }
+    }
+    return isChanged;
+}
+
+function SquaredDistance(x1, y1, x2, y2) {
+    return (x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2);
+}
+
+function DeleteNearestPoint(x, y) {
+    let polygonIndex = -1, pointIndex = -1, minDist = 1000000000;
+    listOfobject.forEach(function (obj, j) {
+        if (obj.length > 3) {
+            for (let i = 0; i < obj.length; ++i) {
+                let dist = SquaredDistance(x, y, obj[i].x, obj[i].y);
+                if (dist < minDist) {
+                    minDist = dist;
+                    polygonIndex = j;
+                    pointIndex = i;
+                }
+            }
+        }
+    });
+    if (polygonIndex == -1 || minDist > 25)
+        return false;
+    listOfobject[polygonIndex].splice(pointIndex, 1);
+    return true;
+}
+$(document).on('click', "#myCanvas", function (event) {
+    var x = event.pageX - $(this).offset().left;
+    var y = event.pageY - $(this).offset().top;
+
+    var button = toolBox.getCurrentToolData();
+    if (button.attr('id') == "brush-button") {
+        AddNewVertex(x, y);
+    }
+    if (button.attr('id') == "bucket-button") {
+        if (CheckFilling(x, y))
+            drawMultiLine();
+    }
+    if (button.attr('id') == "eraser-button") {
+        if (DeleteNearestPoint(x, y))
+            drawMultiLine();
+    }
 });
 
-function printPoints()
-{
+function printPoints() {
     var str = "";
     for (var i = 0; i < points.length;++i)
-        str += "[" + points[i][0] + ", " + points[i][1] + "]\n";
+        str += "[" + points[i].x + ", " + points[i].y + "]\n";
     $('#pointsList').html(str);
 }
 
 function initcnvs() {
-    ctx.lineWidth = 3;
+    ctx.lineCap = "round";
     points = new Array(0);
     bufer = ctx.getImageData(0, 0, canvas.width, canvas.height);
     toolBox = new MagicToolBox (
         ['red', 'yellow', 'green', 'cyan', 'blue', 'magenta', 'orange']
     );
-    ctx.strokeStyle = toolBox.getSelectedColor();
 }

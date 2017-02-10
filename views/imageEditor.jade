@@ -1,7 +1,7 @@
 extends layoutAuthorized
 block styles
-    link(href="/stylesheets/style.css" type="text/css" rel="stylesheet")
     link(href="/stylesheets/bootstrap-slider.min.css" type="text/css" rel="stylesheet")
+    link(href="/stylesheets/style.css" type="text/css" rel="stylesheet")
 block content
     body
         img#displayimage(style='display: none;', src='/images/' + image.name)
@@ -13,39 +13,29 @@ block content
         div(id='category-list' class='list-group magic-toolbox-item' title='Categories')
 
         ul(class='list-group magic-toolbox-item')
-            li(id='size-li' class='list-group-item magic-toolbox-item' title='Brush size')
+            li(id='size-li' class='list-group-item magic-toolbox-item' title='Толщина линий')
                 div(style='width: 100%; display:flex;')
                     span(class='glyphicon glyphicon-resize-full magic-slider-icon')
                     input(id='size-input' data-slider-id='size-slider' type='text' data-value='0.05' value='0.05' style='width: 100%;')
-                    span(id='size-value' class='magic-slider-value'): | 0.10
-            li(id='plane-li' class='list-group-item magic-toolbox-item' title='Snap to planes')
-                div(style='width: 100%; display:flex;')
-                    span(class='glyphicon glyphicon glyphicon-object-align-bottom magic-slider-icon')
-                    input(id='plane-input' data-slider-id='plane-slider' type='text' data-value='0.05' value='0.05' style='width: 100%;')
-                    span(id='plane-value' class='magic-slider-value'): | off
-            li(id='color-li' class='list-group-item magic-toolbox-item' title='Snap to clor edges')
-                div(style='width: 100%; display:flex;')
-                    span(class='glyphicon glyphicon glyphicon-adjust magic-slider-icon')
-                    input(id='color-input' data-slider-id='color-slider' type='text' data-value='0.05' value='0.05' style='width: 100%;')
-                    span(id='color-value' class='magic-slider-value'): | off
+                    span(id='size-value' class='magic-slider-value'): | 1.0
 
             li(class='list-group-item magic-toolbox-item')
                 div(id='selection-toolbar' class='btn-group' data-toggle='buttons')
-                    label(class='btn btn-default active' title='Brush')
+                    label(class='btn btn-default active' title='Создать узел')
                         input(id='brush-button' autocomplete='off' type='radio' name='tools' checked)
-                        span(class='glyphicon glyphicon-pencil' aria-hidden='true')
-                    label(class='btn btn-default' title='Fill')
+                        span(class='glyphicon glyphicon-pushpin' aria-hidden='true')
+                    label(class='btn btn-default' title='Заливка')
                         input(id='bucket-button' autocomplete='off' type='radio' name='tools')
                         span(class='glyphicon glyphicon-tint' aria-hidden='true')
-                    label(class='btn btn-default' title='Eraser')
+                    label(class='btn btn-default' title='Удалить узел')
                         input(id='eraser-button' autocomplete='off' type='radio' name='tools')
                         span(class='glyphicon glyphicon-erase' aria-hidden='true')
+                    label(class='btn btn-default' title='Замкнуть область')
+                        input(id='select-button' autocomplete='off' type='radio' name='tools')
+                        span(class='glyphicon glyphicon-retweet' aria-hidden='true')
                     label(class='btn btn-default disabled' title='Color picker')
                         input(id='picker-button' autocomplete='off' type='radio' name='tools')
-                        span(class='glyphicon glyphicon-pushpin' aria-hidden='true')
-                    label(class='btn btn-default disabled' title='Rectangle select')
-                        input(id='select-button' autocomplete='off' type='radio' name='tools')
-                        span(class='glyphicon glyphicon-unchecked' aria-hidden='true')
+                        span(class='glyphicon glyphicon-download-alt' aria-hidden='true')
 
 block scripts
     script(src='../javascripts/webgl-2d.js', type='text/javascript')

@@ -47,42 +47,11 @@ var MagicToolBox = (function() {
         function onToolChange() {
             var control = $(this);
             var size = control.data('size');
-            var snaps = control.data('snaps');
 
-            if (size) {
+            if (size)
                 self.sizeInput.slider('enable');
-                var changed = false;
-                if (self.sizeInput.slider('getAttribute', 'min') !== size.min) {
-                    self.sizeInput.slider('setAttribute', 'min', size.min);
-                    changed = true;
-                }
-                if (self.sizeInput.slider('getAttribute', 'max') !== size.max) {
-                    self.sizeInput.slider('setAttribute', 'max', size.max);
-                    changed = true;
-                }
-                if (self.sizeInput.slider('getAttribute', 'step') !== size.step) {
-                    self.sizeInput.slider('setAttribute', 'step', size.step);
-                    changed = true;
-                }
-
-                if (changed) {
-                    self.sizeInput.slider('refresh');
-                    var value = control.data('value') ||
-                        self.sizeInput.slider('getValue');
-                    self.sizeInput.slider('setValue', value);
-                    $('#size-value').text(value.toFixed(2));
-                }
-            } else {
+            else
                 self.sizeInput.slider('disable');
-            }
-
-            if (snaps) {
-                self.planeInput.slider('enable');
-                self.colorInput.slider('enable');
-            } else {
-                self.planeInput.slider('disable');
-                self.colorInput.slider('disabled');
-            }
         }
 
         // Init toolbar buttons
@@ -92,50 +61,22 @@ var MagicToolBox = (function() {
                 'size': {
                     min: 0.025,
                     max: 0.25,
-                    step: 0.025,
+                    step: 0.025
                 },
-                'snaps': true,
                 'continuous': true,
-                'useCategories': true,
+                'useCategories': true
             });
         this.bucketButton = $('#bucket-button')
             .change(onToolChange)
             .data({
-                'size': {
-                    min: 0.025,
-                    max: 1,
-                    step: 0.05,
-                },
-                'snaps': true,
                 'continuous': false,
-                'useCategories': true,
+                'useCategories': true
             });
         this.eraserButton = $('#eraser-button')
             .change(onToolChange)
             .data({
-                'size': {
-                    min: 0.025,
-                    max: 0.25,
-                    step: 0.025,
-                },
-                'snaps': true,
                 'continuous': true,
-                'eraser': true,
-            });
-        this.pickerButton = $('#picker-button')
-            .change(onToolChange)
-            .data({
-                'size': false,
-                'snaps': false,
-                'continuous': false,
-            });
-        this.selectButton = $('#select-button')
-            .change(onToolChange)
-            .data({
-                'size': false,
-                'snaps': false,
-                'continuous': false,
-                'useCategories': true,
+                'eraser': true
             });
 
         /**
@@ -152,10 +93,10 @@ var MagicToolBox = (function() {
         // Init sliders
         this.sizeInput = $('#size-input')
             .slider({
-                min: 0.025,
-                max: 0.25,
-                step: 0.025,
-                value: 0.1,
+                min: 1.0,
+                max: 10.0,
+                step: 0.5,
+                value: 1.0,
                 tooltip: 'hide',
             })
             .on('slide', function(evt) {
@@ -168,48 +109,13 @@ var MagicToolBox = (function() {
                     .find('input:radio:checked')
                     .data('value', evt.value);
             });
-
-        this.planeInput = $('#plane-input')
-            .slider({
-                min: 0.0,
-                max: 0.05,
-                step: 0.01,
-                value: 0.0,
-                tooltip: 'hide',
-            })
-            .on('slide', function(evt) {
-                var text = 'off';
-                if (evt.value > 0) {
-                    text = evt.value.toFixed(2);
-                }
-
-                $('#plane-value').text(text);
-            })
-            .on('slideStart', slideOver);
-        this.colorInput = $('#color-input')
-            .slider({
-                min: 0.0,
-                max: 0.5,
-                step: 0.1,
-                value: 0.0,
-                tooltip: 'hide',
-            })
-            .on('slide', function(evt) {
-                var text = 'off';
-                if (evt.value > 0) {
-                    text = evt.value.toFixed(2);
-                }
-
-                $('#color-value').text(text);
-            })
-            .on('slideStart', slideOver);
     };
 
     /**
     * Returns current tool parameters
     */
     ToolBox.prototype.getCurrentToolData = function(prop) {
-        return this.toolBar.find('input:radio:checked').data(prop);
+        return this.toolBar.find('input:radio:checked');
     };
 
     /**
@@ -225,31 +131,10 @@ var MagicToolBox = (function() {
     };
 
     /**
-    * Returns plane test value
-    */
-    ToolBox.prototype.snapToPlane = function() {
-        return this.planeInput.slider('getValue');
-    };
-
-    /**
-    * Returns color test value
-    */
-    ToolBox.prototype.snapToColor = function() {
-        return this.colorInput.slider('getValue');
-    };
-
-    /**
     * Returns true if current tool uses categories
     */
     ToolBox.prototype.useCategories = function() {
         return this.getCurrentToolData('useCategories');
-    };
-
-    /**
-    * Returns true if current continues can be used as a brush
-    */
-    ToolBox.prototype.continuous = function() {
-        return this.getCurrentToolData('continuous');
     };
 
     //---------------------------------------
