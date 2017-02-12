@@ -12,6 +12,7 @@ var MagicToolBox = (function() {
         '#0000FF',
         '#FF00FF',
         '#FF8000',
+        'transparent',
         '#80FF00',
         '#00FF80',
         '#0080FF',
@@ -47,11 +48,22 @@ var MagicToolBox = (function() {
         function onToolChange() {
             var control = $(this);
             var size = control.data('size');
-
+            var trasparent = control.data('transparent');
             if (size)
                 self.sizeInput.slider('enable');
             else
                 self.sizeInput.slider('disable');
+            var noneElement = $('#category-list')[0].childNodes[7];
+            if (trasparent)
+                noneElement.style.display = 'flex';
+            else {
+                noneElement.style.display = 'none';
+                if (noneElement.classList.contains('active')){
+                    noneElement.classList.remove('active');
+                    $('#category-list')[0].childNodes[0].classList.add('active');
+                }
+            }
+
         }
 
         // Init toolbar buttons
@@ -63,18 +75,21 @@ var MagicToolBox = (function() {
                     max: 0.25,
                     step: 0.025
                 },
+                'transparent': false,
                 'continuous': true,
                 'useCategories': true
             });
         this.bucketButton = $('#bucket-button')
             .change(onToolChange)
             .data({
+                'transparent': true,
                 'continuous': false,
                 'useCategories': true
             });
         this.eraserButton = $('#eraser-button')
             .change(onToolChange)
             .data({
+                'transparent': false,
                 'continuous': true,
                 'eraser': true
             });
@@ -165,6 +180,9 @@ var MagicToolBox = (function() {
             .data('index', index)
             .appendTo(this.categoryPicker);
 
+        if (category == 'none')
+            item.css('display', 'none');
+
         var icon = $('<div>')
             .addClass('magic-category-picker-icon')
             .css({ 'background-color': COLORS[index] });
@@ -179,6 +197,7 @@ var MagicToolBox = (function() {
         if (active) {
             item.addClass('active');
         }
+
 
         var self = this;
         item.click(function() {

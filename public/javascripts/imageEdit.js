@@ -2,9 +2,6 @@ var canvas, ctx, offsetX, offsetY, points, bufer, action = 'up';
 document.getElementById('close-button').addEventListener('click', actionClose);
 
 var listOfobject = [];
-var BorderColor = [];
-var BorderSize = [];
-var FillingColor = [];
 var ListOfPolygon = document.getElementById('polygon-list');
 var toolBox;
 function actionClose() {
@@ -14,23 +11,24 @@ function actionClose() {
         ctx.stroke();
         ctx.closePath();
         points.push(points[0]);
-        listOfobject.push(points);
-        BorderColor.push(ctx.strokeStyle);
-        BorderSize.push(ctx.lineWidth);
-        FillingColor.push('-1');
+        let polygon = {
+            points: points,
+            borderColor: ctx.strokeStyle,
+            borderSize: ctx.lineWidth,
+            fillingColor: 'transparent'
+        };
+        listOfobject.push(polygon);
         points = new Array(0);
-        //var item = $('<li>').addClass('list-box')
         var item = $('<a>')
             .addClass('list-group-item list-box')
             .attr({
                 'href': '#',
                 'onclick': 'return false;'
             })
-            //.id(listOfobject.length)
             .appendTo(ListOfPolygon);
         var icon = $('<div>')
             .addClass('color-icon')
-            .css({ 'background-color': ctx.strokeStyle })
+            .css({ 'background-color': 'white', 'border-color': ctx.strokeStyle })
             .appendTo(item);
         var label = $('<div>')
             .addClass('list-box-label')
@@ -45,28 +43,30 @@ function actionClose() {
         alert("Добавьте точки на изображение!")
 }
 
-function drawMultiLine()
+
+
+function CanvasRefresh()
 {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.putImageData(bufer, 0, 0);
     let tmp = ctx.strokeStyle;
     let size = ctx.lineWidth;
-    listOfobject.forEach(function (obj, j) {
-        ctx.strokeStyle = BorderColor[j];
-        ctx.lineWidth = BorderSize[j];
-        ctx.fillStyle = FillingColor[j];
-        for (var i = 0; i < obj.length; ++i)
+    listOfobject.forEach(function (obj) {
+        ctx.strokeStyle = obj.borderColor;
+        ctx.lineWidth = obj.borderSize;
+        ctx.fillStyle = obj.fillingColor;
+        for (var i = 0; i < obj.points.length; ++i)
         {
             if (i == 0)
             {
                 ctx.beginPath();
-                ctx.moveTo(obj[i].x, obj[i].y);
+                ctx.moveTo(obj.points[i].x, obj.points[i].y);
             }
             else
-                ctx.lineTo(obj[i].x, obj[i].y);
+                ctx.lineTo(obj.points[i].x, obj.points[i].y);
         }
         ctx.closePath();
-        if (FillingColor[j] != -1)
+        if (obj.fillingColor != -1)
             ctx.fill();
         ctx.stroke();
     });
@@ -90,19 +90,23 @@ function removeLastPoint() {
     if (!points.length && !listOfobject.length)
         return;
     if (!points.length) {
-        points = listOfobject.pop();
-        FillingColor.pop();
-        ctx.strokeStyle = BorderColor.pop();
-        ctx.lineWidth = BorderSize.pop();
+        let topPolygon = listOfobject.pop();
+        points = topPolygon.points;
+        ctx.strokeStyle = topPolygon.borderColor;
+        ctx.lineWidth = topPolygon.borderSize;
+        ListOfPolygon.removeChild(ListOfPolygon.childNodes[ListOfPolygon.childNodes.length - 1]);
     }
     points.pop();
-
-    drawMultiLine();
+    CanvasRefresh();
 }
 
 document.onkeydown = function(e) {
     if ((e.ctrlKey && e.keyCode == 'Z'.charCodeAt(0))) {
         removeLastPoint();
+        return false;
+    }
+    if ((e.ctrlKey && e.keyCode == 'D'.charCodeAt(0))) {
+        actionClose();
         return false;
     }
 };
@@ -150,14 +154,14 @@ function IsHitInPolygon(polygon, x, y) {
 }
 
 function CheckFilling(x, y) {
-    var isChanged = false;
-    for (let i = 0; i < listOfobject.length; ++i) {
-        if (IsHitInPolygon(listOfobject[i], x, y)) {
-            FillingColor[i] = toolBox.getSelectedColor();
-            isChanged = true;
+    for (let i = listOfobject.length - 1; i >= 0; --i) {
+        if (IsHitInPolygon(listOfobject[i].points, x, y)) {
+            listOfobject[i].fillingColor = toolBox.getSelectedColor();
+            ListOfPolygon.childNodes[i].childNodes[0].style.backgroundColor = listOfobject[i].fillingColor;
+            return true;
         }
     }
-    return isChanged;
+    return false;
 }
 
 function SquaredDistance(x1, y1, x2, y2) {
@@ -167,9 +171,9 @@ function SquaredDistance(x1, y1, x2, y2) {
 function DeleteNearestPoint(x, y) {
     let polygonIndex = -1, pointIndex = -1, minDist = 1000000000;
     listOfobject.forEach(function (obj, j) {
-        if (obj.length > 3) {
-            for (let i = 0; i < obj.length; ++i) {
-                let dist = SquaredDistance(x, y, obj[i].x, obj[i].y);
+        if (obj.points.length > 3) {
+            for (let i = 0; i < obj.points.length; ++i) {
+                let dist = SquaredDistance(x, y, obj.points[i].x, obj.points[i].y);
                 if (dist < minDist) {
                     minDist = dist;
                     polygonIndex = j;
@@ -180,7 +184,7 @@ function DeleteNearestPoint(x, y) {
     });
     if (polygonIndex == -1 || minDist > 25)
         return false;
-    listOfobject[polygonIndex].splice(pointIndex, 1);
+    listOfobject[polygonIndex].points.splice(pointIndex, 1);
     return true;
 }
 $(document).on('click', "#myCanvas", function (event) {
@@ -193,20 +197,31 @@ $(document).on('click', "#myCanvas", function (event) {
     }
     if (button.attr('id') == "bucket-button") {
         if (CheckFilling(x, y))
-            drawMultiLine();
+            CanvasRefresh();
     }
     if (button.attr('id') == "eraser-button") {
         if (DeleteNearestPoint(x, y))
-            drawMultiLine();
+            CanvasRefresh();
     }
 
 });
 
+$('.list-box').delegate(".deleteMe", "click", function() {
+    let index = -1;
+    let foundElement = this.parentNode;
+    ListOfPolygon.childNodes.forEach(function (obj, j) {
+        if (obj === foundElement)
+            index = j;
+    });
+    ListOfPolygon.removeChild(foundElement);
+    listOfobject.splice(index, 1);
+    CanvasRefresh();
+});
 function initcnvs() {
     ctx.lineCap = "round";
     points = new Array(0);
     bufer = ctx.getImageData(0, 0, canvas.width, canvas.height);
     toolBox = new MagicToolBox (
-        ['red', 'yellow', 'green', 'cyan', 'blue', 'magenta', 'orange']
+        ['red', 'yellow', 'green', 'cyan', 'blue', 'magenta', 'orange', 'none']
     );
 }

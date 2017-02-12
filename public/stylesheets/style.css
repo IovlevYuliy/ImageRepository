@@ -6,9 +6,13 @@ canvas {
   border: 1px solid black;
 }
 
-.list-box div {
+.list-box ul {
+  margin-top: 16%;
+  width: 300px;
+  height: 510px;
   overflow: auto;
 }
+
 .list-box a {
   width: 200px;
   border: 1px solid black;
@@ -20,15 +24,20 @@ canvas {
 
 .list-box-label {
   padding: 2px;
+  width: 100px;
 }
 .color-icon {
   width: 15px;
   height: 15px;
   margin: 4px;
+  border: 2px solid black;
+}
+.container{
+  margin-left: 10px;
 }
 
 .deleteMe {
-  padding-left: 90px;
+  margin-left: auto;
   padding-top: 2px;
 }
 .dg .c input[type=text] {

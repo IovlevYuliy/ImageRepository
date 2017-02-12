@@ -5,10 +5,12 @@ block styles
 block content
     body
         img#displayimage(style='display: none;', src='/images/' + image.name)
-        div(style='margin-left: 2px; margin-top: 52px')
-            canvas#myCanvas(width='500', height='500')
-    div(class='list-box')
-        ul(id='polygon-list')
+        div.container.vagina
+            div.row
+                div.col-md-5(style='margin-left: 2px; margin-top: 5%')
+                    canvas#myCanvas(width='500', height='500')
+                div.col-md-4(class='list-box')
+                    ul(id='polygon-list')
     div(class='magic-toolbox')
         div(id='category-list' class='list-group magic-toolbox-item' title='Categories')
         ul(class='list-group magic-toolbox-item')
@@ -29,12 +31,12 @@ block content
                     label(class='btn btn-default' title='Удалить узел')
                         input(id='eraser-button' autocomplete='off' type='radio' name='tools')
                         span(class='glyphicon glyphicon-erase' aria-hidden='true')
+                div(class='btn-group')
                     button(class='btn btn-default' id='close-button' title='Замкнуть область')
-                        input(autocomplete='off' type='radio' name='tools')
                         span(class='glyphicon glyphicon-retweet' aria-hidden='true')
                     label(class='btn btn-default disabled' title='Color picker')
-                        input(id='picker-button' autocomplete='off' type='radio' name='tools')
                         span(class='glyphicon glyphicon-download-alt' aria-hidden='true')
+
 
 block scripts
     script(src='../javascripts/webgl-2d.js', type='text/javascript')
