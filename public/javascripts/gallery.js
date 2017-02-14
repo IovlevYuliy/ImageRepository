@@ -40,7 +40,6 @@ $(document).ready(function () {
         $("li.active").removeClass('active');
         var num = curpage % 5;
         if (!num)
-
             num = 5;
         if (curpage >= parseInt($("#li_1").children()[0].text) && curpage <= parseInt($("#li_5").children()[0].text))
             $("#li_" + num).addClass('active');
@@ -64,7 +63,11 @@ $(document).ready(function () {
             cache: true,
             timeout: 5000,
             success: function (data) {
-                $('#gallery').load('/getGallery', {numpage: 1, place: window.location.pathname})
+                let cnt = Math.ceil(($("#hidden").data('fls').length - 1) / 10);
+                let number = $("#hidden").data('pg');
+                if ((number > cnt) && cnt)
+                    number = cnt;
+                $('#gallery').load('/getGallery', {numpage: number, place: window.location.pathname})
             }
         })
     });

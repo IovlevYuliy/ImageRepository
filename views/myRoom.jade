@@ -9,18 +9,20 @@ block styles
 block nav
     nav.navmenu.navmenu-default.navmenu-fixed-left(role='navigation')
         a.navmenu-brand(href='#') Личный кабинет
-        ul.nav.navmenu-nav
-            li.active
+        ul#leftMenu.nav.navmenu-nav
+            li#liProfile
                 a#profile(href='#') Профиль
-            li
+            li#liMyImage
                 a#myImage(href='#') Мои изображения
-            li
-                button#addImage.btn.btn-default(type='button') Загрузить изображение
+            li#liAddImage
+                a#addImage(href='#') Загрузить изображение
                 input#hiddenPlace(type='hidden', data-place='myRoom')
 
 block content
     div#gallery.mrg
-        h1 Hello! #{user.username}
+        //h1.headTitle Добро пожаловать в личный кабинет, #{user.username}!
+        //div.one
+        //    h1 Добро пожаловать в личный кабинет, #{user.username}!
 
     include /views/editWindow
     include /views/addWindow

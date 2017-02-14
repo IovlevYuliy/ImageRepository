@@ -1,4 +1,4 @@
-div(style='margin-top: 100px')
+div(style='margin-top: 70px')
     html(lang='ru')
         head
             meta(charset='utf-8')
@@ -6,30 +6,56 @@ div(style='margin-top: 100px')
             meta(name='viewport', content='width=device-width, initial-scale=1')
         body
             form(action='/profile', method='post')
-                div
+                div(align='center')
                     h3.title Редактировать профиль #{user.username}
-                section.container.one
+                section.container.one(align='center')
                     p
                         label(for='user_name') Имя
-                        input.profileinput(type='text', name='firstName', value = user.firstName, pattern='^[A-Za-zА-Яа-яЁё]{1,}$')
+                        input.profileinput(type='text', name='firstName', value = user.firstName, pattern='^[A-Za-zА-Яа-яЁё]{1,}$', required='true',
+                        oninvalid="setCustomValidity('Имя должно содержать только буквы')",
+                        oninput="setCustomValidity('')" )
                         span
                     p
                         label(for='user_surname') Фамилия
-                        input.profileinput(type='text', name='lastName', value = user.lastName, pattern='^[а-яА-ЯёЁa-zA-Z]{1,}$')
+                        input.profileinput(type='text', name='lastName', value = user.lastName, pattern='^[а-яА-ЯёЁa-zA-Z]{1,}$',required='true',
+                        oninvalid="setCustomValidity('Фамилия должна содержать только буквы')",
+                        oninput="setCustomValidity('')" )
                         span
                     p
                         label(for='email') Эл. почта
-                        input.profileinput(type='email', name='email', value = user.email)
+                        input.profileinput(type='email', name='email', value = user.email, required='true',
+                        oninput="setCustomValidity('')" )
                         span
                     p
                         label(for='password') Пароль
-                        input.profileinput(type='password', name='password', value = user.password, pattern='^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\\s).*$')
+                        input#qq1.profileinput(type='password', name='password', value = user.password, pattern='^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\\s).*$', required='true',
+                        oninvalid="setCustomValidity('Пароль должен содержать хотя бы одну цифру и символы из верхнего и нижнего регистра')")
                         span
                     p
                         label(for='password') Повторите пароль
-                        input.profileinput(type='password', name='password', value = user.password, pattern='^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\\s).*$')
+                        input#qq2.profileinput(type='password', name='confirmPassword', value = user.password, pattern='^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\\s).*$')
                         span
 
-                section.container.two
+                section.container.one.two(align='center')
                     button.profilebutton(type='submit') Сохранить изменения
 
+script(type = 'text/javascript').
+    document.getElementById('qq1').onchange = validateInputPassword;
+    document.getElementById('qq2').onchange = validateConfirmPassword;
+
+    function validateInputPassword() {
+        try {
+            this.setCustomValidity('')
+        } catch (e) {
+        }
+        validateConfirmPassword();
+    }
+    function validateConfirmPassword() {
+        var pass2 = document.getElementById("qq1").value;
+        var pass1 = document.getElementById("qq2").value;
+        if (pass1 != pass2)
+            document.getElementById("qq2").setCustomValidity("Пароли не совпадают");
+        else {
+            document.getElementById("qq2").setCustomValidity('');
+        }// пустая строка означает отсутствие ошибок
+    }

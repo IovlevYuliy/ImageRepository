@@ -7,7 +7,6 @@
 }
 
 .container.one {
-    font-weight: bold;
     padding: 0%;
     margin: 1% auto;
     width: 75%;
@@ -25,7 +24,9 @@ label {
     position: relative;
 }
 .title{
-    margin-left: 5%;
+    padding: 0%;
+    margin: 1% auto;
+    width: 75%;
     color: #018D09;
 }
 input ~ span::after {
@@ -43,26 +44,26 @@ input:focus:invalid ~ span::after {
 
 /* Раскрашиваем корректные input  */
 input:valid ~ span::after {
+    font-weight: bold;
     content: '✓';
     color: #4E9B5A;
 }
 
 /* Раскрашиваем ошибочные input */
 input:invalid ~ span::after {
+    font-weight: bold;
     content: '×';
     color: #B11117;
 }
 
-.container.two {
-    padding: 0% 0 1% 12%;
-    margin: 1% auto;
-    width: 75%;
-}
+/*.container.two {*/
+    /*padding: 0% 0 1% 12%;*/
+/*}*/
 
 button {
     color: #fff;
     background-color: #029E0A;
-    -webkit- border-radius: 25px;
+    -webkit-border-radius: 25px;
     -moz-border-radius: 25px;
     -o-border-radius: 25px;
     border-radius: 25px;
@@ -87,7 +88,7 @@ button.profilebutton::before  {
     -moz-background: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.4));
     -o-background: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.4));
     background: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.4));
-    -webkit- border-radius: 25px;
+    -webkit-border-radius: 25px;
     -moz-border-radius: 25px;
     -o-border-radius: 25px;
     border-radius: 25px;

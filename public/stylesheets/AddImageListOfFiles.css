@@ -1,0 +1,156 @@
+/*.bullet {*/
+    /*margin-left: 0;*/
+    /*list-style: none;*/
+    /*counter-reset: li;*/
+/*}*/
+/*.bullet option {*/
+    /*position: relative;*/
+    /*margin-bottom: 0.5em;*/
+    /*border: 2px solid #CADFCF;*/
+    /*padding: 0.3em;*/
+    /*border-radius: 4px;*/
+    /*background: #FEFEFE;*/
+    /*color: #231F20;*/
+    /*font-family: "Trebuchet MS", "Lucida Sans";*/
+/*}*/
+
+
+
+/*.older {*/
+    /*list-style: none;*/
+    /*margin: 0 auto;*/
+    /*width: 660px;*/
+    /*counter-reset: li;*/
+/*}*/
+/*.older option {*/
+    /*border-bottom: dashed 1px #006699;*/
+    /*margin-top: 10px;*/
+    /*box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;*/
+    /*padding: 2px;*/
+/*}*/
+/*.older option {*/
+    /*text-decoration: none;*/
+    /*display: block;*/
+    /*line-height: 30px;*/
+    /*color: #3A3A3A;*/
+    /*font-family: 'EB Garamond', serif;*/
+    /*font-size: 20px;*/
+/*}*/
+/*.older option:before {*/
+    /*display: inline-block;*/
+    /*content: counter(li);*/
+    /*counter-increment: li;*/
+    /*height: 30px;*/
+    /*width: 30px;*/
+    /*text-align: center;*/
+    /*border: solid 1px #dedede;*/
+    /*margin-right: 20px;*/
+    /*box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 30px rgba(0, 0, 0, 0.1) inset;*/
+    /*font-family: 'Fredericka the Great', cursive;*/
+    /*-webkit-transition: .4s linear;*/
+    /*transition: .4s linear;*/
+/*}*/
+/*.older option:hover:before {*/
+    /*color:#D72F2C;*/
+    /*-webkit-transform: scale(1.1);*/
+    /*transform: scale(1.1);*/
+/*}*/
+
+
+/*.zebra {*/
+    /*list-style: none;*/
+    /*border-left: 10px solid #FC7574;*/
+    /*padding: 0;*/
+    /*font-family: "Lucida Sans";*/
+/*}*/
+/*.zebra option {*/
+    /*padding: 10px;*/
+/*}*/
+/*.zebra option:nth-child(odd) {*/
+    /*background: #E1F1FF;*/
+/*}*/
+/*.zebra option:nth-child(even) {*/
+    /*background: white;*/
+/*}*/
+
+
+/*.border1 {*/
+    /*list-style: none;*/
+    /*padding: 0;*/
+/*}*/
+/*.border1 option {*/
+    /*font-family: "Trebuchet MS", "Lucida Sans";*/
+    /*margin-bottom: 10px;*/
+    /*border-radius: 5px;*/
+    /*border-left: 10px solid #f05d22;*/
+    /*box-shadow: 2px -2px 5px 0 rgba(0,0,0,.1),*/
+    /*-2px -2px 5px 0 rgba(0,0,0,.1),*/
+    /*2px 2px 5px 0 rgba(0,0,0,.1),*/
+    /*-2px 2px 5px 0 rgba(0,0,0,.1);*/
+    /*letter-spacing: 2px;*/
+    /*transition: 0.3s all linear;*/
+/*}*/
+/*.border1 option:nth-child(2){border-color: #8bc63e;}*/
+/*.border1 option:nth-child(3){border-color: #fcba30;}*/
+/*.border1 option:nth-child(4){border-color: #1ccfc9;}*/
+/*.border1 option:nth-child(5){border-color: #493224;}*/
+/*.border1 option:hover {*/
+    /*border-left: 10px solid transparent;*/
+/*}*/
+/*.border1 option:nth-child(1):hover {*/
+    /*border-right: 10px solid #f05d22;*/
+/*}*/
+/*.border1 option:nth-child(2):hover {*/
+    /*border-right: 10px solid #8bc63e;*/
+/*}*/
+/*.border1 option:nth-child(3):hover {*/
+    /*border-right: 10px solid #fcba30;*/
+/*}*/
+/*.border1 option:nth-child(4):hover {*/
+    /*border-right: 10px solid #1ccfc9;*/
+/*}*/
+/*.border1 option:nth-child(5):hover {*/
+    /*border-right: 10px solid #493224;*/
+/*}*/
+
+.rounded {
+    counter-reset: li;
+    list-style: none;
+    font: 14px "Trebuchet MS", "Lucida Sans";
+    padding: 0;
+    text-shadow: 0 1px 0 rgba(255,255,255,.5);
+}
+.rounded option {
+    position: relative;
+    display: block;
+    padding: .4em .4em .4em 2em;
+    margin: .5em 0;
+    background: #DAD2CA;
+    color: #444;
+    text-decoration: none;
+    border-radius: .3em;
+    transition: .3s ease-out;
+}
+.rounded option:hover {
+    background: #E9E4E0;
+}
+.rounded option:hover:before {
+    transform: rotate(360deg);
+}
+.rounded option:before {
+    content: counter(li);
+    counter-increment: li;
+    position: absolute;
+    left: -1.3em;
+    top: 50%;
+    margin-top: -1.3em;
+    background: #8FD4C1;
+    height: 2em;
+    width: 2em;
+    line-height: 2em;
+    border: .3em solid white;
+    text-align: center;
+    font-weight: bold;
+    border-radius: 2em;
+    transition: all .3s ease-out;
+}

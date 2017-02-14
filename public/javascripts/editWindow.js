@@ -5,20 +5,15 @@ $(document).ready(function () {
         delay: 100
     });
 
-    // $("body").on('change', '#radio1', function()
-    // {
-    //     $("#radio1").val('private');
-    // });
-    // $("body").on('change', '#radio2', function()
-    // {
-    //     $("#radio2").val('public');
-    // });
-
     //Функция открытия окна редактирования
     $("body").on('click', '#galleryblock #openimage', function () {
         var pp = '/images/' + $(this).data('img').name;
         $("#modalopen #image").attr('src', pp);
         var obj = $(this).data('img');
+
+        $("#modalopen #image").attr('width', 350);
+        $("#modalopen #image").attr('height', 300);
+
         $("#modalopen #id").val(obj._id.toString());
         $("#modalopen #addinfo").val(obj.addinfo);
         $("#modalopen #weight").text(obj.weight + ' байт');

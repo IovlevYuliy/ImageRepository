@@ -13,6 +13,9 @@ canvas {
   overflow: auto;
 }
 
+.list-box div {
+  overflow: auto;
+}
 .list-box a {
   width: 200px;
   border: 1px solid black;
@@ -38,6 +41,10 @@ canvas {
 
 .deleteMe {
   margin-left: auto;
+}
+
+.deleteMe {
+  padding-left: 90px;
   padding-top: 2px;
 }
 .dg .c input[type=text] {

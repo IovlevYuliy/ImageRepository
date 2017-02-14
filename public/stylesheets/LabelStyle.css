@@ -1,0 +1,43 @@
+.labelStyle h1 {
+    font-family: 'Open Sans', sans-serif;
+    position: relative;
+    color: #5C2610;
+    font-size: 3em;
+    padding: 10px 0;
+    width: 400px;
+    margin-top: 8%;
+}
+.labelStyle h1:before {
+    content: "";
+    position: absolute;
+    top: -20px;
+    width: 240px;
+    height: 100px;
+    border-radius: 50%/30%;
+    border: 6px solid #5C2610;
+    border-left-color: transparent;
+    border-right-color: transparent;
+}
+
+
+.letter {
+    color: #5C2610; /* Цвет символа */
+    font-family: 'Open Sans', sans-serif;
+    font-size: 200%; /* Размер шрифта */
+}
+p {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 20px;
+    color: black; /* Цвет текста */
+}
+
+
+#footer {
+    position: fixed; /* Фиксированное положение */
+    left: 0;
+    bottom: 0; /* Левый нижний угол */
+    padding: 10px; /* Поля вокруг текста */
+    background: #47b54f; /* Цвет фона */
+    color: black; /* Цвет текста */
+    width: 100%;
+}/* Ширина слоя */

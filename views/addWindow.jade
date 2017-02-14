@@ -1,4 +1,5 @@
 #addmodal.modal.fade(role='dialog')
+    link( href="/stylesheets/AddImageListOfFiles.css" type="text/css" rel="stylesheet")
     .modal-dialog(style='width:800px;height:700px')
         .modal-content
             .modal-header
@@ -8,14 +9,14 @@
                 .form-group
                     form#addImageForm(action='/addImg', enctype='multipart/form-data', name = 'myform', method='post', onsubmit = 'return false;')
                         .col-lg-6
-                            select#filesName(multiple, size = '10', hidden='', style='width = 50%')
+                            select#filesName(multiple, hidden='', style='width:350px; height: 180px').bullet.older.zebra.border1.rounded
                             img#image(src='', name = 'image')
                             label#labelsize Размер:
                             input#sz(type='hidden', name='size')
                             input#wt(type='hidden', name='weight')
                             li#size(style="list-style:none")
                             li#weight(style="list-style:none")
-                            input#openimage.btn-small(type='file', required=true, name='upload', accept="image" multiple="multiple")
+                            input#openimage.btn-small(type='file', required=true, accept="image" multiple="multiple")
                             label Дополнительно
                             input#addinfo.form-control.input-lg(type='text', name='imginfo')
                             #dangerMsg.alert.alert-danger()
@@ -24,9 +25,9 @@
                                 | Изображение успешно добавлено, подождите немного.
                         .row
                             .col-lg-6
-                                label#filename Файл:
+                                label#fileNameLabel Файл:
                                 input#nmDefault.form-control(type='text', required=true, readonly='')
-                                label Название:
+                                label#newFileNamelLabel Название:
                                 input#newName.form-control(type='text', required=true, name='imgname')
                                 label Теги(Группы):
                                 input#tags.token-input(type='text', required=true, autocomplete='off', placeholder='Введите теги', tabindex='0', name='tags', style='width: 370px;')

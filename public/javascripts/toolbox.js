@@ -63,7 +63,6 @@ var MagicToolBox = (function() {
                     $('#category-list')[0].childNodes[0].classList.add('active');
                 }
             }
-
         }
 
         // Init toolbar buttons
@@ -197,8 +196,6 @@ var MagicToolBox = (function() {
         if (active) {
             item.addClass('active');
         }
-
-
         var self = this;
         item.click(function() {
             self.categoryPicker.children('.active').removeClass('active');
