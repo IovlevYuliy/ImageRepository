@@ -43,8 +43,6 @@ function actionClose() {
         alert("Добавьте точки на изображение!")
 }
 
-
-
 function CanvasRefresh()
 {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -217,6 +215,11 @@ $('.list-box').delegate(".deleteMe", "click", function() {
     listOfobject.splice(index, 1);
     CanvasRefresh();
 });
+
+$('.list-box').delegate(".list-box-label", "dblclick", function() {
+    (this).textContent = "Юлибас конь";
+});
+
 function initcnvs() {
     ctx.lineCap = "round";
     points = new Array(0);
