@@ -1,0 +1,98 @@
+body {
+  margin: 0;
+}
+
+canvas {
+  border: 1px solid black;
+}
+
+.list-box div {
+  overflow: auto;
+}
+.list-box a {
+  width: 200px;
+  border: 1px solid black;
+  margin: 2px;
+  border-radius: 5px;
+  display: flex;
+  padding: 0;
+}
+
+.list-box-label {
+  padding: 2px;
+}
+.color-icon {
+  width: 15px;
+  height: 15px;
+  margin: 4px;
+}
+
+.deleteMe {
+  padding-left: 90px;
+  padding-top: 2px;
+}
+.dg .c input[type=text] {
+  line-height:normal;
+}
+
+.dg .c select {
+  color:black;
+}
+
+.dg .c div {
+  box-sizing: content-box;
+}
+
+.magic-toolbox {
+  position: fixed;
+  bottom: 0px;
+  right: 0px;
+  z-index: 1001;
+  margin: 0px;
+}
+
+.magic-toolbox-item {
+  padding: 0px;
+  margin: 0px;
+}
+
+.magic-slider-item {
+  padding: 8px 16px;
+}
+
+.magic-category-picker-item {
+  padding: 0px;
+  display: flex;
+}
+
+.magic-category-picker-icon {
+  width: 32px;
+  height: 32px;
+  margin: 4px;
+}
+
+.magic-slider-icon {
+  margin: 10px;
+}
+
+.magic-slider-value {
+  margin: 8px;
+  min-width: 30px;
+}
+
+.magic-category-picker-label {
+  padding: 10px;
+}
+
+.slider-horizontal {
+  width: 100%;
+  margin: 8px;
+}
+
+.slider-selection {
+  background: #BABABA;
+}
+
+.slider .tooltip {
+  pointer-events: none
+}
