@@ -40,13 +40,10 @@ canvas {
 }
 
 .deleteMe {
-  margin-left: auto;
+    margin-left: auto;
+    padding-top: 2px;
 }
 
-.deleteMe {
-  padding-left: 90px;
-  padding-top: 2px;
-}
 .dg .c input[type=text] {
   line-height:normal;
 }

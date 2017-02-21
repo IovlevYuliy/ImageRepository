@@ -7,6 +7,10 @@ html
      else
         include  layout
 block content
+    if message
+        div.hidden#message
+            #{message}
+
     div.container(style="margin-top:8%")
         div.row
             div.labelStyle.col-md-4
@@ -18,8 +22,32 @@ block content
 
                 p
                     span.letter Р
-                    | азработана для сдачи диплома, не для использования в коммерческих целях.
+                    | азработана для сдачи диплома, а не для использования в коммерческих целях.
             div#footer
                 &copy; ImageKeeper, 2017
-    </div>
 block scripts
+script(type = 'text/javascript').
+    window.onload = function () {
+        document.getElementById('inputPassword').onchange = validateInputPassword;
+        document.getElementById('confirmPassword').onchange = validateConfirmPassword;
+
+        if (message.textContent != '<>')
+            $("#message-alert").show();
+    }
+    function validateInputPassword() {
+        try {
+            this.setCustomValidity('')
+        } catch (e) {
+        }
+        validateConfirmPassword();
+    }
+
+    function validateConfirmPassword() {
+        var pass2 = document.getElementById("inputPassword").value;
+        var pass1 = document.getElementById("confirmPassword").value;
+        if (pass1 != pass2)
+            document.getElementById("confirmPassword").setCustomValidity("Пароли не совпадают");
+        else {
+            document.getElementById("confirmPassword").setCustomValidity('');
+        }// пустая строка означает отсутствие ошибок
+    }

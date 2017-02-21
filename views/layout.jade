@@ -9,6 +9,9 @@ html
     block styles
     title ImageRepository
   body
+    .alert.alert-danger.alert-server(id="message-alert" role='alert' style="position: fixed; right: 0; z-index: 99999; display:none;")
+      button.close(type='button', data-dismiss='alert') ×
+      | Неверное имя пользователя или пароль!
     nav.navbar.navbar-inverse.navbar-fixed-top
       .container
         .navbar-header
@@ -19,10 +22,8 @@ html
             span.icon-bar C
           a.navbar-brand(href='/index') ImageKeeper
 
-
         #navbar.navbar-collapse.collapse
-
-          form.navbar-form.navbar-right(action='/login', method='post')
+          form.navbar-form.navbar-right(id="signinForm" action='/login', method='post')
             .form-group
               input.form-control(type='text', name = 'username', placeholder='Логин', required, autofocus)
             .form-group
@@ -78,27 +79,7 @@ html
 
 script(src='../javascripts/jquery-1.11.2.min.js')
 script(src='../javascripts/jquery.fancybox.pack.js')
-script(src='../javascripts/upload.js')
 script(src='../javascripts/bootstrap.min.js')
-script(type = 'text/javascript').
-  window.onload = function () {
-    document.getElementById('inputPassword').onchange = validateInputPassword;
-    document.getElementById('confirmPassword').onchange = validateConfirmPassword;
 
-  }
-  function  validateInputPassword()
-  {
-    try{this.setCustomValidity('')}catch(e){}
-    validateConfirmPassword();
-  }
-  function validateConfirmPassword() {
-    var pass2 = document.getElementById("inputPassword").value;
-    var pass1 = document.getElementById("confirmPassword").value;
-    if (pass1 != pass2)
-      document.getElementById("confirmPassword").setCustomValidity("Пароли не совпадают");
-    else {
-      document.getElementById("confirmPassword").setCustomValidity('');
-    }// пустая строка означает отсутствие ошибок
-  }
 block scripts
 
