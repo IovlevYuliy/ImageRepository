@@ -16,14 +16,18 @@ module.exports = function (passport)
                     // Пользователь не существует, ошибка входа и перенаправление обратно
                     if (!user) {
                         console.log('User Not Found with username ' + username);
-                        return done(null, false,
-                            req.flash('message', 'Неверное имя пользователя или пароль'));
+                        req.flash('userName', username);
+                        req.flash('message', 'Неверное имя пользователя или пароль');
+                        req.flash('userPassword', password);
+                        return done(null, false, req);
                     }
                     // Пользователь существует, но пароль введен неверно, ошибка входа
                     if (!isValidPassword(user, password)) {
                         console.log('Invalid Password');
-                        return done(null, false,
-                            req.flash('message', 'Неверный пароль'));
+                        req.flash('userName', username);
+                        req.flash('message', 'Неверное имя пользователя или пароль');
+                        req.flash('userPassword', password);
+                        return done(null, false, req);
                     }
                     // Пользователь существует и пароль верен, возврат пользователя из
                     // метода done, что будет означать успешную аутентификацию
