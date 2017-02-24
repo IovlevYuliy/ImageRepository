@@ -10,7 +10,8 @@
                     form#addImageForm(action='/addImg', enctype='multipart/form-data', name = 'myform', method='post', onsubmit = 'return false;')
                         .col-lg-6
                             select#filesName(multiple, hidden='', style='width:350px; height: 180px').bullet.older.zebra.border1.rounded
-                            img#image(src='', name = 'image')
+                            div
+                                img.qqq#image(src='', name = 'image', style='display: table; margin: 0 auto; ')
                             label#labelsize Размер:
                             input#sz(type='hidden', name='size')
                             input#wt(type='hidden', name='weight')

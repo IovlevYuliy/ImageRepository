@@ -15,7 +15,8 @@ function actionClose() {
             points: points,
             borderColor: ctx.strokeStyle,
             borderSize: ctx.lineWidth,
-            fillingColor: 'transparent'
+            fillingColor: 'transparent',
+            name: 'Полигон' + (listOfobject.length + 1)
         };
         listOfobject.push(polygon);
         points = new Array(0);
@@ -113,18 +114,75 @@ function getRandomColor() {
     return "#"+((1<<24)*Math.random()|0).toString(16);
 }
 
+function AddObjectInList(object) {
+    var item = $('<a>')
+        .addClass('list-group-item list-box')
+        .attr({
+            'href': '#',
+            'onclick': 'return false;'
+        })
+        .appendTo(ListOfPolygon);
+    var icon = $('<div>')
+        .addClass('color-icon')
+        .css({ 'background-color': object.fillingColor, 'border-color': object.borderColor })
+        .appendTo(item);
+    var label = $('<div>')
+        .addClass('list-box-label')
+        .text(object.name)
+        .appendTo(item);
+    var eraser = $('<div>')
+        .addClass('deleteMe')
+        .text('X')
+        .appendTo(item);
+}
+
+function FillListOfObject(){
+    var imageObjects = $("#myCanvas").data('objects');
+
+
+    if (imageObjects != null) {
+        listOfobject = imageObjects;
+
+        listOfobject.forEach(function (obj, j) {
+            AddObjectInList(obj);
+        });
+        CanvasRefresh();
+    }
+}
+
 window.onload = function () {
-    canvas = document.getElementById("myCanvas");
-    WebGL2D.enable(canvas);
-    ctx = canvas.getContext("2d");
-    var Img = document.getElementById("displayimage");
-    // canvas.width = 10 * Img.width;
-    // canvas.height = 10 * Img.height;
-    // canvas.getContext('2d').drawImage(Img, 0, 0, canvas.width, canvas.height);
-    // $(Img).attr('src', canvas.toDataURL("image/png"));
-    ctx.drawImage(Img, 0, 0, canvas.width, canvas.height);
     initcnvs();
+    FillListOfObject();
+
+    document.body.onclick = function (e) {
+        e = e || event;
+        target = e.target || e.srcElement;
+        if (target.tagName != "INPUT") {
+            //var DIVLabelForPolygonName = document.getElementsByClassName("list-box-label");
+            var inputLabel = document.getElementsByClassName("list-box-label-input");
+
+            if (inputLabel.length != 0)
+            {
+                AcceptNewLableForPolygon(inputLabel[0]);
+            }
+        }
+    }
 };
+
+function SaveImgOnServer(){
+
+    $.ajax({
+        url: "/SaveEditorImage",
+        type: "POST",
+        data: {
+            list: JSON.stringify(listOfobject),
+            urlName: window.location.href
+        },
+        success: function (data) {
+            alert("Отправлено на сервер!");
+        }
+    })
+}
 
 function AddNewVertex(x, y) {
     points.push({x, y});
@@ -217,10 +275,40 @@ $('.list-box').delegate(".deleteMe", "click", function() {
 });
 
 $('.list-box').delegate(".list-box-label", "dblclick", function() {
-    (this).textContent = "Юлибас конь";
+    let foundElement = this.parentNode;
+    var inp = document.createElement('input');
+    inp.type ='text';
+    inp.value = this.textContent;
+    inp.className = "list-box-label-input";
+    activePolygonInList = this.textContent;
+    this.parentNode.replaceChild(inp,this);
 });
 
+function AcceptNewLableForPolygon(LabelForPolygonName) {
+    var divv = document.createElement('div');
+    divv.className = "list-box-label";
+    divv.textContent = LabelForPolygonName.value;
+
+    let foundElement = LabelForPolygonName.parentNode;
+    var polygonList = Array.prototype.slice.call( document.getElementById('polygon-list').children );
+    var index = polygonList.indexOf( foundElement );
+
+    listOfobject[index].name= LabelForPolygonName.value;
+    LabelForPolygonName.parentNode.replaceChild(divv, LabelForPolygonName);
+}
+
+$('.list-box').delegate(".list-box-label-input", "keyup", function(e) {
+    if(e.keyCode == 13) {
+        AcceptNewLableForPolygon(this);
+    }
+});
 function initcnvs() {
+    canvas = document.getElementById("myCanvas");
+    WebGL2D.enable(canvas);
+    ctx = canvas.getContext("2d");
+    var Img = document.getElementById("displayimage");
+    ctx.drawImage(Img, 0, 0, canvas.width, canvas.height);
+
     ctx.lineCap = "round";
     points = new Array(0);
     bufer = ctx.getImageData(0, 0, canvas.width, canvas.height);
