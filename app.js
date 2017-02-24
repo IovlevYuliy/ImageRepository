@@ -16,6 +16,7 @@ mongoose.connect(dbconfig.url);
 var User = require('./models/user');
 var UserImage = require('./models/UserImage');
 var Images = require('./models/Images');
+var ImageObjects = require('./models/ImageObjects');
 var app = express();
 app.use(flash());
 var express_partial = require("express-partial");
@@ -50,8 +51,14 @@ var isAuthenticated = require('./passport/isAuthenticated');
 app.get('/imageEditor', isAuthenticated, function (request, response) {
     var query = url.parse(request.originalUrl).query;
     var id = querystring.parse(query)['image'];
-    Images.findOne({_id: id}, function (err, obj) {
-        response.render('imageEditor', {image: obj});
+
+    ImageObjects.findOne({imageId: id}, function (errIO, objJSON) {
+        var imageObjects;
+        if (objJSON)
+            imageObjects = JSON.parse(objJSON.objects);
+        Images.findOne({_id: id}, function (err, obj) {
+            response.render('imageEditor', {image: obj, objects: imageObjects});
+        });
     });
 });
 

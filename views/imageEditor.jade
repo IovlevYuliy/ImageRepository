@@ -5,12 +5,32 @@ block styles
 block content
     body
         img#displayimage(style='display: none;', src='/images/' + image.name)
-        div.container.vagina
+        div.container(style='width:99%')
             div.row
-                div.col-md-5(style='margin-left: 2px; margin-top: 5%')
-                    canvas#myCanvas(width='500', height='500')
-                div.col-md-4(class='list-box')
+                div.col-md-5(style='margin-left: 2px; margin-top: 5%; padding:0px')
+                    canvas#myCanvas(width='530', height='530', data-objects = objects)
+                div.col-md-2(class='list-box' style='margin-top:2%')
                     ul(id='polygon-list')
+                div.col-md-4.container.LegendContainer(style='margin-left:11%')
+                    div.col-md-1.legend(style='padding-left: 0px;')
+                            img(src='/images/addVertex.jpg' width='28px', height='28px')
+                            img(src='/images/fill.jpg' width='28px', height='28px')
+                            img(src='/images/removeOne.jpg' width='28px', height='28px')
+                            img(src='/images/loop.jpg' width='28px', height='28px')
+                            img(src='/images/widthBrush.jpg' width='120px', height='28px')
+                            label(style='font-style: italic; font-family: "Comic Sans MS"; font-size: 14px; margin-top: 10px') ctrl+z
+                            label(style='font-style: italic; font-family: "Comic Sans MS"; font-size: 14px; margin-top: 3px') ctrl+d
+                    div.col-md-11.legend(style='margin-top:4px; padding:0px')
+                        ul
+                            label —     Режим добавления узла объекта
+                            label —     Режим закрашивания объекта
+                            label —     Режим удаления узла объекта
+                            label —     Нажмите для замыкания фигуры
+                            label(style='padding-left:22%') —     Панель редактирования ширины линий
+                            label —     Отменить добавление последнего узла
+                            label —     Замкнуть фигуру
+            button.btn.btn-default(OnClick = 'SaveImgOnServer()' style='margin-left:13%') Cохранить на сервер
+
     div(class='magic-toolbox')
         div(id='category-list' class='list-group magic-toolbox-item' title='Categories')
         ul(class='list-group magic-toolbox-item')

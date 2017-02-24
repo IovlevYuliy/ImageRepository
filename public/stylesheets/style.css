@@ -7,17 +7,40 @@ canvas {
 }
 
 .list-box ul {
-  margin-top: 16%;
-  width: 300px;
+  margin-top: 22%;
+  width: 260px;
   height: 510px;
   overflow: auto;
+  padding-left: 0px;
 }
 
+.legend img{
+  padding: 2px;
+}
+.legend label{
+  margin-left: 5%;
+  height: 20px;
+  font-size: 12px;
+}
+
+.LegendContainer{
+  margin-top:4%;
+  border: 2px solid #1d5cab;
+  height: 200px;
+  width: 400px;
+  background-color: powderblue;
+}
+
+.legend ul{
+  padding: 0px;
+}
 .list-box div {
-  overflow: auto;
+  overflow: hidden;
+  max-height: 23px;
+  padding: 0px;
 }
 .list-box a {
-  width: 200px;
+  width: 220px;
   border: 1px solid black;
   margin: 2px;
   border-radius: 5px;
@@ -27,8 +50,13 @@ canvas {
 
 .list-box-label {
   padding: 2px;
-  width: 100px;
+  width: 150px;
 }
+
+/*.list-box input {*/
+    /*overflow: auto;*/
+/*}*/
+
 .color-icon {
   width: 15px;
   height: 15px;
@@ -40,8 +68,8 @@ canvas {
 }
 
 .deleteMe {
-    margin-left: auto;
-    padding-top: 2px;
+  margin-left: auto;
+  padding-top: 2px;
 }
 
 .dg .c input[type=text] {

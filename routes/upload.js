@@ -6,7 +6,8 @@ var formidable = require('formidable'),
     Images = require('../models/Images'),
     user = require('../models/user'),
     isAuth = require('../passport/isAuthenticated'),
-    UserImage = require('../models/UserImage');
+    UserImage = require('../models/UserImage'),
+    ImageObjects = require('../models/ImageObjects');
 function galleryInMyRoom(request, callback) {
     UserImage.find({'UserId': request.user._id.toString()}, function (err, result) {
          var arrId = [];
@@ -51,7 +52,7 @@ module.exports = function (app) {
         response.render('profile', {user: request.user});
     });
 
-    app.post('/profile', function (request, response) {
+    app.post('/myRoom', function (request, response) {
         user.findOne({_id: request.user._id.toString()}, function (err, obj) {
             obj.firstName = request.body.firstName;
             obj.lastName = request.body.lastName;
@@ -215,4 +216,42 @@ module.exports = function (app) {
             });
        }
     );
+    function RemoveOldObjects(imageId, objj, callback) {
+        if (objj) {
+            ImageObjects.remove({imageId: imageId}, function (err) {
+                callback();
+            });
+        }
+        else {
+            callback();
+        }
+    }
+
+    //Сохранение изображения из редактора
+    app.post('/SaveEditorImage', function (req, res) {
+        var arr = req.body.urlName.split('=');
+        var imageId = arr[1];
+
+        ImageObjects.findOne({imageId: imageId}, function (err, objj) {
+            RemoveOldObjects(imageId, objj, function(){
+                var obj = new ImageObjects({
+                    'imageId': imageId,
+                    'objects': req.body.list
+                });
+
+                obj.save(function(){
+                        res.send("OK");
+                });
+            });
+        });
+        // UserImage.remove({ImageId: req.body.imageId},function (err) {
+        //     Images.remove({_id: req.body.imageId},function (err) {
+        //         fs.unlink(app.locals.basedir + 'public/images/' + req.body.imageName, function (err) {
+        //             if(err)
+        //                 console.log(err);
+        //             res.send("OK");
+        //         })
+        //     });
+        // });
+    });
 };

@@ -39,8 +39,20 @@ $(document).ready(function () {
                 aImg.attr('src', e.target.result);
                 $("#addmodal #size").text(img.width() + 'x' + img.height());
                 SelectfileSizes.push((img.width() + 'x' + img.height()).toString());
-                aImg.attr('width', '100%');
-                aImg.attr('height', '100%');
+
+                if (img.width() > img.height())
+                {
+                    $("#addImageForm #image").attr('width', 370);
+                    $("#addImageForm #image").attr('height', 250);
+                }
+                else
+                {
+                    $("#addImageForm #image").attr('width', 270);
+                    $("#addImageForm #image").attr('height', 370);
+                }
+
+                // aImg.attr('width', '100%');
+                // aImg.attr('height', '100%');
             };
         })(img);
         reader.readAsDataURL(fileinput.files[0]);
@@ -63,6 +75,12 @@ $(document).ready(function () {
         $("#addmodal #newFileNamelLabel").hide();
         $("#addmodal #newName").hide();
         $("#addmodal #labelsize").hide();
+
+        $("#addmodal #newName").val("MultiloadFileName");
+        $("#addmodal #sz").text('0');
+        $("#addmodal #wt").val('0');
+        $("#addmodal #nmDefault").val("MultiloadFileName");
+
 
         var listFileNames = document.getElementById("filesName");
         for (var i = 0; i < fileinput.files.length; i++) {
@@ -126,11 +144,11 @@ $(document).ready(function () {
     
     //Обработчик для отправки изображения на сервер
     body.on('click', '#addok', function () {
-        // if(!document.getElementById('addImageForm').checkValidity())
-        // {
-        //     $("#addImageForm #dangerMsg").show();
-        //     return;
-        // }
+        if(!document.getElementById('addImageForm').checkValidity())
+        {
+            $("#addImageForm #dangerMsg").show();
+            return;
+        }
         var data = new FormData(document.getElementById("addImageForm"));
 
         for (var i = 0; i < Selectfiles.length; ++i) {

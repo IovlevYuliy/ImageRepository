@@ -13,7 +13,7 @@ body
                                     .col-md-2.col-md-2.col-md-2.thumb
                                         div.holder
                                             a.fancyimage(rel='group', href='/images/' + fls[i].name)
-                                                img.rt#myimg(src='/images/' + fls[i].name, width='200px', height='200px', )
+                                                img.rt#myimg(src='/images/' + fls[i].name, width='200px', height='200px' )
                                             div.block
                                                     button#openimage.cbutton.cbutton--effect-ivana.fourbuttons(data-img=fls[i], data-user=user)
                                                         i.fa.fa-pencil-square-o.fa-2x
@@ -25,7 +25,7 @@ body
                                                         button#addtome.cbutton.cbutton--effect-marin(data-imgid=fls[i]._id.toString(), data-userid=user._id.toString())
                                                             i.fa.fa-fw.fa-star-o.fa-2x
                                         div(align='center')
-                                            a#openWebGl(href='/imageEditor?image=' + fls[i]._id.toString(), data-image=fls[i], target='_blank') Открыть в редакторе
+                                            a#openWebGl(href='/imageEditor?image=' + fls[i]._id.toString(), target='_blank') Открыть в редакторе
                                 -   }
                     div#pgn
                         .row
