@@ -1,5 +1,8 @@
 var canvas, ctx, offsetX, offsetY, points, bufer, action = 'up';
 document.getElementById('close-button').addEventListener('click', actionClose);
+document.getElementById('download-button').addEventListener('click', function() {
+    downloadCanvas(this, 'myCanvas', 'test.png');
+}, false);
 
 var listOfobject = [];
 var ListOfPolygon = document.getElementById('polygon-list');
@@ -315,4 +318,9 @@ function initcnvs() {
     toolBox = new MagicToolBox (
         ['red', 'yellow', 'green', 'cyan', 'blue', 'magenta', 'orange', 'none']
     );
+}
+
+function downloadCanvas(link, canvasId, filename) {
+    link.href = document.getElementById(canvasId).toDataURL();
+    link.download = filename;
 }
