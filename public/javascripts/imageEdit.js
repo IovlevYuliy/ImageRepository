@@ -1,9 +1,21 @@
-var canvas, ctx, offsetX, offsetY, points, bufer, action = 'up';
+var canvas, ctx, points, bufer, action = 'up', Img, filename;
 document.getElementById('close-button').addEventListener('click', actionClose);
-
 var listOfobject = [];
 var ListOfPolygon = document.getElementById('polygon-list');
 var toolBox;
+
+document.getElementById('download-button').addEventListener('click',
+    function() {
+        let cnvs = document.createElement('canvas');
+        cnvs.height = Img.height;
+        cnvs.width = Img.width;
+        let image = new Image();
+        image.src = canvas.toDataURL();
+        cnvs.getContext('2d').drawImage(image, 0, 0, Img.width, Img.height);
+        this.href = cnvs.toDataURL();
+        this.download = filename;
+    }, false);
+
 function actionClose() {
     if (points.length > 2)
     {
@@ -41,7 +53,12 @@ function actionClose() {
             .appendTo(item);
     }
     else
-        alert("Добавьте точки на изображение!")
+    {
+        var qq = $("#loop-alert");
+        $("#loop-alert").show();
+    }
+
+        //alert("Добавьте точки на изображение!")
 }
 
 function CanvasRefresh()
@@ -306,8 +323,9 @@ function initcnvs() {
     canvas = document.getElementById("myCanvas");
     WebGL2D.enable(canvas);
     ctx = canvas.getContext("2d");
-    var Img = document.getElementById("displayimage");
+    Img = document.getElementById("displayimage");
     ctx.drawImage(Img, 0, 0, canvas.width, canvas.height);
+    filename = Img.src.replace(/^.*[\\\/]/, '');
 
     ctx.lineCap = "round";
     points = new Array(0);

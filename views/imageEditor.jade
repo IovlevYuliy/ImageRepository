@@ -52,10 +52,14 @@ block content
                         input(id='eraser-button' autocomplete='off' type='radio' name='tools')
                         span(class='glyphicon glyphicon-erase' aria-hidden='true')
                 div(class='btn-group')
+                    .alert.alert-danger(id="loop-alert" role='alert' style="position: fixed; bottom:4%; right: 1%; z-index: 99999; display:none;")
+                        a.close(onclick="$('.alert').hide()", style='position:absolute; right: 0; top: 1%;') ×
+                        | Добавьте точки на изображение!
                     button(class='btn btn-default' id='close-button' title='Замкнуть область')
                         span(class='glyphicon glyphicon-retweet' aria-hidden='true')
-                    label(class='btn btn-default disabled' title='Color picker')
+                    a(class='btn btn-default' id='download-button' title='Скачать')
                         span(class='glyphicon glyphicon-download-alt' aria-hidden='true')
+
 
 
 block scripts
