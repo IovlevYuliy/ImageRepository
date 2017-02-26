@@ -68,8 +68,8 @@ module.exports = function (app) {
 
     //Изменение данных о изображении в БД
     app.post('/saveChanges', isAuth, function (request, response) {
-        fs.rename(app.locals.basedir + 'public/images/' + request.body.oldname,
-            app.locals.basedir + 'public/images/' + request.body.imgname);
+        fs.rename(app.locals.basedir + '/public/images/' + request.body.oldname,
+            app.locals.basedir + '/public/images/' + request.body.imgname);
 
         Images.findOne({_id: request.body.id}, function (err, obj) {
             obj.access = request.body.optradio; 
@@ -154,9 +154,9 @@ module.exports = function (app) {
                 fs.readFile(file.path, function (err, data) {
 
                     if (Object.keys(files).length == 1)
-                        newPath = app.locals.basedir + 'public/images/' + fields.imgname;
+                        newPath = app.locals.basedir + '/public/images/' + fields.imgname;
                     else
-                        newPath = app.locals.basedir + 'public/images/' + file.name;
+                        newPath = app.locals.basedir + '/public/images/' + file.name;
 
                     CreateFile(newPath, data, file, fields, request, files, fileSize, function(){
                         cntAllFiles++;
@@ -188,7 +188,7 @@ module.exports = function (app) {
     app.post('/removeImage', function (req, res) {
         UserImage.remove({ImageId: req.body.imageId},function (err) {
             Images.remove({_id: req.body.imageId},function (err) {
-                fs.unlink(app.locals.basedir + 'public/images/' + req.body.imageName, function (err) {
+                fs.unlink(app.locals.basedir + '/public/images/' + req.body.imageName, function (err) {
                     if(err)
                         console.log(err);
                     res.send("OK");
