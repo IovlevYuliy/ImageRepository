@@ -188,11 +188,13 @@ module.exports = function (app) {
     app.post('/removeImage', function (req, res) {
         UserImage.remove({ImageId: req.body.imageId},function (err) {
             Images.remove({_id: req.body.imageId},function (err) {
-                fs.unlink(app.locals.basedir + 'public/images/' + req.body.imageName, function (err) {
-                    if(err)
-                        console.log(err);
-                    res.send("OK");
-                })
+                ImageObjects.remove({imageId: req.body.imageId},function (err) {
+                    fs.unlink(app.locals.basedir + 'public/images/' + req.body.imageName, function (err) {
+                        if(err)
+                            console.log(err);
+                        res.send("OK");
+                    })
+                });
             });
         });
     });
@@ -244,14 +246,6 @@ module.exports = function (app) {
                 });
             });
         });
-        // UserImage.remove({ImageId: req.body.imageId},function (err) {
-        //     Images.remove({_id: req.body.imageId},function (err) {
-        //         fs.unlink(app.locals.basedir + 'public/images/' + req.body.imageName, function (err) {
-        //             if(err)
-        //                 console.log(err);
-        //             res.send("OK");
-        //         })
-        //     });
-        // });
+
     });
 };
