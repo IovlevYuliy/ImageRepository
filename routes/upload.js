@@ -188,11 +188,13 @@ module.exports = function (app) {
     app.post('/removeImage', function (req, res) {
         UserImage.remove({ImageId: req.body.imageId},function (err) {
             Images.remove({_id: req.body.imageId},function (err) {
-                fs.unlink(app.locals.basedir + '/public/images/' + req.body.imageName, function (err) {
-                    if(err)
-                        console.log(err);
-                    res.send("OK");
-                })
+                ImageObjects.remove({imageId: req.body.imageId},function (err) {
+                    fs.unlink(app.locals.basedir + '/public/images/' + req.body.imageName, function (err) {
+                        if(err)
+                            console.log(err);
+                        res.send("OK");
+                    })
+                });
             });
         });
     });
@@ -229,29 +231,40 @@ module.exports = function (app) {
 
     //Сохранение изображения из редактора
     app.post('/SaveEditorImage', function (req, res) {
-        var arr = req.body.urlName.split('=');
-        var imageId = arr[1];
+        // var arr = req.body.urlName.split('=');
+        // var imageId = arr[1];
+        //
+        // ImageObjects.findOne({imageId: imageId}, function (err, objj) {
+        //     RemoveOldObjects(imageId, objj, function(){
+        //         var obj = new ImageObjects({
+        //             'imageId': imageId,
+        //             'objects': req.body.list
+        //         });
+        //
+        //         obj.save(function(){
+        //                 res.send("OK");
+        //         });
+        //     });
+        // });
 
-        ImageObjects.findOne({imageId: imageId}, function (err, objj) {
-            RemoveOldObjects(imageId, objj, function(){
+        ImageObjects.findOne({_id: req.body.imageObjectId}, function (err, objj) {
+            if (objj)
+            {
+                objj.objects = req.body.list;
+                objj.save(function () {
+                    res.send("OK");
+                });
+            }
+            else {
                 var obj = new ImageObjects({
-                    'imageId': imageId,
+                    'imageId': req.body.imageId,
                     'objects': req.body.list
                 });
 
-                obj.save(function(){
-                        res.send("OK");
+                obj.save(function () {
+                    res.send("OK");
                 });
-            });
+            }
         });
-        // UserImage.remove({ImageId: req.body.imageId},function (err) {
-        //     Images.remove({_id: req.body.imageId},function (err) {
-        //         fs.unlink(app.locals.basedir + 'public/images/' + req.body.imageName, function (err) {
-        //             if(err)
-        //                 console.log(err);
-        //             res.send("OK");
-        //         })
-        //     });
-        // });
     });
 };

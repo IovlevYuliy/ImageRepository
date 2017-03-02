@@ -52,14 +52,30 @@ app.get('/imageEditor', isAuthenticated, function (request, response) {
     var query = url.parse(request.originalUrl).query;
     var id = querystring.parse(query)['image'];
 
-    ImageObjects.findOne({imageId: id}, function (errIO, objJSON) {
-        var imageObjects;
-        if (objJSON)
-            imageObjects = JSON.parse(objJSON.objects);
+    /////////////////
+    ImageObjects.find({imageId: id}, function (errIO, sets) {
+        // var imageObjects;
+        // if (sets.length != 0)
+        //     imageObjects = JSON.parse(sets[0].objects);
+
+
         Images.findOne({_id: id}, function (err, obj) {
-            response.render('imageEditor', {image: obj, objects: imageObjects});
+            response.render('imageEditor', {image: obj, imageId: id, listOfSets: sets});
         });
     });
+    /////////
+
+    //До наборов было так (с одним набором)
+    // ImageObjects.findOne({imageId: id}, function (errIO, objJSON) {
+    //     var imageObjects;
+    //     if (objJSON)
+    //         imageObjects = JSON.parse(objJSON.objects);
+    //
+    //
+    //     Images.findOne({_id: id}, function (err, obj) {
+    //         response.render('imageEditor', {image: obj, objects: imageObjects, listOfSets: 1});
+    //     });
+    // });
 });
 
 app.get('/home', isAuthenticated, function (req, res) {

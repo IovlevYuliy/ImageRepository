@@ -154,22 +154,61 @@ function AddObjectInList(object) {
 }
 
 function FillListOfObject(){
-    var imageObjects = $("#myCanvas").data('objects');
+    listOfobject.length = 0;
 
+    var index = $("#ActiveSet").data('id');
+    var imageObjects = JSON.parse(ListOfSets[index].objects);
+    ListOfPolygon = document.getElementById('polygon-list');
+    while (ListOfPolygon.firstChild) {
+        ListOfPolygon.removeChild(ListOfPolygon.firstChild);
+    }
+
+    listOfobject.length = 0;
 
     if (imageObjects != null) {
         listOfobject = imageObjects;
-
         listOfobject.forEach(function (obj, j) {
             AddObjectInList(obj);
         });
-        CanvasRefresh();
     }
+    CanvasRefresh();
+}
+
+function AddNewSet()
+{
+    var setList = document.getElementById('listOfSets');
+
+    var obj = new Object({
+        '_id': null,
+        'imageId': $("#ActiveSet").data('imageid'),
+        'objects': null
+    });
+
+    ListOfSets.push(obj);
+
+    var item = $('<li>')
+        .appendTo(setList);
+    var set = $('<a>')
+        .attr({
+            'href': '#',
+            'data-id': ListOfSets.length - 1
+        })
+        .text("Набор объектов " + ListOfSets.length)
+        .appendTo(item);
+
+    $("#ActiveSet").data('id', set.data('id'));
+    $("#ActiveSet").text(set.text());
+
+    FillListOfObject();
 }
 
 window.onload = function () {
     initcnvs();
-    FillListOfObject();
+
+    if (ListOfSets.length == 0)
+        AddNewSet();
+    else
+        FillListOfObject();
 
     document.body.onclick = function (e) {
         e = e || event;
@@ -188,18 +227,32 @@ window.onload = function () {
 
 function SaveImgOnServer(){
 
+    var index = $("#ActiveSet").data('id');
+    var list = $("#listOfSets").children();
+    var imageObjectId = ListOfSets[index]._id;
+    var qq = list[index].children[0];
+    var imageId = $("#ActiveSet").data('imageid');
+
     $.ajax({
         url: "/SaveEditorImage",
         type: "POST",
         data: {
             list: JSON.stringify(listOfobject),
-            urlName: window.location.href
+            imageObjectId: imageObjectId,
+            imageId: imageId
         },
         success: function (data) {
             alert("Отправлено на сервер!");
         }
     })
 }
+
+$(".dropdown-menu").on('click', 'li a', function(){
+    $("#ActiveSet").data('id', $(this).data('id'));
+    $("#ActiveSet").text($(this).text());
+
+    FillListOfObject();
+});
 
 function AddNewVertex(x, y) {
     points.push({x, y});
@@ -333,4 +386,5 @@ function initcnvs() {
     toolBox = new MagicToolBox (
         ['red', 'yellow', 'green', 'cyan', 'blue', 'magenta', 'orange', 'none']
     );
+
 }
