@@ -228,43 +228,40 @@ module.exports = function (app) {
             callback();
         }
     }
-
-    //Сохранение изображения из редактора
-    app.post('/SaveEditorImage', function (req, res) {
-        // var arr = req.body.urlName.split('=');
-        // var imageId = arr[1];
-        //
-        // ImageObjects.findOne({imageId: imageId}, function (err, objj) {
-        //     RemoveOldObjects(imageId, objj, function(){
-        //         var obj = new ImageObjects({
-        //             'imageId': imageId,
-        //             'objects': req.body.list
-        //         });
-        //
-        //         obj.save(function(){
-        //                 res.send("OK");
-        //         });
-        //     });
-        // });
-
-        ImageObjects.findOne({_id: req.body.imageObjectId}, function (err, objj) {
-            if (objj)
-            {
-                objj.objects = req.body.list;
-                objj.save(function () {
-                    res.send("OK");
-                });
+    function  SaveSets(i, listOfSets, callback) {
+        var item = listOfSets[i];
+        ImageObjects.findOne({_id: item._id}, function (err, obj) {
+            if (obj) {
+                obj.objects = item.objects;
             }
             else {
-                var obj = new ImageObjects({
-                    'imageId': req.body.imageId,
-                    'objects': req.body.list
-                });
-
-                obj.save(function () {
-                    res.send("OK");
+                obj = new ImageObjects({
+                    'imageId': item.imageId,
+                    'objects': item.objects
                 });
             }
+            obj.save(function (err) {
+                if (i + 1 === listOfSets.length)
+                    callback();
+                else {
+                    SaveSets(i + 1, listOfSets, callback);
+                }
+            });
+        });
+    }
+    //Сохранение изображения из редактора
+    app.post('/SaveEditorImage', function (req, res) {
+        var listOfSets = JSON.parse(req.body.list);
+
+        var IdArray = [];
+        for(var item of listOfSets){
+            IdArray.push(item._id);
+        }
+
+        ImageObjects.remove( { _id: { $nin: IdArray } }, function (err){
+            SaveSets(0, listOfSets, function () {
+                res.send("OK");
+            });
         });
     });
 };
