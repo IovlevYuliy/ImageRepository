@@ -7,11 +7,32 @@ canvas {
 }
 
 .list-box ul {
-  margin-top: 22%;
   width: 260px;
   height: 510px;
   overflow: auto;
   padding-left: 0px;
+}
+
+.list-set{
+  width: 170px;
+  max-height: 300px;
+  overflow: auto;
+  top: 50%;
+  left: -7%;
+}
+.btnplusminus {
+  float:right;
+  padding: 0px;
+  margin-left: 5px;
+  width: 35px;
+  height:35px;
+}
+/*.btnminus{*/
+  /*margin-top: 5px;*/
+/*}*/
+
+.list-set li{
+  width: 150px;
 }
 
 .legend img{
@@ -24,11 +45,22 @@ canvas {
 }
 
 .LegendContainer{
-  margin-top:4%;
   border: 2px solid #1d5cab;
   height: 200px;
   width: 400px;
   background-color: white;
+}
+.contentDiv {
+  margin-top:4%;
+  padding-top:1%
+}
+
+.saveBtn{
+  float: left;
+  border:0px;
+  width: 40px;
+  height: 40px;
+  background-image:url(/resources/saveBtn.PNG); background-size: 100%;
 }
 
 .legend ul{
@@ -39,7 +71,7 @@ canvas {
   max-height: 23px;
   padding: 0px;
 }
-.list-box a {
+.list-box li {
   width: 220px;
   border: 1px solid black;
   margin: 2px;
@@ -70,6 +102,7 @@ canvas {
 .deleteMe {
   margin-left: auto;
   padding-top: 2px;
+  cursor: pointer;
 }
 
 .dg .c input[type=text] {

@@ -3,6 +3,7 @@ document.getElementById('close-button').addEventListener('click', actionClose);
 var listOfobject = [];
 var ListOfPolygon = document.getElementById('polygon-list');
 var toolBox;
+var activeIndex = 0;
 
 document.getElementById('download-button').addEventListener('click',
     function() {
@@ -32,7 +33,7 @@ function actionClose() {
         };
         listOfobject.push(polygon);
         points = new Array(0);
-        var item = $('<a>')
+        var item = $('<li>')
             .addClass('list-group-item list-box')
             .attr({
                 'href': '#',
@@ -49,6 +50,7 @@ function actionClose() {
             .appendTo(item);
         var eraser = $('<div>')
             .addClass('deleteMe')
+            .attr('title','Удалить объект')
             .text('X')
             .appendTo(item);
     }
@@ -57,8 +59,6 @@ function actionClose() {
         var qq = $("#loop-alert");
         $("#loop-alert").show();
     }
-
-        //alert("Добавьте точки на изображение!")
 }
 
 function CanvasRefresh()
@@ -132,7 +132,7 @@ function getRandomColor() {
 }
 
 function AddObjectInList(object) {
-    var item = $('<a>')
+    var item = $('<li>')
         .addClass('list-group-item list-box')
         .attr({
             'href': '#',
@@ -149,6 +149,7 @@ function AddObjectInList(object) {
         .appendTo(item);
     var eraser = $('<div>')
         .addClass('deleteMe')
+        .attr('title','Удалить объект')
         .text('X')
         .appendTo(item);
 }
@@ -156,9 +157,10 @@ function AddObjectInList(object) {
 function FillListOfObject(){
     listOfobject.length = 0;
 
-    var index = $("#ActiveSet").data('id');
-    var imageObjects = JSON.parse(ListOfSets[index].objects);
+    //var index = $("#ActiveSet").data('id');
+    var imageObjects = JSON.parse(ListOfSets[activeIndex].objects);
     ListOfPolygon = document.getElementById('polygon-list');
+    
     while (ListOfPolygon.firstChild) {
         ListOfPolygon.removeChild(ListOfPolygon.firstChild);
     }
@@ -171,6 +173,9 @@ function FillListOfObject(){
             AddObjectInList(obj);
         });
     }
+
+    points.length = 0;
+
     CanvasRefresh();
 }
 
@@ -180,7 +185,7 @@ function AddNewSet()
 
     var obj = new Object({
         '_id': null,
-        'imageId': $("#ActiveSet").data('imageid'),
+        'imageId': ImageId,
         'objects': null
     });
 
@@ -190,17 +195,47 @@ function AddNewSet()
         .appendTo(setList);
     var set = $('<a>')
         .attr({
-            'href': '#',
-            'data-id': ListOfSets.length - 1
+            'href': '#'
         })
         .text("Набор объектов " + ListOfSets.length)
         .appendTo(item);
 
-    $("#ActiveSet").data('id', set.data('id'));
+    ListOfSets[activeIndex].objects = JSON.stringify(listOfobject);
+
+    activeIndex = ListOfSets.length - 1;
+
+    //$("#ActiveSet").data('id', set.data('id'));
     $("#ActiveSet").text(set.text());
 
     FillListOfObject();
 }
+
+function RemoveSet(){
+    var list = document.getElementById('listOfSets');
+
+    for (i = activeIndex; i < list.childNodes.length; i++) {
+        var aItem = list.childNodes[i].childNodes[0];
+        aItem.text = "Набор объектов " + i;
+    }
+
+    var newIndex = (activeIndex + 1) % ListOfSets.length;
+    list.childNodes[activeIndex].remove();
+    ListOfSets.splice(activeIndex, 1);
+
+    if (ListOfSets.length == 0)
+        AddNewSet();
+    else {
+        newIndex = (newIndex - 1 + ListOfSets.length) % ListOfSets.length;
+        listOfobject = ListOfSets[newIndex].objects;
+
+        $("#ActiveSet").text("Набор объектов " + (newIndex + 1));
+        var listHeader = document.getElementById('ActiveSet');
+        activeIndex = newIndex;
+
+        FillListOfObject();
+    }
+}
+
 
 window.onload = function () {
     initcnvs();
@@ -214,7 +249,6 @@ window.onload = function () {
         e = e || event;
         target = e.target || e.srcElement;
         if (target.tagName != "INPUT") {
-            //var DIVLabelForPolygonName = document.getElementsByClassName("list-box-label");
             var inputLabel = document.getElementsByClassName("list-box-label-input");
 
             if (inputLabel.length != 0)
@@ -226,20 +260,13 @@ window.onload = function () {
 };
 
 function SaveImgOnServer(){
-
-    var index = $("#ActiveSet").data('id');
-    var list = $("#listOfSets").children();
-    var imageObjectId = ListOfSets[index]._id;
-    var qq = list[index].children[0];
-    var imageId = $("#ActiveSet").data('imageid');
+    ListOfSets[activeIndex].objects = JSON.stringify(listOfobject);
 
     $.ajax({
         url: "/SaveEditorImage",
         type: "POST",
         data: {
-            list: JSON.stringify(listOfobject),
-            imageObjectId: imageObjectId,
-            imageId: imageId
+            list: JSON.stringify(ListOfSets)
         },
         success: function (data) {
             alert("Отправлено на сервер!");
@@ -248,9 +275,21 @@ function SaveImgOnServer(){
 }
 
 $(".dropdown-menu").on('click', 'li a', function(){
-    $("#ActiveSet").data('id', $(this).data('id'));
-    $("#ActiveSet").text($(this).text());
+    ListOfSets[activeIndex].objects = JSON.stringify(listOfobject);
+    var removeIndex = activeIndex;
 
+    var setList = document.getElementById('listOfSets');
+    for (i = 0; i < setList.childNodes.length; ++i)
+    {
+        var elem = setList.childNodes[i].childNodes[0];
+        if (elem == this)
+        {
+            activeIndex = i;
+            break;
+        }
+    }
+
+    $("#ActiveSet").text($(this).text());
     FillListOfObject();
 });
 
@@ -345,13 +384,15 @@ $('.list-box').delegate(".deleteMe", "click", function() {
 });
 
 $('.list-box').delegate(".list-box-label", "dblclick", function() {
-    let foundElement = this.parentNode;
+    var parentNode = this.parentNode;
     var inp = document.createElement('input');
     inp.type ='text';
     inp.value = this.textContent;
     inp.className = "list-box-label-input";
     activePolygonInList = this.textContent;
-    this.parentNode.replaceChild(inp,this);
+
+    parentNode.replaceChild(inp,this);
+    parentNode.children[1].focus();
 });
 
 function AcceptNewLableForPolygon(LabelForPolygonName) {
@@ -372,6 +413,7 @@ $('.list-box').delegate(".list-box-label-input", "keyup", function(e) {
         AcceptNewLableForPolygon(this);
     }
 });
+
 function initcnvs() {
     canvas = document.getElementById("myCanvas");
     WebGL2D.enable(canvas);
