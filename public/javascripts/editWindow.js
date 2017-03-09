@@ -33,8 +33,10 @@ $(document).ready(function () {
 
         if ($(this).data('user').username != obj.user)
         {
-            $("#modalopen #radio1").attr("disabled", "disabled");
-            $("#modalopen #radio2").attr("disabled", "disabled");
+            if (obj.access == 'private')
+                $("#modalopen #radio2").attr("disabled", "disabled");
+            else
+                $("#modalopen #radio1").attr("disabled", "disabled");
         }
         else
         {
