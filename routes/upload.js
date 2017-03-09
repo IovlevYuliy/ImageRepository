@@ -76,7 +76,6 @@ module.exports = function (app) {
             obj.name = request.body.imgname;
             obj.addinfo = request.body.imginfo;
             obj.description = request.body.imgdesc;
-            obj.user = request.user.username;
 
             var mas = request.body.tags.split(', ');
             obj.tags = [];
